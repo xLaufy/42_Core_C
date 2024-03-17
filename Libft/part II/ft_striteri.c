@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 19:17:42 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/10 19:17:49 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/17 19:33:17 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,12 @@
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	
+	int	i;
+
+	i = 0;
+	if (!s != '\0')
+	{
+		f(i, &s[i]);
+		i++;
+	}
 }

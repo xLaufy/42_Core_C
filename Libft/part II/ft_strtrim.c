@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:03:40 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/13 11:55:11 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/17 19:04:57 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,19 @@ char	*ft_strtrim(char const *s1, char const *set)
 	length of the input string s1.
 
 3: Allocates memory for the new trimmed string new_str using malloc,
-	ensuring to allocate enough space for the trimmed string plus the null terminator.
+	ensuring to allocate enough space for the trimmed string plus the
+	null terminator.
 
 4: Checks if 's1', 'set', or 'new_str' are NULL. If any of them are,
 	it returns NULL to indicate an error or invalid input.
 
-5: Skips over leading charactersa the beginning and at the end in 's1' that are in the
-	'set' using a while loop and
-	the 'is_in_set' function.
+5: Skips over leading charactersa the beginning and at the end in 's1'
+that are in the'set' using a while loop and the 'is_in_set' function.
 
 6: Copy the 'len'(remaining after trimming) characters from 's1' to 'new_str'.
 
-7: Add the null terminator at the end of new_str to ensure it is a valid C string,
-	and returns new_str.
+7: Add the null terminator at the end of new_str to ensure it is a valid C
+string, and returns new_str.
 */
 /*
 #include <stdio.h>
