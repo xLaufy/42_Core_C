@@ -6,12 +6,14 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:01:52 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/20 18:02:30 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:12:40 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
 

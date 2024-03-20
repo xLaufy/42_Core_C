@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 18:58:51 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 18:58:52 by mkrawczy         ###   ########.fr       */
+/*   Created: 2024/03/17 19:00:11 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/20 19:02:49 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_putnbr_fd(int n, int fd)
+void	*ft_bzero(void *s, size_t n)
 {
-	write(fd, &n, 1);
+	size_t	i;
+	char	*dest;
+
+	i = 0;
+	dest = s;
+	while (i < n)
+		dest[i++] = 0;
 }

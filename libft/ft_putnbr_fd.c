@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/17 19:01:52 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:01:53 by mkrawczy         ###   ########.fr       */
+/*   Created: 2024/03/17 18:58:51 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/20 19:01:04 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-void	ft_putchar(char c);
-void	ft_swap(int *a, int *b);
-void	ft_putstr(char *str);
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(char *s1, char *s2);
-#endif
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	nb;
+
+	nb = n;
+	if (nb < 0)
+	{
+		write(fd, "-", 1);
+		nb *= -1;
+	}
+	if (nb > 9)
+	{
+		ft_putnbr_fd(nb / 10, fd);
+		ft_putchar_fd((nb % 10) + '0', fd);
+	}
+	else
+		ft_putchar_fd(nb + '0', fd);
+}

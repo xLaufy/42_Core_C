@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 20:30:13 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 15:02:13 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:04:09 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,11 @@ char	**ft_split(char const *s, char c)
 	return (result);
 }
 /*
-	Glowna funkcja "ft_split" najpierw sprawdza,
-		czy ciag "s" jest pusty. Jesli tak,
-	zwraca "NULL". Nastepnie alokuje pamiec na tablice "result" i wypelnia
-	podciagami z "s" za pomoca funkcji write_to_array. Jesli alokacja pamieci nie
-	powiedzie sie,
-		dunkcja zwalnia pamiec i zwraca NULL. W przeciwnym razie zwraca
-	tablice result.
+	Główna funkcja "ft_split" najpierw sprawdza,czy ciag "s" jest pusty.
+	Jesli tak, zwraca "NULL". Nastepnie alokuje pamiec na tablice "result" i
+	wypełnia podciagami z "s" za pomoca funkcji write_to_array. Jesli alokacja
+	pamieci nie powiedzie sie, funkcja zwalnia pamiec i zwraca NULL.
+	W przeciwnym razie zwraca tablice result.
 */
 
 int	main(void)
