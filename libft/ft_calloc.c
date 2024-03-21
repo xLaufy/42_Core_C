@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:00:17 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:00:18 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:04:16 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	const char	*tmp;
-	size_t		i;
+	char	*tmp;
+	size_t	i;
 
 	i = 0;
 	tmp = malloc(nmemb * size);

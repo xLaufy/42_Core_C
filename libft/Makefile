@@ -6,7 +6,7 @@
 #    By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 18:50:44 by mkrawczy          #+#    #+#              #
-#    Updated: 2024/03/20 22:10:53 by mkrawczy         ###   ########.fr        #
+#    Updated: 2024/03/21 19:46:17 by mkrawczy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,32 +19,26 @@ ft_isascii.c ft_isprint.c ft_toupper.c ft_tolower.c ft_calloc.c ft_strdup.c\
 ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c\
 ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_striteri.c ft_putnbr_fd.c
 
-OBJS = $(SRCS:.c=.o)
-
-
-
-
-CC = cc -Wall -Wextra -Werror
-
-RM = rm -o
-
-#CFLAGS = -Wall -Wextra -Werror
-
-%.o : %.c
-	cc -Wall -Wextra -Werror -c -I./ $<
 INCS = libft.h
 
+OBJS = $(SRCS:.c=.o)
+
+CC = clang -Wall -Wextra -Werror
+
+RM = rm -f
+
+AR = ar -rcs $@ $<
+
+%.o : %.c
+	$(CC) -g -c $< -o ${<:.c=.o}
+
 $(NAME): $(OBJS)
-	ar -rcs $@ $<
-	#$(OBJS)
-	#$(INCS)
-	#$(LIBC)
-	#$(NAME)
-	#$(OBJS)
+		$(AR) $(NAME) $(OBJS)
 
-all:	$(NAME)
+all: $(NAME)
 
-clean: $(RM) $(OBJS)
+clean:
+	$(RM) $(OBJS)
 
 fclean: clean
 				$(RM) $(NAME)

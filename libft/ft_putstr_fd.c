@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 18:55:49 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 18:55:51 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:00:11 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	ft_putstr_fd(char *s, int fd)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (s[i])
 	{
-		write(fd, &str[i], 1);
+		write(fd, &s[i], 1);
 		i++;
 	}
 }

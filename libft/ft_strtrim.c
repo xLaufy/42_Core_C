@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:03:40 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:04:57 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:04:46 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	char	*new_str;
 
 	i = 0;
-	len = strlen(s1);
+	len = ft_strlen(s1);
 	new_str = malloc(len + 1);
-	if (!s || !set)
+	if (!s1 || !set)
 		return (NULL);
 	while (*s1 && is_in_set(*s1, set))
 		s1++;

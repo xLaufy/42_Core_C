@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:01:09 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:01:10 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:53:31 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s)
 	size_t	i;
 	char	*dup;
 
-	len = strlen(s) + 1;
+	len = ft_strlen(s) + 1;
 	i = 0;
 	dup = malloc(sizeof(char) * len);
 	if (dup == NULL)

@@ -6,13 +6,13 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:00:48 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:06:45 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:06:29 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_memcmp(const void *dest, const void *src size_t n)
+int	ft_memcmp(const void *dest, const void *src, size_t n)
 {
 	char	*str1;
 	char	*str2;

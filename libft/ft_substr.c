@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 18:58:26 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/20 20:11:19 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:54:27 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s || start >= ft_strlen((char *)s))
 	{
 		sub = malloc(1 * sizeof(char));
-		sub[0] = "\0";
+		sub[0] = '\0';
 		return (sub);
 	}
 	sub = malloc(sizeof(char) * len + 1);

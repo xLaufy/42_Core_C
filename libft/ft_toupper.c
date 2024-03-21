@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:01:44 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:01:45 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:50:28 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_toupper(int c)
 {
-	if (c >= "a" && c <= "z")
+	if (c >= 97 && c <= 122)
 		return (c - 32);
 	return (c);
 }

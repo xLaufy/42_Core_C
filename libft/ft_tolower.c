@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:01:38 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:01:39 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:51:14 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_tolower(int c)
 {
-	if (c >= "A" && c <= "Z")
+	if (c >= 65 && c <= 90)
 		return (c + 32);
 	return (c);
 }

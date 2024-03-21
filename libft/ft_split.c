@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 20:30:13 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/20 19:04:09 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:59:16 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ static void	write_to_array(char const *s, char c, char **result)
 		i++;
 	}
 	if (s[i - 1] != c)
-		*result = ft_substr(s, start, i - start) if (s[i - 1] != c);
-	result++;
+		*result = ft_substr(s, start, i - start);
+	if (s[i - 1] != c)
+		result++;
 	*result = NULL;
 }
 /*
@@ -101,6 +102,8 @@ char	**ft_split(char const *s, char c)
 	pamieci nie powiedzie sie, funkcja zwalnia pamiec i zwraca NULL.
 	W przeciwnym razie zwraca tablice result.
 */
+/*
+#include <stdio.h>
 
 int	main(void)
 {
@@ -129,3 +132,4 @@ int	main(void)
 	}
 	return (0);
 }
+*/
