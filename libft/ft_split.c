@@ -6,130 +6,96 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 20:30:13 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/21 18:59:16 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:34:13 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_words(char const *s, char c)
+static size_t	count_words(const char *s, char c)
 {
-	int	result;
-	int	i;
-	int	count;
+	size_t	result;
 
 	result = 0;
-	i = 0;
-	count = 0;
-	while (s[i] != '\0')
+	while (*s)
 	{
-		if (s[i] != '\0')
-			result++;
-		else if (s[i] == c && s[i - 1] && s[i - 1] != c)
-			count++;
-		i++;
-	}
-	if (s[i - 1] != c)
-		count += 1;
-	return (count);
-}
-/*
-	Funkcja 'count_words' oblicza liczbe slow w ciagu znakow s, ktore sa
-	oddzelone znakiem c. Zmienna "result" jest zwiekszana za kazdym razem,
-	gdy znak nie jest separatorem, a "count" jest zwiekszany, gdy napotkany
-	jest separator, ktory nastepuje po innym znaku.
-*/
-
-static void	write_to_array(char const *s, char c, char **result)
-{
-	int	i;
-	int	start;
-
-	i = 0;
-	start = 0;
-	while (s[i] == c && s[i - 1] != c)
-	{
-		if (s[i] == c && s[i - 1] != c)
+		if (*s != c)
 		{
-			if (i - start != 0)
-			{
-				*result = ft_substr(s, start, i - start);
-				result++;
-			}
-			start = i + 1;
+			++result;
+			while (*s && *s != c)
+				++s;
 		}
-		else if (s[i] == c && s[i - 1] == c)
-			start++;
-		i++;
+		else
+			++s;
 	}
-	if (s[i - 1] != c)
-		*result = ft_substr(s, start, i - start);
-	if (s[i - 1] != c)
-		result++;
-	*result = NULL;
+	return (result);
 }
-/*
-	Funkcja ta wype lnia tablic e result podciagami z s,
-		ktore sa oddzielone znakiem c. Funkcja ft_substr jest uzywana do
-		tworzenia tych podciagow.
-*/
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(const char *s, char c)
 {
 	char	**result;
+	size_t	i;
+	size_t	len;
 
-	if (s == NULL)
-		return (NULL);
-	if (s[0] == '\0' || count_words(s, c) == 0)
+	if (!s)
+		return (0);
+	i = 0;
+	result = malloc(sizeof(char *) * (count_words(s, c) + 1));
+	if (!result)
+		return (0);
+	while (*s)
 	{
-		result = (char **)malloc(sizeof(char *) + 1);
-		result[0] = NULL;
-		return (NULL);
+		if (*s != c)
+		{
+			len = 0;
+			while (*s && *s != c && ++len)
+				++s;
+			result[i++] = ft_substr(s - len, 0, len);
+		}
+		else
+			++s;
 	}
-	result = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (result == NULL)
-	{
-		free(result);
-		return (NULL);
-	}
-	write_to_array(s, c, result);
+	result[i] = 0;
 	return (result);
 }
 /*
-	Główna funkcja "ft_split" najpierw sprawdza,czy ciag "s" jest pusty.
-	Jesli tak, zwraca "NULL". Nastepnie alokuje pamiec na tablice "result" i
-	wypełnia podciagami z "s" za pomoca funkcji write_to_array. Jesli alokacja
-	pamieci nie powiedzie sie, funkcja zwalnia pamiec i zwraca NULL.
-	W przeciwnym razie zwraca tablice result.
-*/
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	char const	*s;
-	char		c;
-	char		**result;
-	int			i;
-
-	i = 0;
-	s = "Hello, World, This, Is,My,Test";
-	c = ', ';
-	result = ft_split(s, c);
-	if (result != NULL)
-	{
-		while (result[i] != NULL)
-		{
-			printf("%s\n", result[i]);
-			free(result[i]);
-			i++;
-		}
-		free(result);
+int	main(void) {
+	// Test 1: Split a string by space
+	const char *str1 = "Hello world! This is a test.";
+	char **result1 = ft_split(str1, ' ');
+	printf("Test 1:\n");
+	for (int i = 0; result1[i] != NULL; ++i) {
+		printf("%s\n", result1[i]);
 	}
-	else
-	{
-		printf("Split failed or input string is empty.\n");
+	ft_free_strarray(result1);
+
+	// Test 2: Split a string by comma
+	const char *str2 = "apple,banana,orange";
+	char **result2 = ft_split(str2, ',');
+	printf("\nTest 2:\n");
+	for (int i = 0; result2[i] != NULL; ++i) {
+		printf("%s\n", result2[i]);
 	}
+	ft_free_strarray(result2);
+
+	// Test 3: Split a string with multiple consecutive delimiters
+	const char *str3 = "One  Two   Three";
+	char **result3 = ft_split(str3, ' ');
+	printf("\nTest 3:\n");
+	for (int i = 0; result3[i] != NULL; ++i) {
+		printf("%s\n", result3[i]);
+	}
+	ft_free_strarray(result3);
+
 	return (0);
+}
+
+// Free function for the string array returned by ft_split
+void	ft_free_strarray(char **str_array) {
+	if (str_array == NULL) return ;
+	for (int i = 0; str_array[i] != NULL; ++i) {
+		free(str_array[i]);
+	}
+	free(str_array);
 }
 */

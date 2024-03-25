@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 18:59:16 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/21 19:04:34 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 19:58:37 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ void	ft_putendl_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
+	write (fd, "\n", 1);
 }

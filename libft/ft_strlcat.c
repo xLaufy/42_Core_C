@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:01:13 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:01:14 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:37:06 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,48 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	j;
-	size_t	i;
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	dst_size;
 
-	i = 0;
+	i = ft_strlen(dst);
+	dst_size = ft_strlen(dst);
 	j = 0;
-	while (dst[i] && i < size)
-		i++;
-	while (src[j] && (i + j) < size - 1)
+	if (size && ft_strlen(dst) <= size)
 	{
-		dst[i + j] = src[j];
-		j++;
+		while (src[j] != '\0' && i < (size - 1))
+		{
+			dst[i] = src[j];
+			i++;
+			j++;
+		}
+		dst[i] = '\0';
 	}
-	dst[i + j] = '\0';
-	return (i + ft_strlen(src));
+	if (size == 0)
+		dst_size = 0;
+	if (size < dst_size)
+		dst_size = size;
+	return (dst_size + ft_strlen((char *)src));
 }
+/*
+int	main(void) {
+	char dst[20] = "Hello";
+	const char *src = ", world!";
+	size_t size = sizeof(dst);
+
+	// Test 1: Concatenate src to dst with size = 20
+	printf("Test 1:\n");
+	size_t result1 = ft_strlcat(dst, src, size);
+	printf("Result string: %s\n", dst);
+	printf("Result length: %zu\n", result1);
+
+	// Test 2: Concatenate src to dst with size = 10
+	char dst2[10] = "Hello";
+	printf("\nTest 2:\n");
+	size_t result2 = ft_strlcat(dst2, src, sizeof(dst2));
+	printf("Result string: %s\n", dst2);
+	printf("Result length: %zu\n", result2);
+
+	return (0);
+}
+*/

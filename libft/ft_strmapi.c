@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 18:58:34 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 19:32:14 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:37:58 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,17 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	result[i] = '\0';
 	return (result);
 }
+/*
+int	main(void) {
+	const char *str = "Hello, world!";
+
+	// Test ft_strmapi with transform_char callback
+	char *result = ft_strmapi(str, &transform_char);
+	printf("Transformed string: %s\n", result);
+
+	// Free allocated memory
+	free(result);
+
+	return (0);
+}
+*/

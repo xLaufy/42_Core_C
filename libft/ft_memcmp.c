@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:00:48 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/21 18:06:29 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:30:38 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,22 @@ If the loop iterates through all bytes, and no differences are found,
 	the function returns 0, indicating that the memory areas are identical.
 In summary, this function compares n bytes between two memory areas and
 returns the difference between them (or 0 if they are identical).
+*/
+
+/*
+int	main(void) {
+	char str1[] = "Hello, world!";
+	char str2[] = "Hello, world!";
+	char str3[] = "HELLO, WORLD!";
+	char str4[] = "Hello, wonderful world!";
+
+	printf("Comparing str1 and str2: %d\n", ft_memcmp(str1, str2, strlen(str1)
+			+ 1));
+	printf("Comparing str1 and str3: %d\n", ft_memcmp(str1, str3, strlen(str1)
+			+ 1));
+	printf("Comparing str1 and str4: %d\n", ft_memcmp(str1, str4, strlen(str1)
+			+ 1));
+
+	return (0);
+}
 */

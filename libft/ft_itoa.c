@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 14:52:17 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/17 18:32:17 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:29:10 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ static int	count_num(long num)
 		num *= -1;
 	}
 	else if (num == 0)
-		count++;
-	while (num > 0)
+		return (1);
+	while ((unsigned int)num > 0)
 	{
-		num /= 10;
 		count++;
+		num = (unsigned int)num / 10;
 	}
 	return (count);
 }
 
 char	*ft_itoa(int n)
 {
-	long	num_count;
 	char	*result;
+	long	num_count;
 
 	num_count = count_num(n);
 	result = malloc((num_count + 1) * sizeof(char));
@@ -49,9 +49,9 @@ char	*ft_itoa(int n)
 		n *= -1;
 	}
 	result[num_count] = '\0';
-	while ((num_count - 1) >= 0 && n > 0)
+	while ((num_count - 1) >= 0 && (unsigned int)n > 0)
 	{
-		result[num_count - 1] = (n % 10) + 48;
+		result[num_count - 1] = ((unsigned int)n % 10) + 48;
 		n = (unsigned int)n / 10;
 		num_count--;
 	}
@@ -59,13 +59,15 @@ char	*ft_itoa(int n)
 }
 
 /*
-int	main(void)
-{
-	int	num;
-
-	num = -1234567;
-	printf("num is equal to %i \n", count_num(num));
-	printf("num is equal to %s \n", ft_itoa(num));
+int	main(void) {
+	int num = -12345;
+	char *str = ft_itoa(num);
+	if (str != NULL) {
+		printf("Integer: %d\nString: %s\n", num, str);
+		free(str); // Don't forget to free allocated memory
+	} else {
+		printf("Memory allocation failed\n");
+	}
 	return (0);
 }
 */

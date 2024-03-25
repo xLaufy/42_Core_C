@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:30:40 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/10 19:59:47 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:36:36 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,30 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned int	i;
-	unsigned int	j;
-	char			*result;
+	int		i;
+	int		j;
+	char	*result;
 
 	i = 0;
 	j = 0;
-	result = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (s1 == NULL && s2 == NULL)
+	if (!s1 || !s2)
 		return (NULL);
-	if (result == NULL)
+	result = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!result)
 		return (NULL);
 	while (s1[i])
+		result[j++] = s1[i++];
+	i = 0;
+	while (s2[i])
 	{
-		result[i] = s1[i];
+		result[j] = s2[i];
+		j++;
 		i++;
 	}
-	while (s2[j])
-	{
-		result[i] = s2[j];
-		j++;
-	}
-	result[i] = '\0';
+	result[j] = '\0';
 	return (result);
 }
 /*
-#include <stdlib.h>
-#include <string.h>
-
 int	main(void)
 {
 	const char	*str1 = "Hello, ";

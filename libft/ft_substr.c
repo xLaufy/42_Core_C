@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 18:58:26 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/21 18:54:27 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:39:44 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 /*
-#include <stdio.h>
-#include <stdlib.h>
-
 int	main(void)
 {
 	const char		*originalString = "Hello, World!";

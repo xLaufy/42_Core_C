@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:03:40 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/21 19:04:46 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:39:34 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,44 @@
 
 int	is_in_set(const char c, const char *set)
 {
-	while (*set)
+	int	i;
+
+	i = 0;
+	while (set[i])
 	{
-		if (c == *set)
+		if (c == set[i])
 			return (1);
-		set++;
+		i++;
 	}
 	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	i;
 	size_t	len;
 	char	*new_str;
 
-	i = 0;
-	len = ft_strlen(s1);
-	new_str = malloc(len + 1);
 	if (!s1 || !set)
-		return (NULL);
-	while (*s1 && is_in_set(*s1, set))
-		s1++;
-	while (len && is_in_set(s1[len - 1], set))
-		len--;
-	if (!new_str)
-		return (NULL);
-	while (i < len)
+		return (0);
+	while (s1 && is_in_set(*s1, set))
 	{
-		new_str[i] = s1[i];
-		i++;
+		if (is_in_set(((char)*s1), set) == 1)
+			s1++;
+		else
+			break ;
 	}
-	new_str[len] = '\0';
+	len = ft_strlen(s1);
+	while (len != 0)
+	{
+		if (is_in_set(s1[len - 1], set) == 1)
+			len--;
+		else
+			break ;
+	}
+	new_str = malloc(len * sizeof(char) + 1);
+	if (!new_str)
+		return (0);
+	ft_strlcpy(new_str, (char *)s1, len + 1);
 	return (new_str);
 }
 /*
@@ -74,8 +80,6 @@ that are in the'set' using a while loop and the 'is_in_set' function.
 string, and returns new_str.
 */
 /*
-#include <stdio.h>
-#include <stdlib.h>
 
 int	main(void)
 {

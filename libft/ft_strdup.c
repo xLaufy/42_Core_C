@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:01:09 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/21 18:53:31 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:35:08 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,8 @@ string.
 
 7: Returns the pointer to the duplicated string.
 */
-/*
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
+/*
 int	main(void)
 {
 	const char	*originalString = "Hello, World!";

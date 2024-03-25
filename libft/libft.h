@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:01:52 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/21 18:10:14 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:35:30 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
+# include <string.h>
 
 void	ft_putchar(char c);
 void	ft_swap(int *a, int *b);
