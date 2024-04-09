@@ -6,17 +6,17 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 19:00:41 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/03/25 21:27:50 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/04/09 19:40:37 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isprint(int c)
+int	ft_isprint(int d)
 {
-	if (c)
+	if (d)
 	{
-		if ((c > 31 && c < 127))
+		if ((d > 31 && d < 127))
 			return (1);
 	}
 	return (0);
