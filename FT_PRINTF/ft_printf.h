@@ -1,46 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 20:22:23 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/04/17 20:43:59 by mkrawczy         ###   ########.fr       */
+/*   Created: 2024/04/17 20:21:36 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/04/20 14:13:11 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-int	ft_putchar(char c)
-{
-	return (write(1, &c, 1));
-}
+# include <stdarg.h>
+# include <stdio.h>
+# include <unistd.h>
 
-int	ft_putstr(char *str)
-{
-	int	i;
+int	ft_printf(const char *form_spec, ...);
+int	ft_putchar(char c);
+int	ft_putstr(char *str);
+int	ft_putnbr(int nb);
+int	ft_putunbr(unsigned long int num);
+int	ft_ptradress(unsigned long int num);
+int	ft_hex(unsigned int num, char format);
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (write(1, str, i), i);
-}
-
-int	ft_putnbr(long int n)
-{
-	long int	i;
-
-	i = n;
-	if (n < 0)
-	{
-		ft_putchar('-');
-		i = -1;
-	}
-	if (i > 9)
-	{
-		ft_putnbr(i / 10);
-		i %= 10;
-	}
-	return (ft_putchar(i + '0'));
-}
+#endif

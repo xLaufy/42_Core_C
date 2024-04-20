@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_hex.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 20:21:36 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/04/17 20:53:53 by mkrawczy         ###   ########.fr       */
+/*   Created: 2024/04/17 20:22:09 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/04/20 11:03:07 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <stdarg.h>
-# include <stdio.h>
-# include <unistd.h>
+int	ft_hex(unsigned int num, char format)
+{
+	int	len;
 
-int		ft_printf(const char *form_spec, ...);
-int		ft_putchar(char c);
-int	ft_putstr(char *str);
-int		ft_putnbr(long int n);
-int		ft_putunbr(unsigned long int num);
-int		ft_ptradress(unsigned long int num);
-int		ft_hex(unsigned int num, char format);
-
-#endif
+	len = 0;
+	if (num >= 16)
+	{
+		len += ft_hex(num / 16, format);
+		len += ft_hex(num % 16, format);
+	}
+	else if (num <= 9)
+	{
+		len += ft_putchar(num + '0');
+	}
+	else
+	{
+		if (format == 'x')
+			len += ft_putchar(num - 10 + 'a');
+		if (format == 'X')
+			len += ft_putchar(num - 10 + 'A');
+	}
+	return (len);
+}

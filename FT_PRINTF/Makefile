@@ -6,11 +6,11 @@
 #    By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/17 20:28:59 by mkrawczy          #+#    #+#              #
-#    Updated: 2024/04/17 20:54:59 by mkrawczy         ###   ########.fr        #
+#    Updated: 2024/04/20 12:12:10 by mkrawczy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf.a
+NAME = libftprintf.a
 
 SRCS = ft_printf.c ft_utils.c ft_hex.c ft_putunbr.c ft_ptr.c
 
@@ -18,14 +18,14 @@ INCS = ft_printf.c
 
 OBJS = $(SRCS:.c=.o)
 
-CC = clang -Wall -Wextra -Werror
+CC = gcc -Wall -Wextra -Werror
 
 RM = rm -f
 
 AR = ar -rcs $@ $<
 
 %.o : %.c
-		$(CC)-g -c $< -o ${<:.c=.o}
+		$(CC) -g -c $< -o ${<:.c=.o}
 
 $(NAME): $(OBJS)
 				$(AR) $(NAME) $(OBJS)

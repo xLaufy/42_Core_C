@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 12:49:16 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/04/17 20:52:49 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/04/20 12:30:07 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static int	print_format(va_list args, char format)
 	else if (format == '%')
 		len = ft_putchar('%');
 	else if (format == 'p')
-	{
-		len = ft_putchar("0x");
 		len += ft_ptradress(va_arg(args, unsigned long int));
-	}
 	return (len);
 }
 
@@ -41,7 +38,7 @@ int	ft_printf(const char *form_spec, ...)
 {
 	va_list	ap;
 	int		count;
-	int i;
+	int		i;
 
 	count = 0;
 	i = 0;
@@ -61,14 +58,14 @@ int	ft_printf(const char *form_spec, ...)
 	return (count);
 }
 
-int	main(void)
-{
-	char	*str;
-	int		num;
+// int	main(void)
+// {
+// 	char	*str;
+// 	int		num;
 
-	str = "string of chars";
-	num = 15;
-	printf("testing custom prinf, %c, %d\n", str, num);
-	ft_printf("testing custom prinf, %c, %d\n", str, num);
-	return (0);
-}
+// 	str = "string of chars";
+// 	num = 15;
+// 	printf("testing custom prinf, %c, %d\n", str, num);
+// 	ft_printf("testing custom prinf, %c, %d\n", str, num);
+// 	return (0);
+// }
