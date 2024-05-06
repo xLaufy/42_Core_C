@@ -55,7 +55,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-ft_strjoin(char *box, char read_buffer *)
+char	*ft_strjoin(char *box, char *read_buffer)
 {
 	char	*temp;
 	int		i;
@@ -72,7 +72,7 @@ ft_strjoin(char *box, char read_buffer *)
 	while (read_buffer[i])
 		temp[j++] = read_buffer[i++];
 	temp[j] = '\0';
-	return (result);
+	return (temp);
 }
 
 

@@ -12,7 +12,6 @@
 
 #include "get_next_line.h"
 
-
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
@@ -23,6 +22,7 @@ void	ft_bzero(void *s, size_t n)
 	while (i < n)
 		dest[i++] = 0;
 }
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*tmp;
@@ -45,12 +45,10 @@ char	*get_next_line(int fd)
 {
 	static char *box;
 	char		*line_read;
-	int			bytes_read;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line_read = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	bytes_read = read(fd, line_read, BUFFER_SIZE);
 	if (line_read == 0 || bytes_read <= 0)
 	{
 		free(line_read);
