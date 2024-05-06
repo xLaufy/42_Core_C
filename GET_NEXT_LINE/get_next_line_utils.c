@@ -2,35 +2,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*dest;
-
-	i = 0;
-	dest = s;
-	while (i < n)
-		dest[i++] = 0;
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*tmp;
-
-	if (nmemb == 0 || size == 0)
-	{
-		nmemb = 1;
-		size = 1;
-	}
-	if (2147483647 / nmemb < size)
-		return (NULL);
-	tmp = malloc(nmemb * size);
-	if (!tmp)
-		return (NULL);
-	ft_bzero(tmp, nmemb * size);
-	return (tmp);
-}
-
 size_t	ft_strlen(const char *str)
 {
 	int	i;
@@ -43,134 +14,169 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
+	size_t	i;
+	char	ch;
+
+	ch = (char)c;
+	i = 0;
+	while (s[i])
 	{
-		if (s == char(c))
-			return ((char *)s);
-		s++;
-		*s = '\0'
+		if (s[i] == ch)
+			return ((char *)&s[i]);
+		i++;
 	}
-	if (c == '\0')
-		return ((char *)s);
+	if (ch == '\0')
+		return ((char *)&s[i]);
 	return (NULL);
 }
 
-ft_strjoin(char *box, char read_buffer *)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*temp;
 	int		i;
 	int		j;
 
-	if (!box || !read_buffer)
+	i = 0;
+	j = 0;
+	if (!s1 || !s2)
 		return (NULL);
-	temp = malloc((ft_strlen(box) + ft_strlen(read_buffer) + 1) * sizeof(char));
+	temp = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
-	while (box[i])
-		temp[j++] = box[i++];
+	while (s1[i])
+		temp[j++] = s1[i++];
 	i = 0;
-	while (read_buffer[i])
-		temp[j++] = read_buffer[i++];
+	while (s2[i])
+		temp[j++] = s2[i++];
 	temp[j] = '\0';
-	return (result);
+	free((void *)(s1));
+	return (temp);
 }
 
-
-// ta funkcja czyta plik tekstowy i zapisuje ciaag znakow o dlugosci BUFFER_SIZE az nie napotka '\n' albo '\0', nastepnie zapisuje go do tablicy temp_stash.
-
-char *read_the_fcking_file(char *box, int fd)
+char	*ft_strdup(const char *s1)
 {
-	char *temp_stash;
-	size_t	bytes_read;
+	char	*str;
+	int		i;
+	int		j;
 
-	temp_stash = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	j = ft_strlen(s1);
+	i = 0;
+	str = malloc(sizeof(char) * j + 1);
+	if (!str)
+		return (NULL);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	size_t	j;
+	char	*sub;
+
+	i = start;
+	j = 0;
+	sub = (char *)malloc(len + 1);
+	if (!s || !sub)
+		return (NULL);
+	while (i < ft_strlen(s) && j < len)
+		sub[j++] = s[i++];
+	sub[j] = '\0';
+	return (sub);
+}
+char	*take_the_line(char *box)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (!box[i])
+		return (NULL);
+	while (box[i] && box[i] != '\n')
+		i++;
+	str = (char *)malloc(i + 2);
+	if (!str)
+		return (NULL);
+	while (box[i] && box[i] != '\n')
+	{
+		str[i] = box[i];
+		i++;
+	}
+	if (box[i] == '\n')
+	{
+		str[i] = box[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+char	*remains(char *box)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 0;
+	while (box[i] && box[i] != '\n')
+		i++;
+	if (!box[i])
+		return (NULL);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(box) - i + 1));
+	if (!str)
+		return (NULL);
+	i++;
+	j = 0;
+	while (box[i])
+		str[j++] = box[i++];
+	str[j] = '\0';
+	free(box);
+	return (str);
+}
+
+char	*read_the_file(char *box, int fd)
+{
+	char	*temp_stash;
+	ssize_t	bytes_read;
+
+	temp_stash = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (temp_stash == 0)
 		return (NULL);
-	bytes_read = read(fd, temp_stash, BUFFER_SIZE);
-	if (bytes_read <= 0)
-		return (free(bytes_read), NULL);
-	temp_stash[bytes_read] = '\0';
-	box = ft_strjoin(box, temp_stash);
-	if (bytes_read == -1)
-		free(box);
-	if (ft_strchr(box, '\n') || ft_strchr(box, '\0'))
-		break;
+	bytes_read = 1;
+	while (bytes_read > 0)
+	{
+		bytes_read = read(fd, temp_stash, BUFFER_SIZE);
+		if (bytes_read == -1)
+			return (free(temp_stash), NULL);
+		temp_stash[bytes_read] = '\0';
+		box = ft_strjoin(box, temp_stash);
+		if (ft_strchr(box, '\n') || ft_strchr(box, '\0'))
+			break ;
+	}
 	free(temp_stash);
 	return (box);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Funkcja pomocnicza do podziału bufora na linie
-char	*split_line(char **buffer, int i)
-{
-	char	*line;
-
-	line = (char *)malloc((i + 1) * sizeof(char)); // Alokacja pamięci dla linii
-	line[i] = '\0';                                // Dodanie znaku końca linii
-	while (--i >= 0)
-		// Kopiowanie znaków z bufora do linii
-	{
-		line[i] = (*buffer)[i];
-		(*buffer)[i] = '\0';
-	}
-	*buffer += i + 1; // Przesunięcie wskaźnika bufora
-	return (line);    // Zwrócenie linii
-}
-
-// Główna funkcja get_next_line
 char	*get_next_line(int fd)
 {
+	static char	*box;
 	char		*line;
-	static char	*buffer;
 
-	// Statyczny bufor do przechowywania nieprzetworzonych danych
-	int bytes_read, i;
-	if (!buffer)
-		buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	// Alokacja pamięci dla bufora
-	bytes_read = read(fd, buffer, BUFFER_SIZE); // Czytanie z pliku
-	if (bytes_read <= 0)
-		return (NULL);         // Jeśli nie ma więcej danych do przeczytania,
-			zwróć NULL
-	buffer[bytes_read] = '\0'; // Dodanie znaku końca linii do bufora
-	i = 0;
-	while (buffer[i] != '\n' && buffer[i] != '\0')
-		// Szukanie znaku nowej linii w buforze
-		i++;
-	if (buffer[i] == '\n') // Jeśli znaleziono znak nowej linii
-	{
-		line = split_line(&buffer, i); // Podziel bufor na linie
-		return (line);                 // Zwróć linię
-	}
-	else                            // Jeśli nie znaleziono znaku nowej linii
-		return (get_next_line(fd)); // Wywołaj funkcję rekurencyjnie
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	box = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!ft_strchr(box, '\n') || !ft_strchr(box, '\0'))
+		box = read_the_file(box, fd);
+	if (!box)
+		return (free(box), NULL);
+	line = take_the_line(box);
+	box = remains(box);
+	return (line);
 }
 
 int	main(void)

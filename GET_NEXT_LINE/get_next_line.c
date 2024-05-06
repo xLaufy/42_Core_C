@@ -6,46 +6,16 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:58:50 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/05/01 13:25:32 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:48:41 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*dest;
-
-	i = 0;
-	dest = s;
-	while (i < n)
-		dest[i++] = 0;
-}
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*tmp;
-
-	if (nmemb == 0 || size == 0)
-	{
-		nmemb = 1;
-		size = 1;
-	}
-	if (2147483647 / nmemb < size)
-		return (NULL);
-	tmp = malloc(nmemb * size);
-	if (!tmp)
-		return (NULL);
-	ft_bzero(tmp, nmemb * size);
-	return (tmp);
-}
-
 char	*get_next_line(int fd)
 {
 	static char *box;
 	char		*line_read;
-	int			bytes_read;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
