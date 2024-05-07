@@ -2,19 +2,21 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
-#  define BUFFER_SIZE 10
-
-void	*ft_calloc(size_t nmemb, size_t size);
-char *read_the_fcking_file(char *box, int fd);
-char	*get_next_line(int fd);
-void	ft_bzero(void *s, size_t n);
-size_t	ft_strlen(const char *str);
+size_t  ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char *box, char *read_buffer);
-
-# endif
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strdup(const char *s1);
+char	*get_next_line(int fd);
+char	*take_the_line(char *box);
+char	*remains(char *box);
+char    *read_the_file(char *box, int fd);
+#endif

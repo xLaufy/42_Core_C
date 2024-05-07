@@ -6,57 +6,108 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:58:50 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/05/01 13:25:32 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:48:41 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
+char	*take_the_line(char *box)
 {
 	size_t	i;
-	char	*dest;
+	char	*str;
 
 	i = 0;
-	dest = s;
-	while (i < n)
-		dest[i++] = 0;
+	if (!box[i])
+		return (NULL);
+	while (box[i] && box[i] != '\n')
+		i++;
+	str = (char *)malloc(i + 2);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (box[i] && box[i] != '\n')
+	{
+		str[i] = box[i];
+		i++;
+	}
+	if (box[i] == '\n')
+	{
+		str[i] = box[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*remains(char *box)
 {
-	void	*tmp;
+	size_t	i;
+	size_t	j;
+	char	*str;
 
-	if (nmemb == 0 || size == 0)
+	i = 0;
+	while (box[i] && box[i] != '\n')
+		i++;
+	if (!box[i])
 	{
-		nmemb = 1;
-		size = 1;
+		free(box);
+		return (NULL);
 	}
-	if (2147483647 / nmemb < size)
+	str = (char *)malloc(sizeof(char) * (ft_strlen(box) - i + 1));
+	if (!str)
 		return (NULL);
-	tmp = malloc(nmemb * size);
-	if (!tmp)
+	i++;
+	j = 0;
+	while (box[i])
+		str[j++] = box[i++];
+	str[j] = '\0';
+	free(box);
+	return (str);
+}
+
+char	*read_the_file(char *box, int fd)
+{
+	char	*temp_stash;
+	ssize_t	bytes_read;
+
+	temp_stash = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (temp_stash == 0)
 		return (NULL);
-	ft_bzero(tmp, nmemb * size);
-	return (tmp);
+	while ((bytes_read = read(fd, temp_stash, BUFFER_SIZE)) > 0)
+	{
+		temp_stash[bytes_read] = '\0';
+		box = ft_strjoin(box, temp_stash);
+		if (ft_strchr(box, '\n'))
+			break ;
+	}
+	free(temp_stash);
+	if (bytes_read == -1)
+	{
+		free(box);
+		return (NULL);
+	}
+	return (box);
 }
 
 char	*get_next_line(int fd)
 {
-	static char *box;
-	char		*line_read;
+	static char	*box;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line_read = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	if (line_read == 0 || bytes_read <= 0)
-	{
-		free(line_read);
+	if (!box)
+		box = ft_strdup("");
+	if (!ft_strchr(box, '\n'))
+		box = read_the_file(box, fd);
+	if (!box)
 		return (NULL);
-	}
-	line_read[bytes_read] = '\0';
-	return (line_read);
+	line = take_the_line(box);
+	box = remains(box);
+	return (line);
 }
+
 
 int	main(void)
 {
@@ -66,17 +117,14 @@ int	main(void)
 
 	count = 0;
 	fd = open("text.txt", O_RDONLY);
-	if (fd < 0)
+	if (fd == -1)
 	{
 		printf("Error, can't open the file\n");
 		return (1);
 	}
 	printf("Reading from file text.txt:\n");
-	while (1)
+	while ((next_line = get_next_line(fd)) !=  NULL)
 	{
-		next_line = get_next_line(fd);
-		if (next_line == NULL)
-			break ;
 		count++;
 		printf("%d : %s\n", count, next_line);
 		free(next_line);
