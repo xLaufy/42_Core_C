@@ -1,2 +1,2 @@
 # test
-gvhfbjpidifg
+My Journey with 42 School Core Curriculum 
