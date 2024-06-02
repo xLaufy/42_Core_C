@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:58:50 by mkrawczy          #+#    #+#             */
-/*   Updated: 2024/05/08 17:10:43 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:04:45 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*take_the_line(char *box)
 {
@@ -94,19 +94,19 @@ char	*read_the_file(char *box, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*box;
+	static char	*box[MAX_FD];
 	char		*line;
 
-	if (fd < 0 || read(fd, NULL, 0) < 0 || BUFFER_SIZE <= 0)
+	if (fd >= MAX_FD || fd < 0 || read(fd, NULL, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!box)
-		box = ft_strdup("");
-	if (!ft_strchr(box, '\n'))
-		box = read_the_file(box, fd);
-	if (!box)
+	if (!box[fd])
+		box[fd] = ft_strdup("");
+	if (!ft_strchr(box[fd], '\n'))
+		box[fd] = read_the_file(box[fd], fd);
+	if (!box[fd])
 		return (NULL);
-	line = take_the_line(box);
-	box = remains(box);
+	line = take_the_line(box[fd]);
+	box[fd] = remains(box[fd]);
 	return (line);
 }
 
