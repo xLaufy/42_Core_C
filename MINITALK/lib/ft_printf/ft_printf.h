@@ -18,8 +18,8 @@
 # include <unistd.h>
 
 int	ft_printf(const char *form_spec, ...);
-int	ft_putchar(char c);
-int	ft_putstr(char *str);
+int	ft_char(char c);
+int	ft_str(char *str);
 int	ft_putnbr(int nb);
 int	ft_putunbr(unsigned long int num);
 int	ft_ptradress(unsigned long int num);

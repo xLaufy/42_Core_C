@@ -12,13 +12,13 @@
 
 #include "ft_printf.h"
 
-int	ft_putchar(char c)
+int	ft_char(char c)
 {
 	write(1, &c, 1);
 	return (1);
 }
 
-int	ft_putstr(char *str)
+int	ft_str(char *str)
 {
 	int	i;
 
@@ -40,14 +40,14 @@ int	ft_putnbr(int nb)
 	if (i < 0)
 	{
 		i = -i;
-		len += ft_putchar('-');
+		len += ft_char('-');
 	}
 	if (i > 9)
 	{
 		len += ft_putnbr(i / 10);
-		len += ft_putchar((i % 10) + '0');
+		len += ft_char((i % 10) + '0');
 	}
 	else
-		len += ft_putchar(i + '0');
+		len += ft_char(i + '0');
 	return (len);
 }

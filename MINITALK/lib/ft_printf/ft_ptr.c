@@ -25,9 +25,9 @@ static int	conversion(unsigned long int num)
 	else
 	{
 		if (num <= 9)
-			len += ft_putchar(num + '0');
+			len += ft_char(num + '0');
 		else
-			len += ft_putchar(num - 10 + 'a');
+			len += ft_char(num - 10 + 'a');
 	}
 	return (len);
 }

@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
+#include "../../inc/minitalk.h"
 
 void handle_signals(int signum)
 {   

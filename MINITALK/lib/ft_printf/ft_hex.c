@@ -24,14 +24,14 @@ int	ft_hex(unsigned int num, char format)
 	}
 	else if (num <= 9)
 	{
-		len += ft_putchar(num + '0');
+		len += ft_char(num + '0');
 	}
 	else
 	{
 		if (format == 'x')
-			len += ft_putchar(num - 10 + 'a');
+			len += ft_char(num - 10 + 'a');
 		if (format == 'X')
-			len += ft_putchar(num - 10 + 'A');
+			len += ft_char(num - 10 + 'A');
 	}
 	return (len);
 }

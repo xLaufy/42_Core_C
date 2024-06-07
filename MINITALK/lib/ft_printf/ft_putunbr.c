@@ -23,6 +23,6 @@ int	ft_putunbr(unsigned long int num)
 		len += ft_putunbr(num % 10);
 	}
 	else
-		len += ft_putchar(num + '0');
+		len += ft_char(num + '0');
 	return (len);
 }

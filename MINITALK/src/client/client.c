@@ -1,3 +1,4 @@
+#include "../../inc/minitalk.h"
 
 void send_char(pid_t server_pid, char c)
 {

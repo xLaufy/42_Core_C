@@ -18,9 +18,9 @@ static int	print_format(va_list args, char format)
 
 	len = 0;
 	if (format == 'c')
-		len = ft_putchar(va_arg(args, int));
+		len = ft_char(va_arg(args, int));
 	else if (format == 's')
-		len = ft_putstr(va_arg(args, char *));
+		len = ft_str(va_arg(args, char *));
 	else if (format == 'd' || format == 'i')
 		len = ft_putnbr(va_arg(args, long int));
 	else if (format == 'u')
@@ -28,7 +28,7 @@ static int	print_format(va_list args, char format)
 	else if ((format == 'x') || (format == 'X'))
 		len = ft_hex(va_arg(args, unsigned int), format);
 	else if (format == '%')
-		len = ft_putchar('%');
+		len = ft_char('%');
 	else if (format == 'p')
 		len += ft_ptradress(va_arg(args, unsigned long int));
 	return (len);
@@ -51,7 +51,7 @@ int	ft_printf(const char *form_spec, ...)
 				count += print_format(ap, form_spec[++i]);
 		}
 		else
-			count += ft_putchar(form_spec[i]);
+			count += ft_char(form_spec[i]);
 		i++;
 	}
 	va_end(ap);

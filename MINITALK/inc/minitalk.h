@@ -2,8 +2,8 @@
 # define MINITALK_H
 
 
-# include "libft/libft.h"
-# include "libft/ft_printf/ft_printf.h"
+# include "../lib/libft/libft.h"
+# include "../lib/ft_printf/ft_printf.h"
 
 # include <stdio.h>
 #include <unistd.h>
