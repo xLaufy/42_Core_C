@@ -1,6 +1,8 @@
 
 CLIENT = client
 SERVER = server
+CLIENT_BONUS = client_bonus
+SERVER_BONUS = server_bonus
 
 # Define compiler
 CC = gcc -Wall -Wextra -Werror -I
@@ -20,13 +22,18 @@ OBJ_DIR = obj/
 
 SRC_CLIENT = $(addprefix $(SRC_DIR), $(addsuffix .c, $(CLIENT)))
 SRC_SERVER = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SERVER)))
+SRC_CLIENT_BONUS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(CLIENT_BONUS)))
+SRC_SERVER_BONUS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SERVER_BONUS)))
 
 OBJ_CLIENT = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(CLIENT)))
 OBJ_SERVER = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SERVER)))
+OBJ_CLIENT_BONUS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(CLIENT_BONUS)))
+OBJ_SERVER_BONUS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SERVER_BONUS)))
 
 
 start:
 		@make all
+		@make bonus
 
 
 $(LIBFT):
@@ -43,9 +50,17 @@ all: $(CLIENT) $(SERVER)
 $(CLIENT):	$(OBJ_CLIENT) $(LIBFT) $(FT_PRINTF)
 						 @$(CC) $(INC_DIR) $(OBJ_CLIENT) $(LIBFT) $(FT_PRINTF) -o $(CLIENT)
 
-
 $(SERVER):	$(OBJ_SERVER) $(LIBFT) $(FT_PRINTF)
 						 @$(CC) $(INC_DIR) $(OBJ_SERVER) $(LIBFT) $(FT_PRINTF) -o $(SERVER)
+
+bonus: $(CLIENT_BONUS) $(SERVER_BONUS)
+
+$(CLIENT_BONUS):	$(OBJ_CLIENT_BONUS) $(LIBFT) $(FT_PRINTF)
+						 			   @$(CC) $(INC_DIR) $(OBJ_CLIENT_BONUS) $(LIBFT) $(FT_PRINTF) -o $(CLIENT_BONUS)
+
+$(SERVER_BONUS):	$(OBJ_SERVER_BONUS) $(LIBFT) $(FT_PRINTF)
+									   @$(CC) $(INC_DIR) $(OBJ_SERVER_BONUS) $(LIBFT) $(FT_PRINTF) -o $(SERVER_BONUS)
+
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 								@mkdir -p $(@D)
@@ -58,7 +73,7 @@ clean:
 
 
 fclean: clean
-		$(RM) $(CLIENT) $(SERVER)
+		$(RM) $(CLIENT) $(SERVER) $(SERVER_BONUS) $(CLIENT_BONUS)
 		$(RM) $(LIB)
 
 

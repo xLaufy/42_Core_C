@@ -13,14 +13,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minitalk.h"
+#include "../inc/minitalk_bonus.h"
 
 static void	sig_confirm(int sig)
 {
 	if (sig == SIGUSR1)
-		ft_printf("Message received\n");
+		ft_printf("Got the message Bruh\n");
 	else
-		ft_printf("Message received\n");
+		ft_printf("Got the message Bruh\n");
 }
 
 void	send_char(pid_t server_pid, char c)
@@ -59,7 +59,7 @@ int	main(int ac, char **av)
 	}
 	else
 	{
-		write(1, "Error\nTry: ./client [server_pid] [message]\n", 43);
+		ft_printf("Error\nTry: ./client [server_pid] [message]\n");
 		return (1);
 	}
 	return (0);

@@ -13,7 +13,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minitalk.h"
+#include "../inc/minitalk_bonus.h"
 
 void	handle_signals(int signum)
 {
