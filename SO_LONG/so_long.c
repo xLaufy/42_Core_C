@@ -2,54 +2,60 @@
 
 typedef struct s_data
 {  
-    void *img;
-    char *addr;
-    int bits_per_pixel;
-    int line_length;
-    int endian;
+    void *mlx;
+    void *window;
 } t_data;
 
-void my_mlx_pixel_put(t_data *data , int x, int y, int color)
+int on_destroy(t_data *data)
 {
-    char *dst;
+    mlx_destroy_window(data->mlx, data->window);
+    mlx_destroy_display(data->mlx);
+    free(data->mlx);
+    exit(0);
+    return (0);
+}
 
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int*)dst = color; 
+int on_key_press(int keysym, t_data *data)
+{
+    (void)data;
+    printf("Key pressed: %d\n", keysym);
+    return (0);
+}
 
+void *mlx_xpm_file_to_image(void *mlx_ptr, char *filename, int *width, int *height)
+{
+    
 }
 
 int main(void)
 {
-    void *mlx;
-    void *window;
-    t_data img;
+    t_data data;
 
     printf("Initializing MiniLibX...\n");
-    mlx = mlx_init();
-    if (mlx == NULL)
+    data.mlx = mlx_init();
+    if (data.mlx == NULL)
     {
         printf("Failed to initialize MiniLibX\n");
-        return 1;
+        return (1);
     }
 
     printf("Creating window...\n");
-    window = mlx_new_window(mlx, 600, 300, "so_long");
-    img.img = mlx_new_image(mlx, 640, 360);
-    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    if (window == NULL)
+    data.window = mlx_new_window(data.mlx, 600, 300, "so_long");
+    if (data.window == NULL)
     {
         printf("Failed to create window\n");
-        return 1;
+        return (free(data.mlx),1);
     }
 
-    printf("Entering event loop...\n");
+    //Register key releaase hook
+    mlx_hook(data.window, KeyRelease, KeyReleaseMask, &on_key_press, &data);
 
-    my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-    mlx_put_image_to_window(mlx, window, img.img, 0, 0);
-    mlx_loop(mlx);
-    mlx_destroy_window(mlx, window);
-    mlx_destroy_display(mlx);
-    free(mlx);
+    //Register destroy hook
+    mlx_hook(data.window, DestroyNotify, StructureNotifyMask, &on_destroy, &data);
+
+    printf("Entering event loop...\n");    
+    mlx_loop(data.mlx);
+    return (0);
 } 
 
 
