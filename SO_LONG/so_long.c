@@ -1,62 +1,61 @@
+#include "keys.h"
 #include "so_long.h"
+
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 360
 
 typedef struct s_data
 {  
-    void *mlx;
-    void *window;
+    void *img;
+    char *addr;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
 } t_data;
 
-int on_destroy(t_data *data)
+void my_mlx_pixel_put(t_data *data , int x, int y, int color)
 {
-    mlx_destroy_window(data->mlx, data->window);
-    mlx_destroy_display(data->mlx);
-    free(data->mlx);
-    exit(0);
-    return (0);
-}
+    char *dst;
 
-int on_key_press(int keysym, t_data *data)
-{
-    (void)data;
-    printf("Key pressed: %d\n", keysym);
-    return (0);
-}
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int*)dst = color; 
 
-void *mlx_xpm_file_to_image(void *mlx_ptr, char *filename, int *width, int *height)
-{
-    
 }
 
 int main(void)
 {
-    t_data data;
+    void *mlx;
+    void *window;
+    t_data img;
 
     printf("Initializing MiniLibX...\n");
-    data.mlx = mlx_init();
-    if (data.mlx == NULL)
+    mlx = mlx_init();
+    if (mlx == NULL)
     {
         printf("Failed to initialize MiniLibX\n");
-        return (1);
+        return 1;
     }
 
     printf("Creating window...\n");
-    data.window = mlx_new_window(data.mlx, 600, 300, "so_long");
-    if (data.window == NULL)
+    window = mlx_new_window(mlx, 600, 300, "so_long");
+    img.img = mlx_new_image(mlx, 640, 360);
+    img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+    if (window == NULL)
     {
         printf("Failed to create window\n");
-        return (free(data.mlx),1);
+        return 1;
     }
 
-    //Register key releaase hook
-    mlx_hook(data.window, KeyRelease, KeyReleaseMask, &on_key_press, &data);
+    printf("Entering event loop...\n");
 
-    //Register destroy hook
-    mlx_hook(data.window, DestroyNotify, StructureNotifyMask, &on_destroy, &data);
-
-    printf("Entering event loop...\n");    
-    mlx_loop(data.mlx);
-    return (0);
+    my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
+    mlx_put_image_to_window(mlx, window, img.img, 0, 0);
+    mlx_loop(mlx);
+    mlx_destroy_window(mlx, window);
+    mlx_destroy_display(mlx);
+    free(mlx);
 } 
 
 
-// cc so_long.c -I ./minilibx-linux -L ./minilibx-linux -lmlx -lXext -lX11  -> do skompilowania pliku egzekucyjnego 
+//  cc so_long.c -I ./minilibx-linux -L ./minilibx-linux -lmlx -lXext -lX11
+//  ->do skompilowania pliku egzekucyjnego
