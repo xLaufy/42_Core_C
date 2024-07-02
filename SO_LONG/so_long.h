@@ -9,7 +9,8 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-# include "keys.h"
+# include "constants.h"
+# include "structs.h"
 # include "lib/libft/libft.h"
 # include "minilibx-linux/mlx.h"
 

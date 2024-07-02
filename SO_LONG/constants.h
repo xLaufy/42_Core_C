@@ -1,6 +1,37 @@
 #ifndef KEYS_H
 # define KEYS_H
 
+/* Informacje o oknie i sprite'ach */
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+#define SPRITE_SIZE 50
+#define SIZE 50
+#define WIN_NAME "so_long"
+
+/* Nazwy plików ze sprite'ami */
+#define PLAYER_SPRITE "img/player.xpm"
+#define WALL_SPRITE "img/wall.xpm"
+#define COLLECTIBLE_SPRITE "img/collectible.xpm"
+#define EXIT_SPRITE "img/exit.xpm"
+#define FLOOR_SPRITE "img/floor.xpm"
+
+/* Znaki używane na mapie */
+#define PLAYER_CHAR 'P'
+#define ENEMY_CHAR 'D'
+#define WALL_CHAR '1'
+#define COLLECTIBLE_CHAR 'C'
+#define EXIT_CHAR 'E'
+#define FLOOR_CHAR '0'
+
+/* Maksymalne wymiary mapy */
+#define MAX_MAP_WIDTH 800
+#define MAX_MAP_HEIGHT 600
+
+/* Wyrażenia boolienowskie*/
+# define TRUE 1
+# define FALSE 0
+
+/* Klucze przycisków na klawiaturze */
 # define K_A 97
 # define K_B 98
 # define K_C 99
