@@ -10,13 +10,13 @@ RM					=	rm -f
 
 LIBFT				=	./lib/libft/libft.a
 PRINTF				=	./lib/ft_printf/libftprintf.a
-MLX					=	./minilibx/libmlx.a
+MLX					=	./minilibx-linux/libmlx.a
 SRC_DIR				=	src/
 OBJ_DIR				=	obj/
 
 
-SRC					=	colors.c error.c events.c zoom.c fractol.c\
-						render.c utils.c init.c 
+SRC					=	colors.c info.c events.c zoom.c fractol.c\
+						render.c utils.c init.c
 
 SRCS				=	$(addprefix $(SRC_DIR), $(SRC))
 
@@ -35,15 +35,15 @@ $(PRINTF):
 						@make -sC ./lib/ft_printf
 
 $(MLX):
-						@make -sC ./minilibx
+						@make -sC ./minilibx-linux
 
-$(OBJ_DIR)%.o:			$(SRC_DIR)%.c 
+$(OBJ_DIR)%.o:			$(SRC_DIR)%.c
 						@mkdir -p $(@D)
 						@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 						@$(RM) -r $(OBJ_DIR)
-						@make clean -C ./minilibx
+						@make clean -C ./minilibx-linux
 						@make clean -C ./lib/libft
 						@make clean -C ./lib/ft_printf
 

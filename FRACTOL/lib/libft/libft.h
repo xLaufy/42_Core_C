@@ -15,10 +15,10 @@
 
 # include "get_next_line.h"
 # include <stddef.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
+# include <unistd.h>
 
 void	ft_putchar(char c);
 void	ft_swap(int *a, int *b);
@@ -60,7 +60,7 @@ void	ft_putchar_fd(char c, int fd);
 char	*ft_itoa(int n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
-char    *get_next_line(int fd);
+char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin1(char *s1, char *s2);
