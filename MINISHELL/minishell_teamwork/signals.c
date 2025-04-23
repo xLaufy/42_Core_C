@@ -1,31 +1,30 @@
 #include "inc/minishell.h"
 
-int     g_exitcode;
-void	set_exitcode(int32_t status)
-{
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			g_exitcode = 128 + WTERMSIG(status);
-	}
-	else if (WIFEXITED(status))
-		g_exitcode = WEXITSTATUS(status);
-}
-
-
-
-void handle_sigint(int sig)
+void handle_sigint_prompt(int sig)
 {
     (void)sig;
-        write(STDOUT_FILENO, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-    
+    write(STDOUT_FILENO, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    g_exit_status = 130; // Set exit status to 130 for Ctrl-C
 }
 
-void	setup_signals(void)
+void handle_sigint_command(int sig)
 {
-	signal(SIGINT, handle_sigint); // Ctrl-C
-	signal(SIGQUIT, SIG_IGN); // Ctrl-\ nic nie robi
+    (void)sig;
+    write(STDOUT_FILENO, "\n", 1);
+    g_exit_status = 130; // Set exit status to 130 for Ctrl-C
+}
+
+void setup_signals_for_prompt(void)
+{
+    signal(SIGINT, handle_sigint_prompt);
+    signal(SIGQUIT, SIG_IGN);
+}
+
+void setup_signals_for_command(void)
+{
+    signal(SIGINT, handle_sigint_command);
+    signal(SIGQUIT, SIG_IGN);
 }
