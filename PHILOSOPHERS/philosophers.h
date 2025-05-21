@@ -16,7 +16,6 @@ typedef struct s_data
 	int				must_eat;
 	int				philo_finish;
 	int				simulation_end;
-	int				*forks_state;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
 	pthread_t		*threads;
@@ -37,14 +36,12 @@ typedef struct s_philo
 void	*live(void *data);
 int		check_if_dead(t_philo *philo);
 
-// memory
 void	init_data(t_data *data, char **argv, int argc);
 void	init_forks(t_data *data);
 void	create_philosophers(t_philo *philo, t_data *data);
 void	start_threads(t_philo *philo, t_data *data);
 void	free_all(t_philo *philo);
 
-// utils
 long	ft_atoi(const char *str);
 int		ft_strlen(const char *str);
 int		ft_strcmp(const char *str1, const char *str2);
