@@ -46,11 +46,17 @@ int	parse_env_var(const char *var, char **key, char **value)
 	}
 	if (!*key || !*value)
 	{
+<<<<<<< HEAD
 		if (*key)
 			free(*key);
    		 if (*value)
 			free(*value);
     	return ERROR;
+=======
+		free(*key);
+		free(*value);
+		return (ERROR);
+>>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 	}
 	return (SUCCESS);
 }

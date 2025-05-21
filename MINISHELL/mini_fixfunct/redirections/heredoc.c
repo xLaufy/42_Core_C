@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+<<<<<<< HEAD
 //////////start moje
 
 ///moje
@@ -27,6 +28,19 @@ int create_heredoc_pipe(int pipe_fd[2])
 
 
 
+=======
+
+int	create_heredoc_pipe(int pipe_fd[2])
+{
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("pipe");
+		return (-1);
+	}
+	return (0);
+}
+
+>>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 void	process_heredoc_line(int write_fd, char *line)
 {
 	// Write to pipe (with newline)
@@ -35,6 +49,7 @@ void	process_heredoc_line(int write_fd, char *line)
 	free(line);
 }
 
+<<<<<<< HEAD
 
 // //moje
 // int	handle_heredoc(const char *delimiter)
@@ -110,6 +125,33 @@ int handle_heredoc(char *delimiter)
         close(return_fd); // Close the read end as it's not needed/valid
         return (-1); // Return an error code
     }
+=======
+int	handle_heredoc(const char *delimiter)
+{
+	char	*line;
+	int		pipe_fd[2];
+
+	line = NULL;
+	if (create_heredoc_pipe(pipe_fd) < 0)
+		return (-1);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line) // Handle Ctrl+D
+		{
+			write(1, "\n", 1);
+			break ;
+		}
+		if (ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		process_heredoc_line(pipe_fd[1], line);
+	}
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
+>>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 }
 
 int	handle_heredoc_redir(char *delimiter)
@@ -128,6 +170,7 @@ int	handle_heredoc_redir(char *delimiter)
 	close(fd);
 	return (0);
 }
+<<<<<<< HEAD
 
 ////////////koniec moje
 
@@ -193,3 +236,5 @@ void close_heredoc_fds(t_cmd *cmds)
         current_cmd = current_cmd->next;
     }
 }
+=======
+>>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1

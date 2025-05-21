@@ -2,6 +2,7 @@
 
 void	restore_std_fds(int stdin_copy, int stdout_copy)
 {
+<<<<<<< HEAD
 	// Ensure descriptors are valid before dup2
 	if (stdin_copy >= 0)
 	{
@@ -119,6 +120,43 @@ int process_single_redirection(t_redir *redir)
 
 
 // moje, nie dziala na podwojego heredoca
+=======
+	dup2(stdin_copy, STDIN_FILENO);
+	dup2(stdout_copy, STDOUT_FILENO);
+	close(stdin_copy);
+	close(stdout_copy);
+}
+
+int	process_single_redirection(t_redir *redir)
+{
+	int	status;
+
+	if (!redir->file || redir->file[0] == '\0')
+	{
+		ft_putstr_fd("minishell: syntax error: "
+			"missing filename after redirection\n", STDERR_FILENO);
+		return (-1);
+	}
+	status = 0;
+	if (redir->type == T_REDIR_IN)
+		status = handle_input_redir(redir->file);
+	else if (redir->type == T_REDIR_OUT)
+		status = handle_output_redir(redir->file);
+	else if (redir->type == T_APPEND)
+		status = handle_append_redir(redir->file);
+	else if (redir->type == T_HEREDOC)
+		status = handle_heredoc_redir(redir->file);
+	if (status < 0)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(redir->file, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		return (-1);
+	}
+	return (0);
+}
+
+>>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 /* Main function that processes all redirections in the list */
 int	setup_redirections(t_redir *redir_list)
 {
@@ -130,6 +168,7 @@ int	setup_redirections(t_redir *redir_list)
 	}
 	return (0);
 }
+<<<<<<< HEAD
 
 
 // // //with debugging steps
@@ -169,3 +208,5 @@ int	setup_redirections(t_redir *redir_list)
 // DEBUG: Exiting setup_redirections successfully
 // oi                                                      // Output of cat
 // minishell$
+=======
+>>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1

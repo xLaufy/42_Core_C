@@ -42,6 +42,7 @@ int	update_pwds(t_env **env, char *old_pwd)
 	old_pwd_copy = NULL;
 	// Make a copy of old_pwd for OLDPWD
 	if (old_pwd)
+<<<<<<< HEAD
 	{
 		old_pwd_copy = ft_strdup(old_pwd);
 		if (!old_pwd_copy)
@@ -67,6 +68,9 @@ int	update_pwds(t_env **env, char *old_pwd)
         free(old_pwd);
         return ERROR;
     }
+=======
+		old_pwd_copy = ft_strdup(old_pwd);
+>>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 	pwd_var = get_env("PWD", *env);
 	oldpwd_var = get_env("OLDPWD", *env);
 	new_pwd = getcwd(NULL, 0);
