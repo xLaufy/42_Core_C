@@ -30,7 +30,6 @@ static int	check_values(char **argv, int argc)
 
 	if (ft_atoi(argv[1]) < 1 || ft_atoi(argv[2]) < 1 \
 	|| ft_atoi(argv[3]) < 1 || ft_atoi (argv[4]) < 1)
-<<<<<<< HEAD
 	{
 		printf("Wrong argument.\n");
 		return (1);
@@ -40,11 +39,6 @@ static int	check_values(char **argv, int argc)
 		printf("Program doesn't acceppt values below 1.\n");
 		return (1);
 	}
-=======
-		return (1);
-	if (argc == 6 && ft_atoi(argv[5]) < 1)
-		return (1);
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 	i = 1;
 	while (argv[i])
 	{
@@ -61,14 +55,10 @@ int	check_argv(int argc, char **argv)
 	int	j;
 
 	if (argc > 6 || argc < 5)
-<<<<<<< HEAD
 	{
 		printf("Wrong  number of arguments.\n");
 		return (1);
 	}
-=======
-		return (1);
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 	i = 1;
 	while (argv[i])
 	{
@@ -76,27 +66,19 @@ int	check_argv(int argc, char **argv)
 		while (argv[i][j])
 		{
 			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
-<<<<<<< HEAD
 			{
 				printf("Program accepts only positive numbers as arguments.\n");
 				return (1);
 			}
-=======
-				return (1);
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 			j++;
 		}
 		i++;
 	}
 	if (ft_atoi(argv[1]) > 200)
-<<<<<<< HEAD
 	{
 		printf("Too much Philosophers, try between 1-200\n");
 		return (1);
 	}
-=======
-		return (1);
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 	if (check_values(argv, argc) == 1)
 		return (1);
 	return (0);

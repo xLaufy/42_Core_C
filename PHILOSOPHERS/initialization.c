@@ -2,13 +2,7 @@
 
 void	start_threads(t_philo *philo, t_data *data)
 {
-<<<<<<< HEAD
 	int	i = 0;
-=======
-	int			i;
-
-	i = 0;
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 	data->threads = malloc(sizeof(pthread_t) * data->num_philo);
 	while (i < data->num_philo)
 	{
@@ -19,7 +13,6 @@ void	start_threads(t_philo *philo, t_data *data)
 
 void	create_philosophers(t_philo *philo, t_data *data)
 {
-<<<<<<< HEAD
 	int	i = 0;
 	while (i < data->num_philo)
 	{
@@ -38,31 +31,11 @@ void	create_philosophers(t_philo *philo, t_data *data)
 			philo[i].left_fork = &data->forks[i];
 			philo[i].right_fork = &data->forks[(i + 1) % data->num_philo];
 		}
-=======
-	int	i;
-
-	i = 0;
-	while (i < data->num_philo)
-	{
-		philo[i].id = i + 1;
-		philo[i].start_time = 0;
-		philo[i].last_meal = 0;
-		philo[i].ate = 0;
-		philo[i].time_passed = 0;
-		philo[i].start_time = get_time();
-		philo[i].last_meal = get_time() - philo->start_time;
-		philo[i].left_fork = &data->forks[i];
-		if (i + 1 == data->num_philo)
-			philo[i].right_fork = &data->forks[0];
-		else
-			philo[i].right_fork = &data->forks[i + 1];
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 		philo[i].data = data;
 		i++;
 	}
 }
 
-<<<<<<< HEAD
 
 void	init_forks(t_data *data)
 {
@@ -71,22 +44,6 @@ void	init_forks(t_data *data)
 	pthread_mutex_init(&data->write, NULL);
 	while (i < data->num_philo)
 		pthread_mutex_init(&data->forks[i++], NULL);
-=======
-void	init_forks(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	data->forks_state = malloc(sizeof(int) * data->num_philo);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philo);
-	pthread_mutex_init(&data->write, NULL);
-	while (i < data->num_philo)
-	{
-		pthread_mutex_init(&data->forks[i], NULL);
-		data->forks_state[i] = 0;
-		i++;
-	}
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 }
 
 void	init_data(t_data *data, char **argv, int argc)
@@ -96,40 +53,16 @@ void	init_data(t_data *data, char **argv, int argc)
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	data->simulation_end = 0;
-<<<<<<< HEAD
 	data->must_eat = (argc == 6) ? ft_atoi(argv[5]) : -1;
 	data->philo_finish = 0;
-=======
-	data->must_eat = -1;
-	data->philo_finish = 0;
-	if (argc == 6)
-		data->must_eat = ft_atoi(argv[5]);
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 }
 
 void	free_all(t_philo *philo)
 {
-<<<<<<< HEAD
 	int	i = 0;
 	while (i < philo->data->num_philo)
 		pthread_mutex_destroy(&philo->data->forks[i++]);
 	pthread_mutex_destroy(&philo->data->write);
 	free(philo->data->forks);
 	free(philo->data->threads);
-=======
-	int	i;
-
-	i = 0;
-	while (i < philo->data->num_philo)
-	{
-		if (philo->data->forks_state[i] == 1)
-			pthread_mutex_unlock(&philo->data->forks[i]);
-		pthread_mutex_destroy(&philo->data->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&philo->data->write);
-	free(philo->data->forks);
-	free(philo->data->threads);
-	free(philo->data->forks_state);
->>>>>>> a3d0c0da23f265b71f20c0097d02291903482ba1
 }
