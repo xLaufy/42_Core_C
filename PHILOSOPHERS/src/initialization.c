@@ -1,8 +1,22 @@
-#include "philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialization.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 18:05:09 by mkrawczy          #+#    #+#             */
+/*   Updated: 2025/05/22 18:12:21 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/philosophers.h"
 
 void	start_threads(t_philo *philo, t_data *data)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	data->threads = malloc(sizeof(pthread_t) * data->num_philo);
 	while (i < data->num_philo)
 	{
@@ -13,7 +27,9 @@ void	start_threads(t_philo *philo, t_data *data)
 
 void	create_philosophers(t_philo *philo, t_data *data)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (i < data->num_philo)
 	{
 		philo[i].id = i + 1;
@@ -36,10 +52,11 @@ void	create_philosophers(t_philo *philo, t_data *data)
 	}
 }
 
-
 void	init_forks(t_data *data)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philo);
 	pthread_mutex_init(&data->write, NULL);
 	while (i < data->num_philo)
@@ -53,13 +70,18 @@ void	init_data(t_data *data, char **argv, int argc)
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	data->simulation_end = 0;
-	data->must_eat = (argc == 6) ? ft_atoi(argv[5]) : -1;
+	if (argc == 6)
+		data->must_eat = ft_atoi(argv[5]);
+	else
+		data->must_eat = -1;
 	data->philo_finish = 0;
 }
 
 void	free_all(t_philo *philo)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (i < philo->data->num_philo)
 		pthread_mutex_destroy(&philo->data->forks[i++]);
 	pthread_mutex_destroy(&philo->data->write);
