@@ -15,7 +15,7 @@ int	ft_usleep(t_philo *philo, size_t milliseconds)
 void	message(char *str, t_philo *philo)
 {
 	if (philo->data->simulation_end == 0)
-		printf("time: [%ld] | Philosopher [%d] %s\n",
+		printf("%ld %d %s\n",
 			get_time() - philo->start_time, philo->id, str);
 }
 
@@ -41,8 +41,14 @@ long	ft_atoi(const char *str)
 
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if (str[i] == '-' || str[i] == '+')
-		sign = (str[i++] == '-') ? -1 : 1;
+		if (str[i] == '-' || str[i] == '+')
+		{
+			if (str[i] == '-')
+				sign = -1;
+			else
+				sign = 1;
+			i++;
+		}
 	while (str[i] >= '0' && str[i] <= '9')
 		result = result * 10 + (str[i++] - '0');
 	return (result * sign);

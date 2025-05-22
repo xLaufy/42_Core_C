@@ -38,39 +38,49 @@ static int	eat_sleep(t_philo *philo)
 	return (0);
 }
 
-void	*live(void *data)
+static void *single_philo_live(t_philo *philo)
 {
-	t_philo	*philo = (t_philo *)data;
+    pthread_mutex_lock(philo->left_fork);
+    pthread_mutex_lock(&philo->data->write);
+    message("has taken a fork", philo);
+    pthread_mutex_unlock(&philo->data->write);
 
-	if (philo->data->num_philo == 1)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(&philo->data->write);
-		message("has taken a fork", philo);
-		pthread_mutex_unlock(&philo->data->write);
-		ft_usleep(philo, philo->data->time_to_die);
-		pthread_mutex_lock(&philo->data->write);
-		message("died", philo);
-		philo->data->simulation_end = 1;
-		pthread_mutex_unlock(&philo->data->write);
-		pthread_mutex_unlock(philo->left_fork);
-		return NULL;
-	}
+    ft_usleep(philo, philo->data->time_to_die);
 
-	if (philo->id % 2 == 0)
-		ft_usleep(philo, 1);
+    pthread_mutex_lock(&philo->data->write);
+    message("died", philo);
+    philo->data->simulation_end = 1;
+    pthread_mutex_unlock(&philo->data->write);
+    pthread_mutex_unlock(philo->left_fork);
 
-	while (1)
-	{
-		if (check_if_dead(philo) == 0)
-			return (NULL);
-		take_fork(philo->left_fork, philo);
-		take_fork(philo->right_fork, philo);
-		if (eat_sleep(philo) == 1)
-			return (NULL);
-	}
-	return (NULL);
+    return NULL;
 }
+static void *philo_routine(t_philo *philo)
+{
+    if (philo->id % 2 == 0)
+        ft_usleep(philo, 1);
+
+    while (1)
+    {
+        if (!check_if_dead(philo))
+            return NULL;
+        take_fork(philo->left_fork, philo);
+        take_fork(philo->right_fork, philo);
+        if (eat_sleep(philo))
+            return NULL;
+    }
+    return NULL;
+}
+
+void *live(void *data)
+{
+    t_philo *philo = (t_philo *)data;
+
+    if (philo->data->num_philo == 1)
+        return single_philo_live(philo);
+    return philo_routine(philo);
+}
+
 
 int	main(int argc, char **argv)
 {

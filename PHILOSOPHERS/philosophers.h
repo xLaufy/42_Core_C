@@ -50,5 +50,5 @@ void	wait_threads(pthread_t *threads, int size);
 long	get_time(void);
 void	message(char *str, t_philo *philo);
 int		ft_usleep(t_philo *philo, size_t milliseconds);
-
+int		basic_argcheck(int argc, char **argv);
 #endif

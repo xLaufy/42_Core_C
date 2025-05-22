@@ -49,37 +49,45 @@ static int	check_values(char **argv, int argc)
 	return (0);
 }
 
-int	check_argv(int argc, char **argv)
+int basic_argcheck(int argc, char **argv)
 {
-	int	i;
-	int	j;
+    int i;
+    int j;
 
-	if (argc > 6 || argc < 5)
-	{
-		printf("Wrong  number of arguments.\n");
-		return (1);
-	}
-	i = 1;
-	while (argv[i])
-	{
-		j = 0;
-		while (argv[i][j])
-		{
-			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
-			{
-				printf("Program accepts only positive numbers as arguments.\n");
-				return (1);
-			}
-			j++;
-		}
-		i++;
-	}
-	if (ft_atoi(argv[1]) > 200)
-	{
-		printf("Too much Philosophers, try between 1-200\n");
-		return (1);
-	}
-	if (check_values(argv, argc) == 1)
-		return (1);
-	return (0);
+    if (argc > 6 || argc < 5)
+    {
+        printf("Wrong number of arguments.\n");
+        return (1);
+    }
+    i = 1;
+    while (i < argc)
+    {
+        j = 0;
+        while (argv[i][j])
+        {
+            if (argv[i][j] < '0' || argv[i][j] > '9')
+            {
+                printf("Program accepts only positive numbers as arguments.\n");
+                return (1);
+            }
+            j++;
+        }
+        i++;
+    }
+    return (0);
 }
+
+int check_argv(int argc, char **argv)
+{
+    if (basic_argcheck(argc, argv))
+        return (1);
+    if (ft_atoi(argv[1]) > 200)
+    {
+        printf("Too much Philosophers, try between 1-200\n");
+        return (1);
+    }
+    if (check_values(argv, argc) == 1)
+        return (1);
+    return (0);
+}
+
