@@ -16,11 +16,16 @@ void	start_threads(t_philo *philo, t_data *data)
 {
 	int	i;
 
+	data->threads = malloc(sizeof(pthread_t) * data->num_philo * 2);
+	if (!data->threads)
+		return ;
 	i = 0;
-	data->threads = malloc(sizeof(pthread_t) * data->num_philo);
 	while (i < data->num_philo)
 	{
-		pthread_create(&data->threads[i], NULL, live, (void *)&philo[i]);
+		pthread_create(&data->threads[i], NULL,
+		               live, (void *)&philo[i]);
+		pthread_create(&data->threads[i + data->num_philo], NULL,
+		               death_monitor, (void *)&philo[i]);
 		i++;
 	}
 }

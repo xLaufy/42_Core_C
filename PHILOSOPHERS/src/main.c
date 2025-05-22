@@ -26,7 +26,8 @@ int	main(int argc, char **argv)
 		return (1);
 	create_philosophers(philo, &data);
 	start_threads(philo, &data);
-	wait_threads(data.threads, data.num_philo);
+	wait_threads(data.threads, data.num_philo * 2);
 	free_all(philo);
 	free(philo);
+	return (0);
 }

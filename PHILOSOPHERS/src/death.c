@@ -43,3 +43,31 @@ int	check_if_dead(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->write);
 	return (1);
 }
+
+void	*death_monitor(void *arg)
+{
+	t_philo	*ph;
+	long	elapsed;
+
+	ph = (t_philo *)arg;
+	while (1)
+	{
+		pthread_mutex_lock(&ph->data->write);
+		if (ph->data->simulation_end)
+		{
+			pthread_mutex_unlock(&ph->data->write);
+			break;
+		}
+		elapsed = (get_time() - ph->start_time) - ph->last_meal;
+		if (elapsed > ph->data->time_to_die)
+		{
+			message("died", ph);
+			ph->data->simulation_end = 1;
+			pthread_mutex_unlock(&ph->data->write);
+			break;
+		}
+		pthread_mutex_unlock(&ph->data->write);
+		usleep(1000);
+	}
+	return (NULL);
+}

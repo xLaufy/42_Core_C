@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 NAME = philo
 SRC = src/main.c src/simulation.c src/utils.c src/initialization.c src/check_arguments.c src/death.c
 OBJS = $(SRC:.c=.o)

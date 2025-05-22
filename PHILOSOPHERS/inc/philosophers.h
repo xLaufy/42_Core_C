@@ -47,6 +47,7 @@ typedef struct s_philo
 
 void				*live(void *data);
 int					check_if_dead(t_philo *philo);
+void	*death_monitor(void *arg);
 
 void				init_data(t_data *data, char **argv, int argc);
 void				init_forks(t_data *data);
