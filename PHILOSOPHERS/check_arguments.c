@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_arguments.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 17:30:06 by mkrawczy          #+#    #+#             */
+/*   Updated: 2025/05/22 17:32:28 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 int	ft_strcmp(const char *str1, const char *str2)
@@ -28,8 +40,8 @@ static int	check_values(char **argv, int argc)
 {
 	int	i;
 
-	if (ft_atoi(argv[1]) < 1 || ft_atoi(argv[2]) < 1 \
-	|| ft_atoi(argv[3]) < 1 || ft_atoi (argv[4]) < 1)
+	if (ft_atoi(argv[1]) < 1 || ft_atoi(argv[2]) < 1 || ft_atoi(argv[3]) < 1
+		|| ft_atoi(argv[4]) < 1)
 	{
 		printf("Wrong argument.\n");
 		return (1);

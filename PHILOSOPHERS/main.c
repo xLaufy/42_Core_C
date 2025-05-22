@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 17:30:17 by mkrawczy          #+#    #+#             */
+/*   Updated: 2025/05/22 17:32:38 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 static int	take_fork(pthread_mutex_t *fork, t_philo *philo)
@@ -18,30 +30,25 @@ static int	eat_sleep(t_philo *philo)
 	message("is eating", philo);
 	philo->last_meal = get_time() - philo->start_time;
 	pthread_mutex_unlock(&philo->data->write);
-
 	ft_usleep(philo, philo->data->time_to_eat);
-
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
-
 	pthread_mutex_lock(&philo->data->write);
 	message("is sleeping", philo);
 	pthread_mutex_unlock(&philo->data->write);
-
 	if (ft_usleep(philo, philo->data->time_to_sleep) == 1)
 		return (1);
-
 	pthread_mutex_lock(&philo->data->write);
 	message("is thinking", philo);
 	pthread_mutex_unlock(&philo->data->write);
-
 	return (0);
 }
 
 void	*live(void *data)
 {
-	t_philo	*philo = (t_philo *)data;
+	t_philo	*philo;
 
+	philo = (t_philo *)data;
 	if (philo->data->num_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
@@ -54,12 +61,10 @@ void	*live(void *data)
 		philo->data->simulation_end = 1;
 		pthread_mutex_unlock(&philo->data->write);
 		pthread_mutex_unlock(philo->left_fork);
-		return NULL;
+		return (NULL);
 	}
-
 	if (philo->id % 2 == 0)
 		ft_usleep(philo, 1);
-
 	while (1)
 	{
 		if (check_if_dead(philo) == 0)
