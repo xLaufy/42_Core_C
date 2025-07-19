@@ -1,0 +1,1824 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/09 17:31:13 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 20:14:32 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_atoi(const char *str)
+{
+	int	n;
+	int	result;
+
+	result = 0;
+	n = 1;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '-')
+	{
+		n = -1;
+	}
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= 48 && *str <= 57)
+		result = (result * 10) + (*str++ - 48);
+	return (n * result);
+}
+
+/*
+int	main(void)
+{
+	int		value;
+	char	str[30];
+
+	// assigning value to variable str
+	strcpy(str, "   --+---+3256ab42");
+	value = ft_atoi(str);
+	printf("String value = %s, Integer value = %d", str, value);
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:11 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:22:46 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+	char	*dest;
+
+	i = 0;
+	dest = s;
+	while (i < n)
+		dest[i++] = 0;
+}
+/*
+int	main(void)
+{
+	char	str[10] = "Hello";
+	size_t	size;
+
+	size = strlen(str);
+	printf("Before ft_bzero: %s\n", str);
+	ft_bzero(str, size);
+	printf("After ft_bzero: ");
+	for (size_t i = 0; i < size; i++) {
+		printf("%d ", str[i]);
+	}
+	printf("\n");
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:17 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/29 16:37:53 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*tmp;
+
+	if (nmemb == 0 || size == 0)
+	{
+		nmemb = 1;
+		size = 1;
+	}
+	if (2147483647 / nmemb < size)
+		return (NULL);
+	tmp = malloc(nmemb * size);
+	if (!tmp)
+		return (NULL);
+	ft_bzero(tmp, nmemb * size);
+	return (tmp);
+}
+/*
+Calloc function dynamicaly allocates bites in memory and
+initializes allocated memory with zero.
+Void* in this function means it can be used to dynamically
+allocate different data types.
+
+1: allocate nmemb * size bytes in memory with malloc.
+The pointer to the allocated memory is assigned to "tmp" variable.
+
+2:check, if the memory allocation was succesful. If the "tmp"
+pointer is NULL, function returns NULL, sigbaling mem allocation issue.
+
+3:A loop that iterates through each byte in the allocated memory
+and sets it to 0. This ensures the entire allocated memory is
+initialized with zeros.
+
+4: Returning the pointer to the dynamically allocated and initialized
+memory.This memory can be used to store data, with its content set to 0.
+
+*/
+
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int	main(void)
+{
+	size_t	nmemb1;
+	size_t	size1;
+	int		*arr1;
+	size_t	nmemb2;
+	size_t	size2;
+	int		*arr2;
+
+	// Test case 1
+	nmemb1 = 5;
+	size1 = 4;
+	arr1 = (int *)ft_calloc(nmemb1, size1);
+	if (arr1 != NULL)
+	{
+		printf("Test Case 1: Memory allocated successfully.\n");
+		// Print and verify the allocated memory
+		for (size_t i = 0; i < nmemb1; ++i)
+		{
+			printf("%d ", arr1[i]);
+		}
+		printf("\n");
+		free(arr1);
+	}
+	else
+	{
+		printf("Test Case 1: Memory allocation failed.\n");
+	}
+	// Test case 2
+	nmemb2 = 0;
+	size2 = 4;
+	arr2 = (int *)ft_calloc(nmemb2, size2);
+	if (arr2 != NULL)
+	{
+		printf("Test Case 2: Memory allocated successfully.\n");
+		// Print and verify the allocated memory
+		for (size_t i = 0; i < nmemb2; ++i)
+		{
+			printf("%d ", arr2[i]);
+		}
+		printf("\n");
+		free(arr2);
+	}
+	else
+	{
+		printf("Test Case 2: Memory allocation failed.\n");
+	}
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/09 17:28:52 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:24:20 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1);
+	return (0);
+}
+/*
+int	main(void) {
+	char test_chars[] = {'a', 'A', '5', '*', '?'};
+
+	printf("Testing ft_isalnum function:\n");
+	for (int i = 0; i < sizeof(test_chars) / sizeof(test_chars[0]); i++)
+	{
+		printf("Character '%c': %s\n", test_chars[i],
+			ft_isalnum(test_chars[i]) ? "Alphanumeric" : "Not alphanumeric");
+	}
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:23 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:25:03 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_isalpha(int c)
+{
+	if (c)
+	{
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+			return (1);
+	}
+	return (0);
+}
+
+/*
+int	main(void) {
+	char test_chars[] = {'a', 'A', '5', '*', '?'};
+
+	printf("Testing ft_isalpha function:\n");
+	for (int i = 0; i < sizeof(test_chars) / sizeof(test_chars[0]); i++)
+	{
+		printf("Character '%c': %s\n", test_chars[i],
+			ft_isalpha(test_chars[i]) ? "Alphabetic" : "Not alphabetic");
+	}
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:28 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:26:51 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_isascii(int c)
+{
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
+}
+/*
+int	main(void)
+{
+	char	test_chars[] = {0, 'A', 128, '?'};
+
+	printf("Testing ft_isascii function:\n");
+	printf("Character '%c': %s\n", test_chars[0],
+		ft_isascii(test_chars[0]) ? "ASCII" : "Not ASCII");
+	printf("Character '%c': %s\n", test_chars[1],
+		ft_isascii(test_chars[1]) ? "ASCII" : "Not ASCII");
+	printf("Character '%c': %s\n", test_chars[2],
+		ft_isascii(test_chars[2]) ? "ASCII" : "Not ASCII");
+	printf("Character '%c': %s\n", test_chars[3],
+		ft_isascii(test_chars[3]) ? "ASCII" : "Not ASCII");
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:37 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:27:28 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_isdigit(int c)
+{
+	if ((c >= 48 && c <= 57))
+		return (1);
+	return (0);
+}
+/*
+int	main(void) {
+	char test_chars[] = {'0', '9', 'A', '*', '?'};
+
+	printf("Testing ft_isdigit function:\n");
+	printf("Character '%c': %s\n", test_chars[0],
+		ft_isdigit(test_chars[0]) ? "Digit" : "Not a digit");
+	printf("Character '%c': %s\n", test_chars[1],
+		ft_isdigit(test_chars[1]) ? "Digit" : "Not a digit");
+	printf("Character '%c': %s\n", test_chars[2],
+		ft_isdigit(test_chars[2]) ? "Digit" : "Not a digit");
+	printf("Character '%c': %s\n", test_chars[3],
+		ft_isdigit(test_chars[3]) ? "Digit" : "Not a digit");
+	printf("Character '%c': %s\n", test_chars[4],
+		ft_isdigit(test_chars[4]) ? "Digit" : "Not a digit");
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:41 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:27:50 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_isprint(int c)
+{
+	if (c)
+	{
+		if ((c > 31 && c < 127))
+			return (1);
+	}
+	return (0);
+}
+/*
+int	main(void) {
+	char test_chars[] = {31, 'A', 127, '*', '?'};
+
+	printf("Testing ft_isprint function:\n");
+	printf("Character '%c': %s\n", test_chars[0],
+		ft_isprint(test_chars[0]) ? "Printable" : "Not printable");
+	printf("Character '%c': %s\n", test_chars[1],
+		ft_isprint(test_chars[1]) ? "Printable" : "Not printable");
+	printf("Character '%c': %s\n", test_chars[2],
+		ft_isprint(test_chars[2]) ? "Printable" : "Not printable");
+	printf("Character '%c': %s\n", test_chars[3],
+		ft_isprint(test_chars[3]) ? "Printable" : "Not printable");
+	printf("Character '%c': %s\n", test_chars[4],
+		ft_isprint(test_chars[4]) ? "Printable" : "Not printable");
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 14:52:17 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:29:10 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static int	count_num(long num)
+{
+	int	count;
+
+	count = 0;
+	if (num < 0)
+	{
+		count++;
+		num *= -1;
+	}
+	else if (num == 0)
+		return (1);
+	while ((unsigned int)num > 0)
+	{
+		count++;
+		num = (unsigned int)num / 10;
+	}
+	return (count);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*result;
+	long	num_count;
+
+	num_count = count_num(n);
+	result = malloc((num_count + 1) * sizeof(char));
+	if (n == 0)
+		result[0] = 48;
+	if (result == NULL)
+		return (NULL);
+	if (n < 0)
+	{
+		result[0] = '-';
+		n *= -1;
+	}
+	result[num_count] = '\0';
+	while ((num_count - 1) >= 0 && (unsigned int)n > 0)
+	{
+		result[num_count - 1] = ((unsigned int)n % 10) + 48;
+		n = (unsigned int)n / 10;
+		num_count--;
+	}
+	return (result);
+}
+
+/*
+int	main(void) {
+	int num = -12345;
+	char *str = ft_itoa(num);
+	if (str != NULL) {
+		printf("Integer: %d\nString: %s\n", num, str);
+		free(str); // Don't forget to free allocated memory
+	} else {
+		printf("Memory allocation failed\n");
+	}
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:44 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:29:56 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	unsigned char	*str;
+	unsigned char	cc;
+	size_t			i;
+
+	str = (unsigned char *)s;
+	cc = (unsigned char)c;
+	i = 0;
+	while (i < n)
+	{
+		if (str[i] == cc)
+			return ((void *)s + i);
+		i++;
+	}
+	return (NULL);
+}
+/*
+int	main(void) {
+	char str[] = "Hello, world!";
+	char *result;
+
+	// Search for 'o' character in str
+	result = ft_memchr(str, 'o', strlen(str));
+
+	if (result != NULL) {
+		printf("Character 'o' found at position: %ld\n", result - str);
+	} else {
+		printf("Character 'o' not found.\n");
+	}
+
+	// Search for 'x' character in str
+	result = ft_memchr(str, 'x', strlen(str));
+
+	if (result != NULL) {
+		printf("Character 'x' found at position: %ld\n", result - str);
+	} else {
+		printf("Character 'x' not found.\n");
+	}
+
+	return (0);
+}
+
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:48 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:30:38 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_memcmp(const void *dest, const void *src, size_t n)
+{
+	char	*str1;
+	char	*str2;
+	size_t	i;
+
+	i = 0;
+	str1 = (char *)dest;
+	str2 = (char *)src;
+	if (dest == NULL && src == NULL)
+		return (0);
+	if (i > n)
+		return (0);
+	while (i < n)
+	{
+		if (str1[i] != str2[i])
+			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+		i++;
+	}
+	return (0);
+}
+/*
+Variable Declarations :
+
+char *str1; and char *str2;: Pointers to characters used for comparing the
+contents of two memory areas. size_t i;: A variable to iterate through bytes
+in the loop.
+
+Pointer Assignment:
+
+str1 = (char *)dest;
+and	str2 = (char *)src;: Casting generic pointers to char pointers allows
+treating the data as bytes (1 byte per character).
+
+Initial Condition Checks:
+
+if (dest == NULL && src == NULL) return (0);: If both pointers are NULL,
+	it assumes that the memory areas are identical.
+if (i > n) return (0);: Checks if 'i' (loop counter) is greater than 'n'
+(the number of bytes to compare). If true, it returns 0.
+
+Byte Comparison in a Loop:
+
+while (i < n) { ... }: The loop iterates for each byte to compare
+(up to the specified n).
+if (str1[i] != str2[i]) return ((unsigned char)str1[i]
+	- (unsigned char)str2[i]);: Compares corresponding bytes. If they differ,
+	it returns the difference between them (casted to unsigned char).
+
+Returning the Result:
+
+If the loop iterates through all bytes, and no differences are found,
+	the function returns 0, indicating that the memory areas are identical.
+In summary, this function compares n bytes between two memory areas and
+returns the difference between them (or 0 if they are identical).
+*/
+
+/*
+int	main(void) {
+	char str1[] = "Hello, world!";
+	char str2[] = "Hello, world!";
+	char str3[] = "HELLO, WORLD!";
+	char str4[] = "Hello, wonderful world!";
+
+	printf("Comparing str1 and str2: %d\n", ft_memcmp(str1, str2, strlen(str1)
+			+ 1));
+	printf("Comparing str1 and str3: %d\n", ft_memcmp(str1, str3, strlen(str1)
+			+ 1));
+	printf("Comparing str1 and str4: %d\n", ft_memcmp(str1, str4, strlen(str1)
+			+ 1));
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:51 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:31:21 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	char			*d;
+	const char		*s;
+	unsigned int	i;
+
+	d = (char *)dest;
+	s = src;
+	i = 0;
+	while (i < n && (dest || src))
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return (dest);
+}
+/*
+int main() {
+    const char src[] = "This is the source string.";
+    char dest[50];
+    size_t n = sizeof(src);
+
+    ft_memcpy(dest, src, n);
+
+    printf("Source string: %s\n", src);
+    printf("Copied string: %s\n", dest);
+
+    return 0;
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:55 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:31:51 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memmove(void *dest, const void *src, size_t n)
+{
+	char	*d;
+	char	*s;
+
+	d = (char *)dest;
+	s = (char *)src;
+	if (dest <= src)
+	{
+		while (n--)
+		{
+			*d++ = *s++;
+		}
+	}
+	else if (dest > src)
+	{
+		d += n - 1;
+		s += n - 1;
+		while (n--)
+			*d-- = *s--;
+	}
+	return (dest);
+	if (!dest && !src)
+		return (dest);
+}
+/*
+
+int	main(void) {
+	char str[] = "This is a test string.";
+	char buffer[50];
+
+	// Move part of the string to the beginning
+	ft_memmove(buffer, str + 5, 10);
+
+	printf("Original string: %s\n", str);
+	printf("After memmove: %s\n", buffer);
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:00:59 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:33:13 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	*p;
+
+	p = s;
+	while (n > 0)
+	{
+		*p = (unsigned char)c;
+		p++;
+		n--;
+	}
+	return (s);
+}
+/*
+int	main(void) {
+	char str[20];
+
+	// Test 1: Set first 10 bytes of str to 'A'
+	ft_memset(str, 'A', 10);
+	printf("After memset: %s\n", str);
+
+	// Test 2: Set next 5 bytes of str to 'B'
+	ft_memset(str + 10, 'B', 5);
+	printf("After memset: %s\n", str);
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 18:59:26 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/20 19:04:32 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 18:59:16 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 19:58:37 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!fd || !s)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	write (fd, "\n", 1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 18:58:51 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/20 19:01:04 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	nb;
+
+	nb = n;
+	if (nb < 0)
+	{
+		write(fd, "-", 1);
+		nb *= -1;
+	}
+	if (nb > 9)
+	{
+		ft_putnbr_fd(nb / 10, fd);
+		ft_putchar_fd((nb % 10) + '0', fd);
+	}
+	else
+		ft_putchar_fd(nb + '0', fd);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 18:55:49 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/21 19:00:11 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/14 20:30:13 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/27 19:39:51 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static size_t	count_words(const char *s, char c)
+{
+	size_t	result;
+
+	result = 0;
+	while (*s)
+	{
+		if (*s != c)
+		{
+			result++;
+			while (*s && *s != c)
+				s++;
+		}
+		else
+			s++;
+	}
+	return (result);
+}
+
+char	**ft_split(const char *s, char c)
+{
+	char	**result;
+	size_t	i;
+	size_t	size;
+
+	if (!s)
+		return (0);
+	i = 0;
+	result = malloc(sizeof(char *) * (count_words(s, c) + 1));
+	if (!result)
+		return (0);
+	while (*s)
+	{
+		if (*s != c)
+		{
+			size = 0;
+			while (*s && *s != c && ++size)
+				s++;
+			result[i++] = ft_substr(s - size, 0, size);
+		}
+		else
+			s++;
+	}
+	result[i] = 0;
+	return (result);
+}
+/*
+int	main(void) {
+	// Test 1: Split a string by space
+	const char *str1 = "Hello world! This is a test.";
+	char **result1 = ft_split(str1, ' ');
+	printf("Test 1:\n");
+	for (int i = 0; result1[i] != NULL; ++i) {
+		printf("%s\n", result1[i]);
+	}
+	ft_free_strarray(result1);
+
+	// Test 2: Split a string by comma
+	const char *str2 = "apple,banana,orange";
+	char **result2 = ft_split(str2, ',');
+	printf("\nTest 2:\n");
+	for (int i = 0; result2[i] != NULL; ++i) {
+		printf("%s\n", result2[i]);
+	}
+	ft_free_strarray(result2);
+
+	// Test 3: Split a string with multiple consecutive delimiters
+	const char *str3 = "One  Two   Three";
+	char **result3 = ft_split(str3, ' ');
+	printf("\nTest 3:\n");
+	for (int i = 0; result3[i] != NULL; ++i) {
+		printf("%s\n", result3[i]);
+	}
+	ft_free_strarray(result3);
+
+	return (0);
+}
+
+// Free function for the string array returned by ft_split
+void	ft_free_strarray(char **str_array) {
+	if (str_array == NULL) return ;
+	for (int i = 0; str_array[i] != NULL; ++i) {
+		free(str_array[i]);
+	}
+	free(str_array);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:05 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:34:41 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (c == '\0')
+		return ((char *)s);
+	return (NULL);
+}
+/*
+int	main(void) {
+	const char *str = "Hello, world!";
+	int search_char = 'o';
+
+	// Test 1: Search for 'o' character in the string
+	char *result = ft_strchr(str, search_char);
+	if (result != NULL) {
+		printf("Character '%c' found at position: %ld\n", search_char, result
+			- str);
+	} else {
+		printf("Character '%c' not found.\n", search_char);
+	}
+
+	// Test 2: Search for 'x' character in the string
+	search_char = 'x';
+	result = ft_strchr(str, search_char);
+	if (result != NULL) {
+		printf("Character '%c' found at position: %ld\n", search_char, result
+			- str);
+	} else {
+		printf("Character '%c' not found.\n", search_char);
+	}
+
+	// Test 3: Search for '\0' character (null terminator)
+	search_char = '\0';
+	result = ft_strchr(str, search_char);
+	if (result != NULL) {
+		printf("Character '\\0' found at position: %ld\n", result - str);
+	} else {
+		printf("Character '\\0' not found.\n");
+	}
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:09 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:35:08 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strdup(const char *s)
+{
+	size_t	len;
+	size_t	i;
+	char	*dup;
+
+	len = ft_strlen(s) + 1;
+	i = 0;
+	dup = malloc(sizeof(char) * len);
+	if (dup == NULL)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+/*
+Strdup takes a pointer to a constant char (input string) and
+returns a pointer to a duplicated string.
+
+1:We need variables to store lenght of the string, an iterator
+and a pointer to duplicated string
+
+2:Calculate the length of the input string using "strlen",
+then adds 1 for the null terminator. This determines the amount
+of memory needed for the duplicated string.
+
+3: Use malloc to allocate memory for the duplicate string.
+he length is len, which includes space for characters and null
+terminator
+
+4: Check if memory allocation was succesfull. If not, the
+function immediatelly returns "NULL" to indicate error.
+
+5: Next we have to copie each character from the original string
+to the duplicated string using While loop.
+
+6: Next line adds the null terminator to the end of the duplicated
+string.
+
+7: Returns the pointer to the duplicated string.
+*/
+
+/*
+int	main(void)
+{
+	const char	*originalString = "Hello, World!";
+	char		*duplicatedString;
+
+	// Test ft_strdup function
+	duplicatedString = ft_strdup(originalString);
+	if (duplicatedString != NULL)
+	{
+		printf("Original String: %s\n", originalString);
+		printf("Duplicated String: %s\n", duplicatedString);
+		// Remember to free the allocated memory
+		free(duplicatedString);
+	}
+	else
+	{
+		printf("Memory allocation failed.\n");
+	}
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/10 19:17:42 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:36:05 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	int	i;
+
+	i = 0;
+	if (!s || !f)
+		return ;
+	while (s[i] != '\0')
+	{
+		f(i, &s[i]);
+		i++;
+	}
+}
+/*
+int	main(void) {
+	char str[] = "Hello, world!";
+
+	// Test ft_striteri with print_index_char callback
+	printf("Testing ft_striteri function:\n");
+	ft_striteri(str, &print_index_char);
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/09 17:30:40 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:36:36 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		j;
+	char	*result;
+
+	i = 0;
+	j = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	result = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!result)
+		return (NULL);
+	while (s1[i])
+		result[j++] = s1[i++];
+	i = 0;
+	while (s2[i])
+	{
+		result[j] = s2[i];
+		j++;
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
+/*
+int	main(void)
+{
+	const char	*str1 = "Hello, ";
+	const char	*str2 = "world!";
+	char		*result;
+
+	result = ft_strjoin(str1, str2);
+	if (result != NULL)
+	{
+		printf("Result: %s\n", result);
+		free(result); // Remember to free the allocated memory
+	}
+	else
+	{
+		printf("Memory allocation failed.\n");
+	}
+	return (0);
+}
+*/
+/*
+Parameters:
+s1: The prefix string.
+s2: The suffix string.
+
+Return value:
+The new string.
+NULL if the allocation fails.
+
+External functs.:
+malloc
+
+Description:
+Allocates (with malloc(3)) and returns a newstring, which is the result of
+the concatenation of ’s1’ and ’s2’.
+
+
+1: Allocates memory for the concatenated string. The allocated size is
+the sum of the lengths of s1 and s2, plus 1 for the null terminator.
+
+2: Checks if both input strings are NULL. If so, returns NULL, indicating
+that there's nothing to concatenate.
+
+3: Checks if the memory allocation was successful. If not,
+returns NULL to indicate a failure.
+
+4: Copies characters from s1 to the result string until the null terminator
+of s1 is encountered. Increments i after each copy.
+
+5: Appends characters from s2 to the result string, starting where s1 left off.
+Increments both i and j after each copy.
+
+6: Adds a null terminator at the end of the concatenated string to ensure it is
+properly terminated.
+
+7: Returns the pointer to the concatenated string (result).
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:13 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:37:06 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	dst_size;
+
+	i = ft_strlen(dst);
+	dst_size = ft_strlen(dst);
+	j = 0;
+	if (size && ft_strlen(dst) <= size)
+	{
+		while (src[j] != '\0' && i < (size - 1))
+		{
+			dst[i] = src[j];
+			i++;
+			j++;
+		}
+		dst[i] = '\0';
+	}
+	if (size == 0)
+		dst_size = 0;
+	if (size < dst_size)
+		dst_size = size;
+	return (dst_size + ft_strlen((char *)src));
+}
+/*
+int	main(void) {
+	char dst[20] = "Hello";
+	const char *src = ", world!";
+	size_t size = sizeof(dst);
+
+	// Test 1: Concatenate src to dst with size = 20
+	printf("Test 1:\n");
+	size_t result1 = ft_strlcat(dst, src, size);
+	printf("Result string: %s\n", dst);
+	printf("Result length: %zu\n", result1);
+
+	// Test 2: Concatenate src to dst with size = 10
+	char dst2[10] = "Hello";
+	printf("\nTest 2:\n");
+	size_t result2 = ft_strlcat(dst2, src, sizeof(dst2));
+	printf("Result string: %s\n", dst2);
+	printf("Result length: %zu\n", result2);
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:17 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:37:32 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (!src || !dst)
+		return (0);
+	if (size == 0)
+		return (ft_strlen(src));
+	while (src[i] != '\0' && i < size - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (ft_strlen(src));
+}
+/*
+int	main(void) {
+	char dst[20];
+	const char *src = "This is a test string.";
+
+	// Test 1: Copy src to dst with size = 20
+	printf("Test 1:\n");
+	size_t result1 = ft_strlcpy(dst, src, sizeof(dst));
+	printf("Result string: %s\n", dst);
+	printf("Result length: %zu\n", result1);
+
+	// Test 2: Copy src to dst with size = 10
+	char dst2[10];
+	printf("\nTest 2:\n");
+	size_t result2 = ft_strlcpy(dst2, src, sizeof(dst2));
+	printf("Result string: %s\n", dst2);
+	printf("Result length: %zu\n", result2);
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:21 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/17 19:01:22 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 18:58:34 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:37:58 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+{
+	char	*result;
+	int		i;
+
+	if (!s || !f)
+		return (NULL);
+	result = malloc((ft_strlen((char *)s) + 1) * sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		result[i] = f(i, s[i]);
+		i++;
+	}
+	result[i] = '\0';
+	return (result);
+}
+/*
+int	main(void) {
+	const char *str = "Hello, world!";
+
+	// Test ft_strmapi with transform_char callback
+	char *result = ft_strmapi(str, &transform_char);
+	printf("Transformed string: %s\n", result);
+
+	// Free allocated memory
+	free(result);
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:27 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:38:26 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (!n)
+		return (0);
+	while ((*(s1 + i) == *(s2 + i)))
+	{
+		if (i == (n - 1) || *(s1 + i) == '\0' || *(s2 + i) == '\0')
+			break ;
+		i++;
+	}
+	return ((unsigned char)*(s1 + i) - (unsigned char)*(s2 + i));
+}
+/*
+int	main(void) {
+	// Test 1: Compare two strings with n = 5
+	const char *str1 = "Hello";
+	const char *str2 = "Hella";
+	size_t n1 = 5;
+	printf("Test 1:\n");
+	int result1 = ft_strncmp(str1, str2, n1);
+	printf("Result: %d\n", result1);
+
+	// Test 2: Compare two strings with n = 3
+	const char *str3 = "apple";
+	const char *str4 = "banana";
+	size_t n2 = 3;
+	printf("\nTest 2:\n");
+	int result2 = ft_strncmp(str3, str4, n2);
+	printf("Result: %d\n", result2);
+
+	// Test 3: Compare two strings with n = 0
+	const char *str5 = "Hello";
+	const char *str6 = "Hello";
+	size_t n3 = 0;
+	printf("\nTest 3:\n");
+	int result3 = ft_strncmp(str5, str6, n3);
+	printf("Result: %d\n", result3);
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:30 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:38:54 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strnstr(const char *big, const char *little, size_t len)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	if (little[0] == '\0')
+		return ((char *)big);
+	while (big[i] != '\0' && i < len)
+	{
+		while (big[i + j] == little[j] && i + j < len)
+		{
+			if (little[j + 1] == '\0')
+				return ((char *)&big[i]);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	return (0);
+}
+/*
+int	main(void) {
+	// Test 1: Search for "world" in "Hello, world!" with len = 13
+	const char *str1 = "Hello, world!";
+	const char *substr1 = "world";
+	size_t len1 = 13;
+	printf("Test 1:\n");
+	char *result1 = ft_strnstr(str1, substr1, len1);
+	if (result1 != NULL) {
+		printf("Result: \"%s\"\n", result1);
+	} else {
+		printf("Substring not found.\n");
+	}
+
+	// Test 2: Search for "world" in "Hello, world!" with len = 6
+	const char *str2 = "Hello, world!";
+	const char *substr2 = "world";
+	size_t len2 = 6;
+	printf("\nTest 2:\n");
+	char *result2 = ft_strnstr(str2, substr2, len2);
+	if (result2 != NULL) {
+		printf("Result: \"%s\"\n", result2);
+	} else {
+		printf("Substring not found.\n");
+	}
+
+	// Test 3: Search for "world" in "Hello, world!" with len = 5
+	const char *str3 = "Hello, world!";
+	const char *substr3 = "world";
+	size_t len3 = 5;
+	printf("\nTest 3:\n");
+	char *result3 = ft_strnstr(str3, substr3, len3);
+	if (result3 != NULL) {
+		printf("Result: \"%s\"\n", result3);
+	} else {
+		printf("Substring not found.\n");
+	}
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:34 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:39:25 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strrchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	while (i >= 0)
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i--;
+	}
+	return (NULL);
+}
+// 7. Finding length of string s
+
+// 8. If c = '\0', we return pointer to the end of the string
+
+// 12. Iterating backwards throught the string in search for last c occurence
+
+// 16. Return NULL if c is nowhere to find
+
+/*
+int	main(void) {
+	const char *str = "Hello, world!";
+	int search_char = 'o';
+
+	// Test 1: Search for the last occurrence of 'o' character in the string
+	char *result = ft_strrchr(str, search_char);
+	if (result != NULL) {
+		printf("Last occurrence of character '%c' found at position: %ld\n",
+			search_char, result - str);
+	} else {
+		printf("Character '%c' not found.\n", search_char);
+	}
+
+	// Test 2: Search for the last occurrence of 'x' character in the string
+	search_char = 'x';
+	result = ft_strrchr(str, search_char);
+	if (result != NULL) {
+		printf("Last occurrence of character '%c' found at position: %ld\n",
+			search_char, result - str);
+	} else {
+		printf("Character '%c' not found.\n", search_char);
+	}
+
+	// Test 3: Search for the last occurrence of '\0' character (null terminator)
+	search_char = '\0';
+	result = ft_strrchr(str, search_char);
+	if (result != NULL) {
+		printf("Last occurrence of character '\\0' found at position: %ld\n",
+			result - str);
+	} else {
+		printf("Character '\\0' not found.\n");
+	}
+
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/13 11:03:40 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/25 21:39:34 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	is_in_set(const char c, const char *set)
+{
+	int	i;
+
+	i = 0;
+	while (set[i])
+	{
+		if (c == set[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	size_t	len;
+	char	*new_str;
+
+	if (!s1 || !set)
+		return (0);
+	while (s1 && is_in_set(*s1, set))
+	{
+		if (is_in_set(((char)*s1), set) == 1)
+			s1++;
+		else
+			break ;
+	}
+	len = ft_strlen(s1);
+	while (len != 0)
+	{
+		if (is_in_set(s1[len - 1], set) == 1)
+			len--;
+		else
+			break ;
+	}
+	new_str = malloc(len * sizeof(char) + 1);
+	if (!new_str)
+		return (0);
+	ft_strlcpy(new_str, (char *)s1, len + 1);
+	return (new_str);
+}
+/*
+1: Helper function that checks if a character c is present
+	in the set of characters set. It iterates through each character
+	in the set using a while loop. If it finds a match, it returns 1,
+	indicating that the character is in the set. If it doesn't find a
+	match after checking all characters in the set, it returns 0.
+
+2: Variables i and len, where i is used as a counter and len holds the
+	length of the input string s1.
+
+3: Allocates memory for the new trimmed string new_str using malloc,
+	ensuring to allocate enough space for the trimmed string plus the
+	null terminator.
+
+4: Checks if 's1', 'set', or 'new_str' are NULL. If any of them are,
+	it returns NULL to indicate an error or invalid input.
+
+5: Skips over leading charactersa the beginning and at the end in 's1'
+that are in the'set' using a while loop and the 'is_in_set' function.
+
+6: Copy the 'len'(remaining after trimming) characters from 's1' to 'new_str'.
+
+7: Add the null terminator at the end of new_str to ensure it is a valid C
+string, and returns new_str.
+*/
+/*
+
+int	main(void)
+{
+	const char	*original_string = "   Hello, World!   ";
+	const char	*set = " ";
+	char		*trimmed_string;
+
+	trimmed_string = ft_strtrim(original_string, set);
+	if (trimmed_string)
+	{
+		printf("Original string: \"%s\"\n", original_string);
+		printf("Trimmed string: \"%s\"\n", trimmed_string);
+		free(trimmed_string); // Remember to free allocated memory
+	}
+	else
+	{
+		printf("Error: Memory allocation failed.\n");
+	}
+	free()
+	return (0);
+}
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 18:58:26 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/29 16:51:59 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*sub;
+	size_t	i;
+	size_t	j;
+
+	i = start;
+	j = 0;
+	sub = (char *)malloc(len + 1);
+	if (!s || !sub)
+		return (NULL);
+	while (i < ft_strlen(s) && j < len)
+		sub[j++] = s[i++];
+	sub[j] = '\0';
+	return (sub);
+}
+/*
+int	main(void)
+{
+	const char		*originalString = "Hello, World!";
+	unsigned int	start;
+	size_t			length;
+	char			*substring;
+
+	start = 7;
+	length = 5;
+	// Test ft_substr function
+	substring = ft_substr(originalString, start, length);
+	if (substring != NULL)
+	{
+		printf("Original String: %s\n", originalString);
+		printf("Substring: %s\n", substring);
+		// Remember to free the allocated memory
+		free(substring);
+	}
+	else
+	{
+		printf("Memory allocation or index out of bounds.\n");
+	}
+	return (0);
+}
+*/
+/*
+Description :
+ Allocates (with malloc(3)) and returns a substring from the string ’s’.
+The substring begins at index ’start’ and is of maximum size ’len’.
+
+*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:38 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/21 18:51:14 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_tolower(int c)
+{
+	if (c >= 65 && c <= 90)
+		return (c + 32);
+	return (c);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/17 19:01:44 by mkrawczy          #+#    #+#             */
+/*   Updated: 2024/03/21 18:50:28 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int	ft_toupper(int c)
+{
+	if (c >= 97 && c <= 122)
+		return (c - 32);
+	return (c);
+}
