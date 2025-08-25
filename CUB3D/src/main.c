@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 17:33:53 by mkrawczy          #+#    #+#             */
+/*   Updated: 2025/08/25 17:33:54 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 static void	handle_input(t_game *g)
@@ -117,6 +129,11 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-
 // gcc cub3d.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
-// export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+// export DISPLAY=$(awk '/nameserver
+/
+{
+	print $2;
+	exit
+}
+'/etc/resolv.conf 2>/dev/null):0

@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:05:21 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/05/22 18:12:21 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:42:19 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_usleep(t_philo *philo, size_t milliseconds)
 	start = get_time();
 	while ((get_time() - start) < milliseconds)
 	{
-		usleep(500);
+		usleep(700);
 		if (check_if_dead(philo) == 0)
 			return (1);
 	}

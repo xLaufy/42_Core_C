@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:05:09 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/05/22 18:12:21 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:08:13 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	start_threads(t_philo *philo, t_data *data)
 	while (i < data->num_philo)
 	{
 		pthread_create(&data->threads[i], NULL,
-		               live, (void *)&philo[i]);
+			live, (void *)&philo[i]);
 		pthread_create(&data->threads[i + data->num_philo], NULL,
-		               death_monitor, (void *)&philo[i]);
+			death_monitor, (void *)&philo[i]);
 		i++;
 	}
 }

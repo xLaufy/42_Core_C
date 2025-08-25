@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 17:34:11 by mkrawczy          #+#    #+#             */
+/*   Updated: 2025/08/25 17:34:11 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // #include "../include/game.h"
 
 // void	get_player_position(char **map)
@@ -29,7 +41,7 @@
 // }
 
 // void init_player(t_player *player)
-// { 
+// {
 
 //     get_player_position(square)
 //     player->x = WIDTH / 2;
@@ -75,7 +87,7 @@
 //         player->l_rotate = false;
 //     if(keycode == R_RIGHT)
 //         player->r_rotate = false;
-//     return 0;
+//     return (0);
 //     return (0);
 // }
 
@@ -86,12 +98,11 @@
 //     float cos_angle;
 //     float sin_angle;
 
-
 //     speed = 3;
 //     angle_speed = 0.06;
 //     cos_angle = cos(player->fov);
 //     sin_angle = sin(player->fov);
-    
+
 //     if (player->l_rotate)
 //         player->fov -= angle_speed;
 //     if (player->r_rotate)
@@ -122,5 +133,3 @@
 //         player->y += cos_angle * speed;
 //     }
 // }
-
-

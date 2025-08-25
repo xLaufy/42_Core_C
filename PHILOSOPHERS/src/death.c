@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:05:04 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/05/22 18:12:21 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:09:54 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	*death_monitor(void *arg)
 		if (ph->data->simulation_end)
 		{
 			pthread_mutex_unlock(&ph->data->write);
-			break;
+			break ;
 		}
 		elapsed = (get_time() - ph->start_time) - ph->last_meal;
 		if (elapsed > ph->data->time_to_die)
@@ -64,7 +64,7 @@ void	*death_monitor(void *arg)
 			message("died", ph);
 			ph->data->simulation_end = 1;
 			pthread_mutex_unlock(&ph->data->write);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&ph->data->write);
 		usleep(1000);

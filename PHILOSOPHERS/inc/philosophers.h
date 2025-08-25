@@ -6,7 +6,7 @@
 /*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:05:15 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/05/22 18:05:42 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:07:40 by mkrawczy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_philo
 
 void				*live(void *data);
 int					check_if_dead(t_philo *philo);
-void	*death_monitor(void *arg);
+void				*death_monitor(void *arg);
 
 void				init_data(t_data *data, char **argv, int argc);
 void				init_forks(t_data *data);

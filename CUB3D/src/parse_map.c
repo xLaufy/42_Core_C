@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 17:34:04 by mkrawczy          #+#    #+#             */
+/*   Updated: 2025/08/25 17:34:04 by mkrawczy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
-/* prototypy z parse_id.c */
-int		set_id(t_scene *sc, char *line);
-char	**load_lines(const char *path);
+int					set_id(t_scene *sc, char *line);
+char				**load_lines(const char *path);
 
 static const char	*skip_ws(const char *s)
 {
@@ -31,7 +42,6 @@ static int	is_id_line(const char *raw)
 	return (0);
 }
 
-/* duplikat linii bez końcowego '\r' (gdy plik ma CRLF) */
 static char	*dup_no_cr(const char *ln)
 {
 	size_t	len;
@@ -152,7 +162,6 @@ void	parse_cub(const char *path, t_scene *sc)
 	if (!ls)
 		exit(1);
 	i = 0;
-	/* 1) sekcja ID: pomijaj puste/whitespace-tylko linie; akceptuj spacje/taby */
 	while (ls[i])
 	{
 		trim = ft_strtrim(ls[i], " \t\r\n");
@@ -162,7 +171,7 @@ void	parse_cub(const char *path, t_scene *sc)
 		{
 			free(trim);
 			i++;
-			continue;
+			continue ;
 		}
 		if (is_id_line(ls[i]))
 		{
@@ -173,12 +182,11 @@ void	parse_cub(const char *path, t_scene *sc)
 			}
 			free(trim);
 			i++;
-			continue;
+			continue ;
 		}
 		free(trim);
-		break;
+		break ;
 	}
-	/* 2) sekcja mapy: bierz wszystko do końca (bez zżerania spacji), ale obetnij \r */
 	while (ls[i])
 	{
 		push_line(sc, ls[i]);
