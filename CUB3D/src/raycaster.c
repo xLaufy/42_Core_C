@@ -1,77 +1,131 @@
-#include "../include/game.h"
+#include "../include/cub3d.h"
 
-bool touch(float px, float py, t_game *game)
+/* prosta kontrola ściany w mapie-kwadratach (cells) */
+static int	is_wall(t_scene *sc, int mx, int my)
 {
-    int x;
-    int y;
-
-    x = px / BLOCK;
-    y = py / BLOCK;
-    if (game->map[y][x] == '1')
-        return (true);
-    return (false);
+	if (mx < 0 || my < 0 || mx >= sc->w || my >= sc->h)
+		return (1);
+	return (sc->map[my][mx] == '1');
 }
 
-float distance(float x, float y)
+static unsigned int	texel_at(t_texture *t, int tx, int ty)
 {
-    return (sqrt(x * x + y * y));
+	int	i;
+
+	if (tx < 0) tx = 0; if (tx >= t->w) tx = t->w - 1;
+	if (ty < 0) ty = 0; if (ty >= t->h) ty = t->h - 1;
+	i = ty * t->line_len + tx * (t->bpp / 8);
+	return ((unsigned char)t->data[i]
+		| ((unsigned char)t->data[i + 1] << 8)
+		| ((unsigned char)t->data[i + 2] << 16));
 }
 
-float fixed_dist(float x1, float y1, float x2, float y2, t_game *game)
+void	cast_and_draw_all(t_game *g)
 {
-    float delta_x = x2 - x1;
-    float delta_y = y2 - y1;
-    float fov = atan2(delta_y, delta_x) - game->player.fov;
-    float fix_dist = distance(delta_x, delta_y) * cos(fov);
-    return fix_dist;
-}
+	const float	fov = 60.0f * PI_VAL / 180.0f;
+	const float	dir0 = g->pl.dir - fov / 2.0f;
+	const float	step_ang = fov / (float)W_WIDTH;
 
-void draw_line(t_player *player, t_game *game, float start_x, int i)
-{
-    float cos_angle;
-	float sin_angle;
-    float ray_x;
-    float ray_y;
-    float dist;
-    float wall_height;
-    int start_y;
-    int end;
-    int floor;
-    int ceiling;
+	const float	posX = g->pl.x / (float)TILE; /* pozycja w jednostkach pól */
+	const float	posY = g->pl.y / (float)TILE;
 
-    cos_angle = cos(start_x);
-	sin_angle = sin(start_x);
-    ray_x = player->x;
-    ray_y = player->y;
+	int	x = 0;
+	while (x < W_WIDTH)
+	{
+		float	ray_ang = dir0 + step_ang * (float)x;
+		float	ray_dx = cosf(ray_ang);
+		float	ray_dy = sinf(ray_ang);
 
-    while (!touch(ray_x, ray_y, game))
-    {
-        ray_x += cos_angle;
-        ray_y += sin_angle;
-    }
+		/* DDA setup (wszystko w jednostkach pól) */
+		int		mapX = (int)posX;
+		int		mapY = (int)posY;
+		float	sideDistX;
+		float	sideDistY;
+		float	deltaDistX = (ray_dx == 0.0f) ? 1e30f : fabsf(1.0f / ray_dx);
+		float	deltaDistY = (ray_dy == 0.0f) ? 1e30f : fabsf(1.0f / ray_dy);
+		int		stepX = (ray_dx < 0.0f) ? -1 : 1;
+		int		stepY = (ray_dy < 0.0f) ? -1 : 1;
 
-    dist = fixed_dist(player->x, player->y, ray_x, ray_y, game);
-    wall_height = (BLOCK / dist) * (WIDTH / 2);
-    start_y = (HEIGHT - wall_height) / 2;
-    end = start_y + wall_height;
-    floor = (HEIGHT - wall_height) / 2;
-    ceiling = start_y;
-    
-    while (ceiling > 0)
-    {
-        put_pixel(i, ceiling, 0x66B2FF, game);
-        ceiling--;
-    }
-    
-    while (floor < HEIGHT)
-    {
-        put_pixel(i, floor, 0xE0E0E0, game);
-        floor++;
-    }
+		float	posXfrac = posX - floorf(posX);
+		float	posYfrac = posY - floorf(posY);
 
-    while (start_y < end)
-    {
-        put_pixel(i, start_y, 0x663300, game);
-        start_y++;
-    }
+		if (ray_dx < 0.0f)
+			sideDistX = posXfrac * deltaDistX;
+		else
+			sideDistX = (1.0f - posXfrac) * deltaDistX;
+		if (ray_dy < 0.0f)
+			sideDistY = posYfrac * deltaDistY;
+		else
+			sideDistY = (1.0f - posYfrac) * deltaDistY;
+
+		int		side = -1; /* 0: trafienie na ścianie pionowej (E/W), 1: poziomej (N/S) */
+		while (1)
+		{
+			if (sideDistX < sideDistY)
+			{
+				sideDistX += deltaDistX;
+				mapX += stepX;
+				side = 0;
+			}
+			else
+			{
+				sideDistY += deltaDistY;
+				mapY += stepY;
+				side = 1;
+			}
+			if (is_wall(&g->sc, mapX, mapY))
+				break ;
+		}
+
+		/* odległość prostopadła do kamery (NIE euklidesowa!) w jednostkach pól */
+		float	perp;
+		if (side == 0)
+			perp = (mapX - posX + (stepX < 0 ? 1.0f : 0.0f)) / ray_dx;
+		else
+			perp = (mapY - posY + (stepY < 0 ? 1.0f : 0.0f)) / ray_dy;
+
+		/* wysokość kolumny – zależy od WYSOKOŚCI okna, nie szerokości */
+		int		line_h = (int)(W_HEIGHT / perp);
+		int		draw_start = -line_h / 2 + W_HEIGHT / 2;
+		int		draw_end = line_h / 2 + W_HEIGHT / 2;
+		if (draw_start < 0) draw_start = 0;
+		if (draw_end >= W_HEIGHT) draw_end = W_HEIGHT - 1;
+
+		/* współrzędna „u” trafienia na ścianie (0..1), w jednostkach pól */
+		float	wallx;
+		if (side == 0)
+			wallx = posY + perp * ray_dy;
+		else
+			wallx = posX + perp * ray_dx;
+		wallx -= floorf(wallx);
+
+		/* wybór tekstury po stronie świata + ewentualne odwrócenie texX */
+		t_texture	*tex;
+		if (side == 0 && stepX < 0) tex = &g->tex_we; /* zachód */
+		else if (side == 0)         tex = &g->tex_ea; /* wschód */
+		else if (side == 1 && stepY < 0) tex = &g->tex_no; /* północ */
+		else                        tex = &g->tex_so; /* południe */
+
+		int		texX = (int)(wallx * (float)tex->w);
+		/* odwróć kolumnę tekstury, żeby orientacja była poprawna */
+		if (side == 0 && ray_dx > 0.0f)  texX = tex->w - texX - 1;
+		if (side == 1 && ray_dy < 0.0f)  texX = tex->w - texX - 1;
+
+		/* stały krok w teksturze na każdy piksel kolumny → brak „rozciągania” */
+		float	step = (float)tex->h / (float)line_h;
+		float	texPos = (draw_start - (W_HEIGHT / 2 - line_h / 2)) * step;
+
+		int	y = draw_start;
+		while (y <= draw_end)
+		{
+			int texY = (int)texPos;
+			unsigned int c = texel_at(tex, texX, texY);
+			/* (opcjonalnie) lekkie przyciemnienie ścian „side==1” dla lepszego odbioru:
+			   if (side==1) c = ((c & 0xFEFEFE) >> 1); */
+			put_pixel(x, y, c, g);
+			texPos += step;
+			y++;
+		}
+		x++;
+	}
 }

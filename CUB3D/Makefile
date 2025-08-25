@@ -1,6 +1,6 @@
 NAME	= cub3d 
 BIN 	= bin
-SRC		= src/main.c src/image.c src/player.c 		   src/map.c src/raycaster.c
+SRC		= src/main.c src/image.c src/textures.c src/raycaster.c src/parse_id.c src/parse_map.c src/utils.c
 INCS	= include/
 LIBMLX_INCS	= /usr/local/include
 LIBFT	= libft

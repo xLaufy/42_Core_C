@@ -1,47 +1,77 @@
-#include "../include/game.h"
+#include "../include/cub3d.h"
 
-void put_pixel(int x, int y, int color, t_game *game)
+void	put_pixel(int x, int y, int color, t_game *g)
 {
-	if (x >= WIDTH || y >= HEIGHT || x <= 0 || y <= 0)
-		return;
-	int index = y * game->line_len + x * game->bpp / 8;
-	game->data[index] = color & 0xFF;
-	game->data[index + 1] = (color >> 8) & 0xFF;
-	game->data[index + 2] = (color >> 16) & 0xFF;
+	int	i;
 
-}	
+	if (x < 0 || y < 0)
+		return ;
+	if (x >= W_WIDTH || y >= W_HEIGHT)
+		return ;
+	i = y * g->line_len + x * (g->bpp / 8);
+	g->data[i + 0] = color & 0xFF;
+	g->data[i + 1] = (color >> 8) & 0xFF;
+	g->data[i + 2] = (color >> 16) & 0xFF;
+}
 
-void init_game(t_game *game)
+static void	set_player_from_spawn(t_game *g)
 {
-	game->map = get_map();
-	if (!game->map) {
-        fprintf(stderr, "Error: Map initialization failed\n");
-        exit(EXIT_FAILURE);
-    }
-	init_player(&game->player);
-	game->mlx_ptr = mlx_init();
-	if (!game->mlx_ptr) {
-        fprintf(stderr, "Error: MLX initialization failed\n");
-        exit(EXIT_FAILURE);
-    }
-	game->win_ptr = mlx_new_window(game->mlx_ptr, WIDTH, HEIGHT, "CUB3D");
-	 if (!game->win_ptr) {
-        fprintf(stderr, "Error: Window creation failed\n");
-        exit(EXIT_FAILURE);
-    }
-	game->img_ptr = mlx_new_image(game->mlx_ptr, WIDTH, HEIGHT);
-	if (!game->img_ptr) {
-        fprintf(stderr, "Error: Image creation failed\n");
-        exit(EXIT_FAILURE);
-    }
-	game->data = mlx_get_data_addr(game->img_ptr, &game->bpp, &game->line_len, &game->endian);
-	 if (!game->data) {
-        fprintf(stderr, "Error: Data address retrieval failed\n");
-        exit(EXIT_FAILURE);
-    }
-	
-	game->width    = WIDTH;
-    game->height   = HEIGHT;
-	
-	mlx_put_image_to_window (game->mlx_ptr, game->win_ptr, game->img_ptr, 0, 0);
+	int		y;
+	int		x;
+	char	c;
+
+	y = 0;
+	while (y < g->sc.h)
+	{
+		x = 0;
+		while (x < g->sc.w)
+		{
+			c = g->sc.map[y][x];
+			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+			{
+				g->pl.x = x * TILE + TILE / 2.0f;
+				g->pl.y = y * TILE + TILE / 2.0f;
+				if (c == 'N')
+					g->pl.dir = -PI_VAL / 2.0f;
+				if (c == 'S')
+					g->pl.dir = PI_VAL / 2.0f;
+				if (c == 'E')
+					g->pl.dir = 0.0f;
+				if (c == 'W')
+					g->pl.dir = PI_VAL;
+				g->sc.map[y][x] = '0';
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+void	init_game(t_game *g, const char *cub_path)
+{
+	parse_cub(cub_path, &g->sc);
+	g->mlx = mlx_init();
+	if (!g->mlx)
+		exit(1);
+	g->win = mlx_new_window(g->mlx, W_WIDTH, W_HEIGHT, "cub3D");
+	if (!g->win)
+		exit(1);
+	g->img = mlx_new_image(g->mlx, W_WIDTH, W_HEIGHT);
+	if (!g->img)
+		exit(1);
+	g->data = mlx_get_data_addr(g->img, &g->bpp, &g->line_len, &g->endian);
+	load_textures(g);
+	set_player_from_spawn(g);
+}
+
+int	close_game(t_game *g)
+{
+	destroy_textures(g);
+	if (g->img)
+		mlx_destroy_image(g->mlx, g->img);
+	if (g->win)
+		mlx_destroy_window(g->mlx, g->win);
+	free_scene(&g->sc);
+	exit(0);
+	return (0);
 }
