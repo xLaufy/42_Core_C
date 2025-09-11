@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:34:14 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/08/25 17:34:14 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:24:14 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static unsigned int	texel_at(t_texture *t, int tx, int ty)
 
 void	cast_and_draw_all(t_game *g)
 {
-	const float		fov;
-	const float		dir0;
-	const float		step_ang;
-	const float		posX;
-	const float		posY;
+	float		fov;
+	float		dir0;
+	float		step_ang;
+	float		posX;
+	float		posY;
 	int				x;
 	float			ray_ang;
 	float			ray_dx;

@@ -22,8 +22,8 @@ static char	*read_all(const char *p)
 	int		fd;
 	ssize_t	rb;
 	char	buf[1024];
-	chari	*all;
-	chari	*tmp;
+	char	*all;
+	char	*tmp;
 
 	all = ft_strdup("");
 	fd = open(p, O_RDONLY);
