@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/08/25 19:34:31 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/11 20:01:31 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_cast
 	float		wallx;
 	int			top;
 	int			bot;
+	int			tex_z;
 }				t_cast;
 
 typedef struct s_game
