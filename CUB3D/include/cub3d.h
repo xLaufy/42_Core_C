@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/11 20:01:31 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:47:14 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_cast
 	float		wallx;
 	int			top;
 	int			bot;
-	int			tex_z;
+	int			tex_x;
 }				t_cast;
 
 typedef struct s_game
@@ -108,6 +108,14 @@ typedef struct s_game
 	t_texture	tex_we;
 	t_texture	tex_ea;
 }				t_game;
+
+static void	init_ray_params(t_game *g, int x, t_cast *cast, float dir0,
+		float step_ang);
+static void	perform_dda(t_game *g, t_cast *cast);
+static void calculate_distance_and_height(t_game *g, t_cast *cast, float posX, float posY);
+static t_texture *select_texture_and_coords(t_game *g, t_cast *cast, float posX, float posY);
+static void draw_wall_strip(t_game *g, int x, t_cast *cast, t_texture *tex);
+void cast_and_draw_all(t_game *g);
 
 void			init_game(t_game *g, const char *cub_path);
 int				close_game(t_game *g);
