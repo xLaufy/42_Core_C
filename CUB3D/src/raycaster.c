@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:20:00 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/14 16:59:32 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/14 19:09:47 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_collision(t_scene *sc, float new_x, float new_y)
 	int	mapX;
 	int	mapY;
 
-	float radius = TILE * 0.1f; // minimalna odleglosc od sciany
+	float radius = TILE * 0.2f; // minimalna odleglosc od sciany
 	mapX = (int)(new_x / TILE);
 	mapY = (int)(new_y / TILE);
 	// spawdzamy center
@@ -162,11 +162,11 @@ static void	distance_and_height(t_game *g, t_cast *cast, float posX, float posY)
 		else
 			cast->euclidean_dist = (cast->map_y - posY) / cast->dy;
 	}
-	if (cast->euclidean_dist < 0.01f)
-		cast->euclidean_dist = 0.01f;
+	if (cast->euclidean_dist < 0.8f)
+		cast->euclidean_dist = 1.0f;
 	cast->perp = cast->euclidean_dist * cosf(g->pl.dir - cast->ray_ang);
-	if (cast->perp < 0.01f)
-		cast->perp = 0.01f;
+	if (cast->perp < 0.8f)
+		cast->perp = 1.0f;
 	line_h = (int)(W_HEIGHT / cast->perp);
 	cast->top = -line_h / 2 + W_HEIGHT / 2;
 	cast->bot = line_h / 2 + W_HEIGHT / 2;
