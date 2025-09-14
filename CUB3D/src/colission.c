@@ -6,8 +6,10 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:50:27 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/01 18:50:55 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/14 16:59:46 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+

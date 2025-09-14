@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:20:00 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/13 19:06:34 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/14 16:59:32 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,33 @@ static int	is_wall(t_scene *sc, int mx, int my)
 	if (mx < 0 || my < 0 || mx >= sc->w || my >= sc->h)
 		return (1);
 	return (sc->map[my][mx] == '1');
+}
+
+int	check_collision(t_scene *sc, float new_x, float new_y)
+{
+	int	mapX;
+	int	mapY;
+
+	float radius = TILE * 0.1f; // minimalna odleglosc od sciany
+	mapX = (int)(new_x / TILE);
+	mapY = (int)(new_y / TILE);
+	// spawdzamy center
+	if (is_wall(sc, mapX, mapY))
+		return (1);
+	// sprawdzamy katy radiusu
+	if (is_wall(sc, (int)((new_x - radius) / TILE), (int)((new_y - radius)
+				/ TILE)))
+		return (1);
+	if (is_wall(sc, (int)((new_x + radius) / TILE), (int)((new_y - radius)
+				/ TILE)))
+		return (1);
+	if (is_wall(sc, (int)((new_x - radius) / TILE), (int)((new_y + radius)
+				/ TILE)))
+		return (1);
+	if (is_wall(sc, (int)((new_x + radius) / TILE), (int)((new_y + radius)
+				/ TILE)))
+		return (1);
+	return (0);
 }
 
 static unsigned int	texel_at(t_texture *t, int tx, int ty)
@@ -46,28 +73,26 @@ static unsigned int	texel_at(t_texture *t, int tx, int ty)
 static void	init_ray_params(t_game *g, int x, t_cast *cast, float dir0,
 		float step_ang)
 {
-	float	ray_ang;
 	float	posXfrac;
 	float	posYfrac;
 	float	deltaDistX;
 	float	deltaDistY;
 
-	ray_ang = dir0 + step_ang * (float)x;
-	cast->dx = cosf(ray_ang);                   // kierunex x
-	cast->dy = sinf(ray_ang);                   // kierunek y
-	cast->map_x = (int)(g->pl.x / (float)TILE); // nastepna klatka
+	cast->ray_ang = dir0 + step_ang * (float)x;
+	cast->dx = cosf(cast->ray_ang);
+	cast->dy = sinf(cast->ray_ang);
+	cast->map_x = (int)(g->pl.x / (float)TILE);
 	cast->map_y = (int)(g->pl.y / (float)TILE);
 	posXfrac = (g->pl.x / (float)TILE) - (int)(g->pl.x / (float)TILE);
 	posYfrac = (g->pl.y / (float)TILE) - (int)(g->pl.y / (float)TILE);
 	if (cast->dx == 0.0f)
-		deltaDistX = 1e30f; // unikam dzielenie na 0
+		deltaDistX = 1e30f;
 	else
 		deltaDistX = ft_fabsf(1.0f / cast->dx);
 	if (cast->dy == 0.0f)
 		deltaDistY = 1e30f;
 	else
 		deltaDistY = ft_fabsf(1.0f / cast->dy);
-	// kierunek przesuniencza
 	if (cast->dx < 0.0f)
 		cast->step_x = -1;
 	else
@@ -76,7 +101,6 @@ static void	init_ray_params(t_game *g, int x, t_cast *cast, float dir0,
 		cast->step_y = -1;
 	else
 		cast->step_y = 1;
-	// odleglosc do pirwszej linii
 	if (cast->dx < 0.0f)
 		cast->side_dx = posXfrac * deltaDistX;
 	else
@@ -85,7 +109,7 @@ static void	init_ray_params(t_game *g, int x, t_cast *cast, float dir0,
 		cast->side_dy = posYfrac * deltaDistY;
 	else
 		cast->side_dy = (1.0f - posYfrac) * deltaDistY;
-	cast->side = -1; // dokad nie znadziemy sciane
+	cast->side = -1;
 }
 
 static void	perform_dda(t_game *g, t_cast *cast)
@@ -113,65 +137,67 @@ static void	perform_dda(t_game *g, t_cast *cast)
 		{
 			cast->side_dy += delta_dist_y;
 			cast->map_y += cast->step_y;
-			cast->side = 1; // horyzontalna sciana
+			cast->side = 1;
 		}
 		if (is_wall(&g->sc, cast->map_x, cast->map_y))
 			break ;
 	}
 }
 
-// rozliczenia wysok. ta odl. od sciany
-static void	distance_and_height(t_game *g, t_cast *cast, float posX,
-		float posY)
+static void	distance_and_height(t_game *g, t_cast *cast, float posX, float posY)
 {
+	int	line_h;
+
 	if (cast->side == 0)
 	{
 		if (cast->step_x < 0)
-			cast->perp = (cast->map_x - posX + 1.0f) / cast->dx;
+			cast->euclidean_dist = (cast->map_x - posX + 1.0f) / cast->dx;
 		else
-			cast->perp = (cast->map_x - posX) / cast->dx;
+			cast->euclidean_dist = (cast->map_x - posX) / cast->dx;
 	}
 	else
 	{
 		if (cast->step_y < 0)
-			cast->perp = (cast->map_y - posY + 1.0f) / cast->dy;
+			cast->euclidean_dist = (cast->map_y - posY + 1.0f) / cast->dy;
 		else
-			cast->perp = (cast->map_y - posY) / cast->dy;
+			cast->euclidean_dist = (cast->map_y - posY) / cast->dy;
 	}
-	// dzielenie na 0
+	if (cast->euclidean_dist < 0.01f)
+		cast->euclidean_dist = 0.01f;
+	cast->perp = cast->euclidean_dist * cosf(g->pl.dir - cast->ray_ang);
 	if (cast->perp < 0.01f)
 		cast->perp = 0.01f;
-	int line_h = (int)(W_HEIGHT / cast->perp); // wysokosc
-	cast->top = -line_h / 2 + W_HEIGHT / 2;    // poczatek
-	cast->bot = line_h / 2 + W_HEIGHT / 2;     // koniec linii
+	line_h = (int)(W_HEIGHT / cast->perp);
+	cast->top = -line_h / 2 + W_HEIGHT / 2;
+	cast->bot = line_h / 2 + W_HEIGHT / 2;
 	if (cast->top < 0)
 		cast->top = 0;
 	if (cast->bot >= W_HEIGHT)
 		cast->bot = W_HEIGHT - 1;
 }
 
-// textury ta coords
-static t_texture	*texture_and_coords(t_game *g, t_cast *cast,
-		float posX, float posY)
+static t_texture	*texture_and_coords(t_game *g, t_cast *cast, float posX,
+		float posY)
 {
 	t_texture	*tex;
 
-	// coord wtrap w sciane
 	if (cast->side == 0)
-		cast->wallx = posY + cast->perp * cast->dy;
+		cast->wallx = posY + cast->euclidean_dist * cast->dy;
 	else
-		cast->wallx = posX + cast->perp * cast->dx;
-	cast->wallx -= floorf(cast->wallx);
-	// wybor textury
+		cast->wallx = posX + cast->euclidean_dist * cast->dx;
+	cast->wallx -= (int)cast->wallx;
+	if (cast->wallx < 0.0f)
+		cast->wallx += 1.0f;
+	if (cast->wallx >= 1.0f)
+		cast->wallx -= 1.0f;
 	if (cast->side == 0 && cast->step_x < 0)
-		tex = &g->tex_we; // sciany
+		tex = &g->tex_we;
 	else if (cast->side == 0)
 		tex = &g->tex_ea;
 	else if (cast->side == 1 && cast->step_y < 0)
 		tex = &g->tex_no;
 	else
 		tex = &g->tex_so;
-	// x textury
 	cast->tex_x = (int)(cast->wallx * (float)tex->w);
 	if (cast->side == 0 && cast->dx > 0.0f)
 		cast->tex_x = tex->w - cast->tex_x - 1;
@@ -180,25 +206,32 @@ static t_texture	*texture_and_coords(t_game *g, t_cast *cast,
 	return (tex);
 }
 
-// rys linii
 static void	draw_wall_strip(t_game *g, int x, t_cast *cast, t_texture *tex)
 {
-	float	step;
-	float	texPos;
-	int		y;
-	int		texY;
+	float			step;
+	float			texPos;
+	int				y;
+	int				texY;
+	unsigned int	c;
+	int				line_height;
 
-	step = (float)tex->h / (float)(cast->bot - cast->top + 1);
-	texPos = (cast->top - (W_HEIGHT / 2 - (cast->bot - cast->top + 1) / 2))
-		* step;
+	line_height = cast->bot - cast->top + 1;
+	if (line_height < 1)
+		line_height = 1;
+	step = (float)tex->h / (float)line_height;
+	texPos = (cast->top - (W_HEIGHT / 2 - line_height / 2)) * step;
 	y = cast->top;
 	while (y <= cast->bot)
 	{
 		texY = (int)texPos;
-		unsigned int c = texel_at(tex, cast->tex_x, texY);
+		if (texY < 0)
+			texY = 0;
+		if (texY >= tex->h)
+			texY = tex->h - 1;
+		c = texel_at(tex, cast->tex_x, texY);
 		if (cast->side == 1)
-			c = ((c & 0xFEFEFE) >> 1); // dla cieni
-		put_pixel(x, y, c, g);         // draw pixel
+			c = ((c & 0xFEFEFE) >> 1);
+		put_pixel(x, y, c, g);
 		texPos += step;
 		y++;
 	}
@@ -206,22 +239,27 @@ static void	draw_wall_strip(t_game *g, int x, t_cast *cast, t_texture *tex)
 
 void	cast_and_draw_all(t_game *g)
 {
-	float	posY;
-	int		x;
+	float		posY;
+	int			x;
+	t_cast		cast;
+	t_texture	*tex;
+	float		fov;
+	float		dir0;
+	float		step_ang;
+	float		posX;
 
-	float fov = 30.0f * PI_VAL / 180.0f;   // kat wzroku
-	float dir0 = g->pl.dir - fov / 2.0f;   // kat sprawdania
-	float step_ang = fov / (float)W_WIDTH; // kat stepu
-	float posX = g->pl.x / (float)TILE;    // pozycja gracza w tailach
+	fov = 60.0f * PI_VAL / 180.0f;
+	dir0 = g->pl.dir - fov / 2.0f;
+	step_ang = fov / (float)W_WIDTH;
+	posX = g->pl.x / (float)TILE;
 	posY = g->pl.y / (float)TILE;
 	x = 0;
 	while (x < W_WIDTH)
 	{
-		t_cast cast;
 		init_ray_params(g, x, &cast, dir0, step_ang);
 		perform_dda(g, &cast);
-		calculate_distance_and_height(g, &cast, posX, posY);
-		t_texture *tex = select_texture_and_coords(g, &cast, posX, posY);
+		distance_and_height(g, &cast, posX, posY);
+		tex = texture_and_coords(g, &cast, posX, posY);
 		draw_wall_strip(g, x, &cast, tex);
 		x++;
 	}

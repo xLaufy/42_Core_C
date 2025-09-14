@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:49 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/08/25 17:33:50 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/09/14 16:57:33 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ static void	set_player_from_spawn(t_game *g)
 	int		y;
 	int		x;
 	char	c;
+	float	min_distance;
 
 	y = 0;
+	x = 0;
+	min_distance = TILE * 0.1f;
 	while (y < g->sc.h)
 	{
 		x = 0;
@@ -44,13 +47,25 @@ static void	set_player_from_spawn(t_game *g)
 				g->pl.x = x * TILE + TILE / 2.0f;
 				g->pl.y = y * TILE + TILE / 2.0f;
 				if (c == 'N')
+				{
 					g->pl.dir = -PI_VAL / 2.0f;
-				if (c == 'S')
+					g->pl.y += min_distance;
+				}
+				else if (c == 'S')
+				{
 					g->pl.dir = PI_VAL / 2.0f;
-				if (c == 'E')
+					g->pl.y -= min_distance;
+				}
+				else if (c == 'E')
+				{
 					g->pl.dir = 0.0f;
-				if (c == 'W')
+					g->pl.x -= min_distance;
+				}
+				else if (c == 'W')
+				{
 					g->pl.dir = PI_VAL;
+					g->pl.x += min_distance;
+				}
 				g->sc.map[y][x] = '0';
 			}
 			x++;
