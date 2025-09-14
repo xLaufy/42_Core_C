@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/14 16:52:23 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/14 19:21:26 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ typedef struct s_game
 	t_texture		tex_ea;
 }					t_game;
 
-
-int			check_collision(t_scene *sc, float new_x, float new_y);
+unsigned int		texel_at(t_texture *t, int tx, int ty);
+float				ft_fabsf(float x);
+int					is_wall(t_scene *sc, int mx, int my);
+int					check_collision(t_scene *sc, float new_x, float new_y);
 static void			init_ray_params(t_game *g, int x, t_cast *cast, float dir0,
 						float step_ang);
 static void			perform_dda(t_game *g, t_cast *cast);

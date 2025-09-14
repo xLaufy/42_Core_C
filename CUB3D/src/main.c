@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:53 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/14 17:59:46 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/14 19:59:53 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	handle_input(t_game *g)
 		g->pl.dir -= rt;
 	if (g->pl.k_r)
 		g->pl.dir += rt;
-	// (W)
 	if (g->pl.k_w)
 	{
 		new_x = g->pl.x + cs * mv;
@@ -38,7 +37,6 @@ static void	handle_input(t_game *g)
 			g->pl.y = new_y;
 		}
 	}
-	// (S)
 	if (g->pl.k_s)
 	{
 		new_x = g->pl.x - cs * mv;
@@ -49,7 +47,6 @@ static void	handle_input(t_game *g)
 			g->pl.y = new_y;
 		}
 	}
-	// (A)
 	if (g->pl.k_a)
 	{
 		new_x = g->pl.x + sn * mv;
@@ -60,7 +57,6 @@ static void	handle_input(t_game *g)
 			g->pl.y = new_y;
 		}
 	}
-	// (D)
 	if (g->pl.k_d)
 	{
 		new_x = g->pl.x - sn * mv;
@@ -152,12 +148,3 @@ int	main(int ac, char **av)
 	mlx_loop(g.mlx);
 	return (0);
 }
-
-/* gcc cub3d.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext
- export DISPLAY=$(awk '/nameserver
-/
-{
-	print $2;
-	exit
-}
-'/etc/resolv.conf 2>/dev/null):0*/

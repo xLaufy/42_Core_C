@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parse_id.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/08/25 17:34:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/08/25 17:34:01 by mkrawczy         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/14 20:09:35 by rkobelie          #+#    #+#             */
+/*   Updated: 2025/09/14 20:09:38 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +52,6 @@ char	**load_lines(const char *path)
 	return (ls);
 }
 
-/* --- parsowanie F/C: "R,G,B" -> 0xRRGGBB --- */
-
 static int	parse_rgb_num(char *s, int *out_rgb)
 {
 	char	**v;
@@ -79,8 +74,6 @@ static int	parse_rgb_num(char *s, int *out_rgb)
 	*out_rgb = ((r & 255) << 16) | ((g & 255) << 8) | (b & 255);
 	return (1);
 }
-
-/* --- set_id: NO/SO/WE/EA/F/C --- */
 
 int	set_id(t_scene *sc, char *line)
 {

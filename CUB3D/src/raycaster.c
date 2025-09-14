@@ -6,69 +6,11 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:20:00 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/14 19:09:47 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/14 21:07:04 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-static float	ft_fabsf(float x)
-{
-	if (x < 0.0f)
-		return (-x);
-	return (x);
-}
-
-static int	is_wall(t_scene *sc, int mx, int my)
-{
-	if (mx < 0 || my < 0 || mx >= sc->w || my >= sc->h)
-		return (1);
-	return (sc->map[my][mx] == '1');
-}
-
-int	check_collision(t_scene *sc, float new_x, float new_y)
-{
-	int	mapX;
-	int	mapY;
-
-	float radius = TILE * 0.2f; // minimalna odleglosc od sciany
-	mapX = (int)(new_x / TILE);
-	mapY = (int)(new_y / TILE);
-	// spawdzamy center
-	if (is_wall(sc, mapX, mapY))
-		return (1);
-	// sprawdzamy katy radiusu
-	if (is_wall(sc, (int)((new_x - radius) / TILE), (int)((new_y - radius)
-				/ TILE)))
-		return (1);
-	if (is_wall(sc, (int)((new_x + radius) / TILE), (int)((new_y - radius)
-				/ TILE)))
-		return (1);
-	if (is_wall(sc, (int)((new_x - radius) / TILE), (int)((new_y + radius)
-				/ TILE)))
-		return (1);
-	if (is_wall(sc, (int)((new_x + radius) / TILE), (int)((new_y + radius)
-				/ TILE)))
-		return (1);
-	return (0);
-}
-
-static unsigned int	texel_at(t_texture *t, int tx, int ty)
-{
-	int	i;
-
-	if (tx < 0)
-		tx = 0;
-	if (tx >= t->w)
-		tx = t->w - 1;
-	if (ty < 0)
-		ty = 0;
-	if (ty >= t->h)
-		ty = t->h - 1;
-	i = ty * t->line_len + tx * (t->bpp / 8);
-	return ((unsigned char)t->data[i] | ((unsigned char)t->data[i
-			+ 1] << 8) | ((unsigned char)t->data[i + 2] << 16));
-}
 
 static void	init_ray_params(t_game *g, int x, t_cast *cast, float dir0,
 		float step_ang)
@@ -162,11 +104,11 @@ static void	distance_and_height(t_game *g, t_cast *cast, float posX, float posY)
 		else
 			cast->euclidean_dist = (cast->map_y - posY) / cast->dy;
 	}
-	if (cast->euclidean_dist < 0.8f)
+	if (cast->euclidean_dist < 0.9f)
 		cast->euclidean_dist = 1.0f;
 	cast->perp = cast->euclidean_dist * cosf(g->pl.dir - cast->ray_ang);
-	if (cast->perp < 0.8f)
-		cast->perp = 1.0f;
+	if (cast->perp < 0.01f)
+		cast->perp = 0.01f;
 	line_h = (int)(W_HEIGHT / cast->perp);
 	cast->top = -line_h / 2 + W_HEIGHT / 2;
 	cast->bot = line_h / 2 + W_HEIGHT / 2;
