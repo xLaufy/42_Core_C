@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 18:20:00 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/14 21:07:04 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/17 20:19:16 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,13 @@ static void	distance_and_height(t_game *g, t_cast *cast, float posX, float posY)
 		else
 			cast->euclidean_dist = (cast->map_y - posY) / cast->dy;
 	}
-	if (cast->euclidean_dist < 0.9f)
-		cast->euclidean_dist = 1.0f;
+	if (cast->euclidean_dist < 0.6f)
+		cast->euclidean_dist = 0.8f;
+	if (cast->euclidean_dist < 0.1f)
+		cast->euclidean_dist = 0.4f;
 	cast->perp = cast->euclidean_dist * cosf(g->pl.dir - cast->ray_ang);
-	if (cast->perp < 0.01f)
-		cast->perp = 0.01f;
+	if (cast->perp < 0.1f)
+		cast->perp = 0.1f;
 	line_h = (int)(W_HEIGHT / cast->perp);
 	cast->top = -line_h / 2 + W_HEIGHT / 2;
 	cast->bot = line_h / 2 + W_HEIGHT / 2;
@@ -190,7 +192,7 @@ void	cast_and_draw_all(t_game *g)
 	float		step_ang;
 	float		posX;
 
-	fov = 60.0f * PI_VAL / 180.0f;
+	fov = 50.0f * PI_VAL / 180.0f;
 	dir0 = g->pl.dir - fov / 2.0f;
 	step_ang = fov / (float)W_WIDTH;
 	posX = g->pl.x / (float)TILE;

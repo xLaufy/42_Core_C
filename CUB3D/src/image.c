@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:49 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/14 18:06:39 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:43:07 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	set_player_from_spawn(t_game *g)
 
 	y = 0;
 	x = 0;
-	min_distance = TILE * 0.1f;
+	min_distance = TILE * 0.2f;
 	while (y < g->sc.h)
 	{
 		x = 0;
