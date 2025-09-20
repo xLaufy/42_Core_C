@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:50:27 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/17 20:03:30 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/17 22:01:57 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int check_collision(t_scene *sc, float new_x, float new_y)
 {
-    float margin = 0.2f;
+    float margin = 0.1f;
     int mapX = (int)(new_x / TILE);
     int mapY = (int)(new_y / TILE);
     float fracX = new_x / TILE - mapX;

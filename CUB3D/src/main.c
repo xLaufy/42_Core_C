@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:53 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/14 19:59:53 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/17 22:15:52 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,38 @@
 
 static void	handle_input(t_game *g)
 {
+	float	mv;
+	float	rt;
 	float	cs;
 	float	sn;
-	float	new_x;
-	float	new_y;
 
-	float mv = 3.0f;
-	float rt = 0.06f;
-	cs = cosf(g->pl.dir);
-	sn = sinf(g->pl.dir);
+	mv = 3.0f;
+	rt = 0.06f;
 	if (g->pl.k_l)
 		g->pl.dir -= rt;
 	if (g->pl.k_r)
 		g->pl.dir += rt;
+	cs = cosf(g->pl.dir);
+	sn = sinf(g->pl.dir);
 	if (g->pl.k_w)
 	{
-		new_x = g->pl.x + cs * mv;
-		new_y = g->pl.y + sn * mv;
-		if (!check_collision(&g->sc, new_x, new_y))
-		{
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
+		g->pl.x += cs * mv;
+		g->pl.y += sn * mv;
 	}
 	if (g->pl.k_s)
 	{
-		new_x = g->pl.x - cs * mv;
-		new_y = g->pl.y - sn * mv;
-		if (!check_collision(&g->sc, new_x, new_y))
-		{
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
+		g->pl.x -= cs * mv;
+		g->pl.y -= sn * mv;
 	}
 	if (g->pl.k_a)
 	{
-		new_x = g->pl.x + sn * mv;
-		new_y = g->pl.y - cs * mv;
-		if (!check_collision(&g->sc, new_x, new_y))
-		{
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
+		g->pl.x += sn * mv;
+		g->pl.y -= cs * mv;
 	}
 	if (g->pl.k_d)
 	{
-		new_x = g->pl.x - sn * mv;
-		new_y = g->pl.y + cs * mv;
-		if (!check_collision(&g->sc, new_x, new_y))
-		{
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
+		g->pl.x -= sn * mv;
+		g->pl.y += cs * mv;
 	}
 }
 
