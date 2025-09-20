@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 22:12:46 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/17 22:18:16 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/20 17:52:07 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,127 +14,97 @@
 #include "../include/cub3d.h"
 
 void	cast_and_draw_all(t_game *g)
-{
-	float		fov;
-	float		dir0;
-	float		step_ang;
-	float		posX;
-	float		posY;
-	int				x;
-	float			ray_ang;
-	float			ray_dx;
-	float			ray_dy;
-	int				mapX;
-	int				mapY;
-		float sideDistX;
-		float sideDistY;
-	float			deltaDistX;
-	float			deltaDistY;
-	int				stepX;
-	int				stepY;
-	float			posXfrac;
-	float			posYfrac;
-	int				side;
-		float perp;
-	int				line_h;
-	int				draw_start;
-	int				draw_end;
-		float wallx;
-		t_texture *tex;
-	int				texX;
-	float			step;
-	float			texPos;
-	int				y;
-	int				texY;
-	unsigned int	c;
 
-	fov = 60.0f * PI_VAL / 180.0f;
-	dir0 = g->pl.dir - fov / 2.0f;
-	step_ang = fov / (float)W_WIDTH;
-	posX = g->pl.x / (float)TILE;
-	posY = g->pl.y / (float)TILE;
-	x = 0;
-	while (x < W_WIDTH)
+{
+	t_cast	cast;
+	ft_bzero(&cast, 0);
+	cast.fov = 60.0f * PI_VAL / 180.0f;
+	cast.dir0 = g->pl.dir - cast.fov / 2.0f;
+	cast.step_ang = cast.fov / (float)W_WIDTH;
+	cast.posX = g->pl.x / (float)TILE;
+	cast.posY = g->pl.y / (float)TILE;
+	cast.x = 0;
+	while (cast.x < W_WIDTH)
 	{
-		ray_ang = dir0 + step_ang * (float)x;
-		ray_dx = cosf(ray_ang);
-		ray_dy = sinf(ray_ang);
-		mapX = (int)posX;
-		mapY = (int)posY;
-		deltaDistX = (ray_dx == 0.0f) ? 1e30f : fabsf(1.0f / ray_dx);
-		deltaDistY = (ray_dy == 0.0f) ? 1e30f : fabsf(1.0f / ray_dy);
-		stepX = (ray_dx < 0.0f) ? -1 : 1;
-		stepY = (ray_dy < 0.0f) ? -1 : 1;
-		posXfrac = posX - floorf(posX);
-		posYfrac = posY - floorf(posY);
-		if (ray_dx < 0.0f)
-			sideDistX = posXfrac * deltaDistX;
+		cast.ray_ang = cast.dir0 + cast.step_ang * (float)cast.x;
+		cast.ray_dx = cosf(cast.ray_ang);
+		cast.ray_dy = sinf(cast.ray_ang);
+		cast.mapX = (int)cast.posX;
+		cast.mapY = (int)cast.posY;
+		cast.deltaDistX = (cast.ray_dx == 0.0f) ? 1e30f : fabsf(1.0f / cast.ray_dx);
+		cast.deltaDistY = (cast.ray_dy == 0.0f) ? 1e30f : fabsf(1.0f / cast.ray_dy);
+		cast.stepX = (cast.ray_dx < 0.0f) ? -1 : 1;
+		cast.stepY = (cast.ray_dy < 0.0f) ? -1 : 1;
+		cast.posXfrac = cast.posX - floorf(cast.posX);
+		cast.posYfrac = cast.posY - floorf(cast.posY);
+		if (cast.ray_dx < 0.0f)
+			cast.sideDistX = cast.posXfrac * cast.deltaDistX;
 		else
-			sideDistX = (1.0f - posXfrac) * deltaDistX;
-		if (ray_dy < 0.0f)
-			sideDistY = posYfrac * deltaDistY;
+			cast.sideDistX = (1.0f - cast.posXfrac) * cast.deltaDistX;
+		if (cast.ray_dy < 0.0f)
+			cast.sideDistY = cast.posYfrac * cast.deltaDistY;
 		else
-			sideDistY = (1.0f - posYfrac) * deltaDistY;
-		side = -1;
+			cast.sideDistY = (1.0f - cast.posYfrac) * cast.deltaDistY;
+		cast.side = -1;
 		while (1)
 		{
-			if (sideDistX < sideDistY)
+			if (cast.sideDistX < cast.sideDistY)
 			{
-				sideDistX += deltaDistX;
-				mapX += stepX;
-				side = 0;
+				cast.sideDistX += cast.deltaDistX;
+				cast.mapX += cast.stepX;
+				cast.side = 0;
 			}
 			else
 			{
-				sideDistY += deltaDistY;
-				mapY += stepY;
-				side = 1;
+				cast.sideDistY += cast.deltaDistY;
+				cast.mapY += cast.stepY;
+				cast.side = 1;
 			}
-			if (is_wall(&g->sc, mapX, mapY))
+			if (is_wall(&g->sc, cast.mapX, cast.mapY))
 				break ;
 		}
-		if (side == 0)
-			perp = (mapX - posX + (stepX < 0 ? 1.0f : 0.0f)) / ray_dx;
+		if (cast.side == 0)
+			cast.perp = (cast.mapX - cast.posX + (cast.stepX < 0 ? 1.0f : 0.0f)) / cast.ray_dx;
 		else
-			perp = (mapY - posY + (stepY < 0 ? 1.0f : 0.0f)) / ray_dy;
-		line_h = (int)(W_HEIGHT / perp);
-		draw_start = -line_h / 2 + W_HEIGHT / 2;
-		draw_end = line_h / 2 + W_HEIGHT / 2;
-		if (draw_start < 0)
-			draw_start = 0;
-		if (draw_end >= W_HEIGHT)
-			draw_end = W_HEIGHT - 1;
-		if (side == 0)
-			wallx = posY + perp * ray_dy;
+			cast.perp = (cast.mapY - cast.posY + (cast.stepY < 0 ? 1.0f : 0.0f)) / cast.ray_dy;
+		cast.line_h = (int)(W_HEIGHT / cast.perp);
+		cast.draw_start = -cast.line_h / 2 + W_HEIGHT / 2;
+		cast.draw_end = cast.line_h / 2 + W_HEIGHT / 2;
+		if (cast.draw_start < 0)
+			cast.draw_start = 0;
+		if (cast.draw_end >= W_HEIGHT)
+			cast.draw_end = W_HEIGHT - 1;
+		if (cast.side == 0)
+			cast.wallx = cast.posY + cast.perp * cast.ray_dy;
 		else
-			wallx = posX + perp * ray_dx;
-		wallx -= floorf(wallx);
-		if (side == 0 && stepX < 0)
-			tex = &g->tex_we;
-		else if (side == 0)
-			tex = &g->tex_ea;
-		else if (side == 1 && stepY < 0)
-			tex = &g->tex_no;
+			cast.wallx = cast.posX + cast.perp * cast.ray_dx;
+		cast.wallx -= floorf(cast.wallx);
+		if (cast.side == 0 && cast.stepX < 0)
+			cast.tex = &g->tex_we;
+		else if (cast.side == 0)
+			cast.tex = &g->tex_ea;
+		else if (cast.side == 1 && cast.stepY < 0)
+			cast.tex = &g->tex_no;
 		else
-			tex = &g->tex_so;
-		texX = (int)(wallx * (float)tex->w);
-		if (side == 0 && ray_dx > 0.0f)
-			texX = tex->w - texX - 1;
-		if (side == 1 && ray_dy < 0.0f)
-			texX = tex->w - texX - 1;
-		step = (float)tex->h / (float)line_h;
-		texPos = (draw_start - (W_HEIGHT / 2 - line_h / 2)) * step;
-		y = draw_start;
-		while (y <= draw_end)
+			cast.tex = &g->tex_so;
+		cast.texX = (int)(cast.wallx * (float)cast.tex->w);
+		if (cast.side == 0 && cast.ray_dx > 0.0f)
+			cast.texX = cast.tex->w - cast.texX - 1;
+		if (cast.side == 1 && cast.ray_dy < 0.0f)
+			cast.texX = cast.tex->w - cast.texX - 1;
+		cast.step = (float)cast.tex->h / (float)cast.line_h;
+		cast.texPos = (cast.draw_start - (W_HEIGHT / 2 - cast.line_h / 2)) * cast.step;
+		cast.y = cast.draw_start;
+		while (cast.y <= cast.draw_end)
 		{
-			texY = (int)texPos;
-			c = texel_at(tex, texX, texY);
-			if (side == 1)
-				c = ((c & 0xFEFEFE) >> 1);
-			put_pixel(x, y, c, g);
-			texPos += step;
-			y++;
+			cast.texY = (int)cast.texPos;
+			cast.c = texel_at(cast.tex, cast.texX, cast.texY);
+			if (cast.side == 1)
+				cast.c = ((cast.c & 0xFEFEFE) >> 1);
+			put_pixel(cast.x, cast.y, cast.c, g);
+			cast.texPos += cast.step;
+			cast.y++;
 		}
-		x++;
+		cast.x++;
 	}
 }

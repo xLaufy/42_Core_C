@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/17 22:17:23 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/20 17:50:56 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,98 +36,115 @@
 
 typedef struct s_texture
 {
-	void		*img;
-	char		*data;
-	int			bpp;
-	int			endian;
-	int			line_len;
-	int			w;
-	int			h;
-}				t_texture;
+	void			*img;
+	char			*data;
+	int				bpp;
+	int				endian;
+	int				line_len;
+	int				w;
+	int				h;
+}					t_texture;
 
 typedef struct s_player
 {
-	float		x;
-	float		y;
-	float		dir;
-	bool		k_w;
-	bool		k_s;
-	bool		k_a;
-	bool		k_d;
-	bool		k_l;
-	bool		k_r;
-}				t_player;
+	float			x;
+	float			y;
+	float			dir;
+	bool			k_w;
+	bool			k_s;
+	bool			k_a;
+	bool			k_d;
+	bool			k_l;
+	bool			k_r;
+}					t_player;
 
 typedef struct s_scene
 {
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
-	int			f_rgb;
-	int			c_rgb;
-	char		**map;
-	int			w;
-	int			h;
-	char		spawn;
-}				t_scene;
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
+	int				f_rgb;
+	int				c_rgb;
+	char			**map;
+	int				w;
+	int				h;
+	char			spawn;
+}					t_scene;
 
 typedef struct s_cast
 {
-	int			map_x;
-	int			map_y;
-	int			side;
-	int			step_x;
-	int			step_y;
-	float		cs;
-	float		sn;
-	float		side_dx;
-	float		side_dy;
-	float		dx;
-	float		dy;
-	float		perp;
-	float		wallx;
-	int			top;
-	int			bot;
-}				t_cast;
+	float			fov;
+	float			dir0;
+	float			step_ang;
+	float			posX;
+	float			posY;
+	int				x;
+	float			ray_ang;
+	float			ray_dx;
+	float			ray_dy;
+	int				mapX;
+	int				mapY;
+	float			sideDistX;
+	float			sideDistY;
+	float			deltaDistX;
+	float			deltaDistY;
+	int				stepX;
+	int				stepY;
+	float			posXfrac;
+	float			posYfrac;
+	int				side;
+	float			perp;
+	int				line_h;
+	int				draw_start;
+	int				draw_end;
+	float			wallx;
+	t_texture		*tex;
+	int				texX;
+	float			step;
+	float			texPos;
+	int				y;
+	int				texY;
+	unsigned int	c;
+}					t_cast;
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*data;
-	int			bpp;
-	int			endian;
-	int			line_len;
-	t_scene		sc;
-	t_player	pl;
-	t_texture	tex_no;
-	t_texture	tex_so;
-	t_texture	tex_we;
-	t_texture	tex_ea;
-}				t_game;
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*data;
+	int				bpp;
+	int				endian;
+	int				line_len;
+	t_scene			sc;
+	t_player		pl;
+	t_texture		tex_no;
+	t_texture		tex_so;
+	t_texture		tex_we;
+	t_texture		tex_ea;
+}					t_game;
 
-int	is_wall(t_scene *sc, int mx, int my);
+int					is_wall(t_scene *sc, int mx, int my);
 
-void			init_game(t_game *g, const char *cub_path);
-int				close_game(t_game *g);
+void				init_game(t_game *g, const char *cub_path);
+int					close_game(t_game *g);
 
-int				draw_loop(t_game *g);
-int				key_press(int k, t_game *g);
-int				key_release(int k, t_game *g);
+int					draw_loop(t_game *g);
+int					key_press(int k, t_game *g);
+int					key_release(int k, t_game *g);
 
-void			parse_cub(const char *path, t_scene *sc);
-void			free_scene(t_scene *sc);
-void			load_textures(t_game *g);
-void			destroy_textures(t_game *g);
+void				parse_cub(const char *path, t_scene *sc);
+void				free_scene(t_scene *sc);
+void				load_textures(t_game *g);
+void				destroy_textures(t_game *g);
 
-void			cast_and_draw_all(t_game *g);
+void				cast_and_draw_all(t_game *g);
+unsigned int		texel_at(t_texture *t, int tx, int ty);
+void				put_pixel(int x, int y, int color, t_game *g);
 
-void			put_pixel(int x, int y, int color, t_game *g);
-
-void			ft_free_split(char **arr);
-char			**load_lines(const char *path);
-int				set_id(t_scene *sc, char *line);
+void				ft_free_split(char **arr);
+char				**load_lines(const char *path);
+int					set_id(t_scene *sc, char *line);
 
 #endif
