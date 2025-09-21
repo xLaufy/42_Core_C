@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/20 17:50:56 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 14:58:06 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,16 @@ typedef struct s_game
 
 int					is_wall(t_scene *sc, int mx, int my);
 
+void				dda_algorithm(t_cast *cast, t_game *g);
+void				draw_vertical_line(t_cast *cast, t_game *g);
+void				select_texture(t_cast *cast, t_game *g);
+void				calc_texX(t_cast *cast);
+void				calc_tex_step_and_pos(t_cast *cast);
+
 void				init_game(t_game *g, const char *cub_path);
 int					close_game(t_game *g);
+void				init_start_values(t_cast *cast, t_game *g);
+void				init_other_values(t_cast *cast, t_game *g);
 
 int					draw_loop(t_game *g);
 int					key_press(int k, t_game *g);
