@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 22:12:46 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 14:58:24 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 15:12:11 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,30 @@ void	calc_tex_step_and_pos(t_cast *cast)
 	cast->texPos = (cast->draw_start - (W_HEIGHT / 2 - cast->line_h / 2))
 		* cast->step;
 }
+void	calc_line_height_and_bounds(t_cast *cast)
+{
+	cast->line_h = (int)(W_HEIGHT / cast->perp);
+	cast->draw_start = -cast->line_h / 2 + W_HEIGHT / 2;
+	cast->draw_end = cast->line_h / 2 + W_HEIGHT / 2;
+	if (cast->draw_start < 0)
+		cast->draw_start = 0;
+	if (cast->draw_end >= W_HEIGHT)
+		cast->draw_end = W_HEIGHT - 1;
+}
+
+void	calc_wallx(t_cast *cast)
+{
+	if (cast->side == 0)
+		cast->wallx = cast->posY + cast->perp * cast->ray_dy;
+	else
+		cast->wallx = cast->posX + cast->perp * cast->ray_dx;
+	cast->wallx -= floorf(cast->wallx);
+}
 
 void	cast_and_draw_all(t_game *g)
 {
-	t_cast cast;
+	t_cast	cast;
+
 	ft_bzero(&cast, 0);
 	init_start_values(&cast, g);
 	while (cast.x < W_WIDTH)
@@ -132,18 +152,8 @@ void	cast_and_draw_all(t_game *g)
 		cast.side = -1;
 		dda_algorithm(&cast, g);
 		cast.perp = calc_prep_dist(&cast);
-		cast.line_h = (int)(W_HEIGHT / cast.perp);
-		cast.draw_start = -cast.line_h / 2 + W_HEIGHT / 2;
-		cast.draw_end = cast.line_h / 2 + W_HEIGHT / 2;
-		if (cast.draw_start < 0)
-			cast.draw_start = 0;
-		if (cast.draw_end >= W_HEIGHT)
-			cast.draw_end = W_HEIGHT - 1;
-		if (cast.side == 0)
-			cast.wallx = cast.posY + cast.perp * cast.ray_dy;
-		else
-			cast.wallx = cast.posX + cast.perp * cast.ray_dx;
-		cast.wallx -= floorf(cast.wallx);
+		calc_line_height_and_bounds(&cast);
+		calc_wallx(&cast);
 		select_texture(&cast, g);
 		calc_texX(&cast);
 		calc_tex_step_and_pos(&cast);

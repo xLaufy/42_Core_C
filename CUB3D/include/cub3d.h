@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 14:58:06 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 15:12:32 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ void				draw_vertical_line(t_cast *cast, t_game *g);
 void				select_texture(t_cast *cast, t_game *g);
 void				calc_texX(t_cast *cast);
 void				calc_tex_step_and_pos(t_cast *cast);
+void				calc_wallx(t_cast *cast);
+void				calc_line_height_and_bounds(t_cast *cast);
 
 void				init_game(t_game *g, const char *cub_path);
 int					close_game(t_game *g);

@@ -6,18 +6,11 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 19:15:25 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/14 20:07:09 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 15:15:53 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-float	ft_fabsf(float x)
-{
-	if (x < 0.0f)
-		return (-x);
-	return (x);
-}
 
 int	is_wall(t_scene *sc, int mx, int my)
 {
