@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 22:12:46 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 15:12:11 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 15:24:39 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,77 +68,6 @@ void	dda_algorithm(t_cast *cast, t_game *g)
 	}
 }
 
-void	draw_vertical_line(t_cast *cast, t_game *g)
-{
-	cast->y = cast->draw_start;
-	while (cast->y <= cast->draw_end)
-	{
-		cast->texY = (int)cast->texPos & (cast->tex->h - 1);
-		cast->texPos += cast->step;
-		cast->c = texel_at(cast->tex, cast->texX, cast->texY);
-		if (cast->side == 1)
-			cast->c = ((cast->c & 0xFEFEFE) >> 1);
-		put_pixel(cast->x, cast->y, cast->c, g);
-		cast->y++;
-	}
-}
-
-float	calc_prep_dist(t_cast *cast)
-{
-	if (cast->side == 0)
-		return ((cast->mapX - cast->posX + (1 - cast->stepX) / 2)
-			/ cast->ray_dx);
-	else
-		return ((cast->mapY - cast->posY + (1 - cast->stepY) / 2)
-			/ cast->ray_dy);
-}
-
-void	calc_texX(t_cast *cast)
-{
-	cast->texX = (int)(cast->wallx * (float)cast->tex->w);
-	if (cast->side == 0 && cast->ray_dx > 0.0f)
-		cast->texX = cast->tex->w - cast->texX - 1;
-	if (cast->side == 1 && cast->ray_dy < 0.0f)
-		cast->texX = cast->tex->w - cast->texX - 1;
-}
-
-void	select_texture(t_cast *cast, t_game *g)
-{
-	if (cast->side == 0 && cast->stepX < 0)
-		cast->tex = &g->tex_we;
-	else if (cast->side == 0)
-		cast->tex = &g->tex_ea;
-	else if (cast->side == 1 && cast->stepY < 0)
-		cast->tex = &g->tex_no;
-	else
-		cast->tex = &g->tex_so;
-}
-
-void	calc_tex_step_and_pos(t_cast *cast)
-{
-	cast->step = (float)cast->tex->h / (float)cast->line_h;
-	cast->texPos = (cast->draw_start - (W_HEIGHT / 2 - cast->line_h / 2))
-		* cast->step;
-}
-void	calc_line_height_and_bounds(t_cast *cast)
-{
-	cast->line_h = (int)(W_HEIGHT / cast->perp);
-	cast->draw_start = -cast->line_h / 2 + W_HEIGHT / 2;
-	cast->draw_end = cast->line_h / 2 + W_HEIGHT / 2;
-	if (cast->draw_start < 0)
-		cast->draw_start = 0;
-	if (cast->draw_end >= W_HEIGHT)
-		cast->draw_end = W_HEIGHT - 1;
-}
-
-void	calc_wallx(t_cast *cast)
-{
-	if (cast->side == 0)
-		cast->wallx = cast->posY + cast->perp * cast->ray_dy;
-	else
-		cast->wallx = cast->posX + cast->perp * cast->ray_dx;
-	cast->wallx -= floorf(cast->wallx);
-}
 
 void	cast_and_draw_all(t_game *g)
 {

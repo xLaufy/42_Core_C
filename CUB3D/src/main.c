@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:53 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/20 17:47:55 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 15:37:41 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,39 @@ static void	handle_input(t_game *g)
 	sn = sinf(g->pl.dir);
 	if (g->pl.k_w)
 	{
-		g->pl.x += cs * mv;
-		g->pl.y += sn * mv;
+		float new_x = g->pl.x + cs * mv;
+		float new_y = g->pl.y + sn * mv;
+		if (!check_collision(&g->sc, new_x, new_y)) {
+			g->pl.x = new_x;
+			g->pl.y = new_y;
+		}
 	}
 	if (g->pl.k_s)
 	{
-		g->pl.x -= cs * mv;
-		g->pl.y -= sn * mv;
+		float new_x = g->pl.x - cs * mv;
+		float new_y = g->pl.y - sn * mv;
+		if (!check_collision(&g->sc, new_x, new_y)) {
+			g->pl.x = new_x;
+			g->pl.y = new_y;
+		}
 	}
 	if (g->pl.k_a)
 	{
-		g->pl.x += sn * mv;
-		g->pl.y -= cs * mv;
+		float new_x = g->pl.x + sn * mv;
+		float new_y = g->pl.y - cs * mv;
+		if (!check_collision(&g->sc, new_x, new_y)) {
+			g->pl.x = new_x;
+			g->pl.y = new_y;
+		}
 	}
 	if (g->pl.k_d)
 	{
-		g->pl.x -= sn * mv;
-		g->pl.y += cs * mv;
+		float new_x = g->pl.x - sn * mv;
+		float new_y = g->pl.y + cs * mv;
+		if (!check_collision(&g->sc, new_x, new_y)) {
+			g->pl.x = new_x;
+			g->pl.y = new_y;
+		}
 	}
 }
 

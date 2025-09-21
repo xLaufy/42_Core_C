@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:34:04 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/08/25 17:34:04 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/09/21 15:22:29 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int					set_id(t_scene *sc, char *line);
-char				**load_lines(const char *path);
 
 static const char	*skip_ws(const char *s)
 {
