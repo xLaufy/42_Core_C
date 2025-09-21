@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 15:40:36 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:20:18 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,27 @@ typedef struct s_texture
 	int				w;
 	int				h;
 }					t_texture;
+
+typedef struct s_input
+{
+	float			mv;
+	float			rt;
+	float			cs;
+	float			sn;
+	float			new_x;
+	float			new_y;
+
+}					t_input;
+
+typedef struct s_colon
+{
+	float			margin;
+	int				map_x;
+	int				map_y;
+	float			frac_x;
+	float			frac_y;
+
+}					t_colon;
 
 typedef struct s_player
 {
@@ -100,7 +121,7 @@ typedef struct s_cast
 	int				draw_end;
 	float			wallx;
 	t_texture		*tex;
-	int				texX;
+	int				tex_x;
 	float			step;
 	float			texPos;
 	int				y;
@@ -127,10 +148,17 @@ typedef struct s_game
 
 int					is_wall(t_scene *sc, int mx, int my);
 
+void				w_key(t_game *g, t_input *input);
+void				s_key(t_game *g, t_input *input);
+void				a_key(t_game *g, t_input *input);
+void				d_key(t_game *g, t_input *input);
+void				key_press_collision(t_game *g, t_input *input);
+t_colon				init_colon(float new_x, float new_y);
+
 void				dda_algorithm(t_cast *cast, t_game *g);
 void				draw_vertical_line(t_cast *cast, t_game *g);
 void				select_texture(t_cast *cast, t_game *g);
-void				calc_texX(t_cast *cast);
+void				calc_tex_x(t_cast *cast);
 void				calc_tex_step_and_pos(t_cast *cast);
 void				calc_wallx(t_cast *cast);
 void				calc_line_height_and_bounds(t_cast *cast);
@@ -139,6 +167,10 @@ float				calc_prep_dist(t_cast *cast);
 void				calc_tex_step_and_pos(t_cast *cast);
 void				select_texture(t_cast *cast, t_game *g);
 void				calc_wallx(t_cast *cast);
+
+char			*skip_ws(const char *s);
+int					is_id_line(const char *raw);
+char				*dup_no_cr(const char *ln);
 
 void				init_game(t_game *g, const char *cub_path);
 int					close_game(t_game *g);

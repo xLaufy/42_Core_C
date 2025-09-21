@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 19:15:25 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 15:15:53 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:21:29 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ unsigned int	texel_at(t_texture *t, int tx, int ty)
 		ty = t->h - 1;
 	i = ty * t->line_len + tx * (t->bpp / 8);
 	return ((unsigned char)t->data[i] | ((unsigned char)t->data[i
-			+ 1] << 8) | ((unsigned char)t->data[i + 2] << 16));
+				+ 1] << 8) | ((unsigned char)t->data[i + 2] << 16));
 }

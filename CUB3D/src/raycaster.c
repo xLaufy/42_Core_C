@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 22:12:46 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 15:24:39 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:25:17 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ void	init_other_values(t_cast *cast, t_game *g)
 	cast->ray_dy = sinf(cast->ray_ang);
 	cast->mapX = (int)cast->posX;
 	cast->mapY = (int)cast->posY;
-	cast->deltaDistX = (cast->ray_dx == 0.0f) ? 1e30f : fabsf(1.0f
-			/ cast->ray_dx);
-	cast->deltaDistY = (cast->ray_dy == 0.0f) ? 1e30f : fabsf(1.0f
-			/ cast->ray_dy);
+	cast->deltaDistX = (cast->ray_dx == 0.0f) ? 1e30f : fabsf(1.0f / cast->ray_dx);
+	cast->deltaDistY = (cast->ray_dy == 0.0f) ? 1e30f : fabsf(1.0f / cast->ray_dy);
 	cast->stepX = (cast->ray_dx < 0.0f) ? -1 : 1;
 	cast->stepY = (cast->ray_dy < 0.0f) ? -1 : 1;
 	cast->posXfrac = cast->posX - floorf(cast->posX);
@@ -67,7 +65,6 @@ void	dda_algorithm(t_cast *cast, t_game *g)
 			break ;
 	}
 }
-
 
 void	cast_and_draw_all(t_game *g)
 {

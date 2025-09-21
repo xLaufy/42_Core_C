@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:53 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 15:37:41 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 18:39:00 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,18 @@
 
 static void	handle_input(t_game *g)
 {
-	float	mv;
-	float	rt;
-	float	cs;
-	float	sn;
+	t_input	input;
 
-	mv = 3.0f;
-	rt = 0.06f;
+	ft_bzero(&input, 0);
+	input.mv = 3.0f;
+	input.rt = 0.06f;
 	if (g->pl.k_l)
-		g->pl.dir -= rt;
+		g->pl.dir -= input.rt;
 	if (g->pl.k_r)
-		g->pl.dir += rt;
-	cs = cosf(g->pl.dir);
-	sn = sinf(g->pl.dir);
-	if (g->pl.k_w)
-	{
-		float new_x = g->pl.x + cs * mv;
-		float new_y = g->pl.y + sn * mv;
-		if (!check_collision(&g->sc, new_x, new_y)) {
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
-	}
-	if (g->pl.k_s)
-	{
-		float new_x = g->pl.x - cs * mv;
-		float new_y = g->pl.y - sn * mv;
-		if (!check_collision(&g->sc, new_x, new_y)) {
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
-	}
-	if (g->pl.k_a)
-	{
-		float new_x = g->pl.x + sn * mv;
-		float new_y = g->pl.y - cs * mv;
-		if (!check_collision(&g->sc, new_x, new_y)) {
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
-	}
-	if (g->pl.k_d)
-	{
-		float new_x = g->pl.x - sn * mv;
-		float new_y = g->pl.y + cs * mv;
-		if (!check_collision(&g->sc, new_x, new_y)) {
-			g->pl.x = new_x;
-			g->pl.y = new_y;
-		}
-	}
+		g->pl.dir += input.rt;
+	input.cs = cosf(g->pl.dir);
+	input.sn = sinf(g->pl.dir);
+	key_press_collision(g, &input);
 }
 
 int	draw_loop(t_game *g)
@@ -90,42 +53,6 @@ int	draw_loop(t_game *g)
 	}
 	cast_and_draw_all(g);
 	mlx_put_image_to_window(g->mlx, g->win, g->img, 0, 0);
-	return (0);
-}
-
-int	key_press(int k, t_game *g)
-{
-	if (k == KEY_ESC)
-		return (close_game(g));
-	if (k == KEY_W)
-		g->pl.k_w = true;
-	if (k == KEY_S)
-		g->pl.k_s = true;
-	if (k == KEY_A)
-		g->pl.k_a = true;
-	if (k == KEY_D)
-		g->pl.k_d = true;
-	if (k == KEY_L)
-		g->pl.k_l = true;
-	if (k == KEY_R)
-		g->pl.k_r = true;
-	return (0);
-}
-
-int	key_release(int k, t_game *g)
-{
-	if (k == KEY_W)
-		g->pl.k_w = false;
-	if (k == KEY_S)
-		g->pl.k_s = false;
-	if (k == KEY_A)
-		g->pl.k_a = false;
-	if (k == KEY_D)
-		g->pl.k_d = false;
-	if (k == KEY_L)
-		g->pl.k_l = false;
-	if (k == KEY_R)
-		g->pl.k_r = false;
 	return (0);
 }
 

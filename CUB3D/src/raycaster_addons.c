@@ -6,12 +6,11 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 15:23:54 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 15:34:30 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:20:45 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
 
 void	draw_vertical_line(t_cast *cast, t_game *g)
 {
@@ -20,7 +19,7 @@ void	draw_vertical_line(t_cast *cast, t_game *g)
 	{
 		cast->texY = (int)cast->texPos & (cast->tex->h - 1);
 		cast->texPos += cast->step;
-		cast->c = texel_at(cast->tex, cast->texX, cast->texY);
+		cast->c = texel_at(cast->tex, cast->tex_x, cast->texY);
 		if (cast->side == 1)
 			cast->c = ((cast->c & 0xFEFEFE) >> 1);
 		put_pixel(cast->x, cast->y, cast->c, g);
@@ -38,12 +37,11 @@ float	calc_prep_dist(t_cast *cast)
 			/ cast->ray_dy);
 }
 
-void	calc_texX(t_cast *cast)
+void	calc_tex_x(t_cast *cast)
 {
-	cast->texX = (int)(cast->wallx * (float)cast->tex->w);
+	cast->tex_x = (int)(cast->wallx * (float)cast->tex->w);
 	if (cast->side == 0 && cast->ray_dx > 0.0f)
-		cast->texX = cast->tex->w - cast->texX - 1;
+		cast->tex_x = cast->tex->w - cast->tex_x - 1;
 	if (cast->side == 1 && cast->ray_dy < 0.0f)
-		cast->texX = cast->tex->w - cast->texX - 1;
+		cast->tex_x = cast->tex->w - cast->tex_x - 1;
 }
-

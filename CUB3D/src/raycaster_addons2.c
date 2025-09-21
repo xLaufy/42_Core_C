@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 15:33:57 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 15:34:28 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:18:11 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	calc_tex_step_and_pos(t_cast *cast)
 	cast->texPos = (cast->draw_start - (W_HEIGHT / 2 - cast->line_h / 2))
 		* cast->step;
 }
+
 void	calc_line_height_and_bounds(t_cast *cast)
 {
 	cast->line_h = (int)(W_HEIGHT / cast->perp);

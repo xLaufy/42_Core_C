@@ -6,56 +6,11 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:34:04 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 15:22:29 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:22:09 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-
-static const char	*skip_ws(const char *s)
-{
-	while (*s == ' ' || *s == '\t')
-		s++;
-	return (s);
-}
-
-static int	is_id_line(const char *raw)
-{
-	const char	*p;
-
-	p = skip_ws(raw);
-	if (p[0] == 'N' && p[1] == 'O' && (p[2] == ' ' || p[2] == '\t'))
-		return (1);
-	if (p[0] == 'S' && p[1] == 'O' && (p[2] == ' ' || p[2] == '\t'))
-		return (1);
-	if (p[0] == 'W' && p[1] == 'E' && (p[2] == ' ' || p[2] == '\t'))
-		return (1);
-	if (p[0] == 'E' && p[1] == 'A' && (p[2] == ' ' || p[2] == '\t'))
-		return (1);
-	if (p[0] == 'F' && (p[1] == ' ' || p[1] == '\t'))
-		return (1);
-	if (p[0] == 'C' && (p[1] == ' ' || p[1] == '\t'))
-		return (1);
-	return (0);
-}
-
-static char	*dup_no_cr(const char *ln)
-{
-	size_t	len;
-	char	*out;
-
-	len = ft_strlen(ln);
-	if (len && ln[len - 1] == '\r')
-		len--;
-	out = (char *)malloc(len + 1);
-	if (!out)
-		return (NULL);
-	if (len)
-		ft_memcpy(out, ln, len);
-	out[len] = '\0';
-	return (out);
-}
 
 static void	push_line(t_scene *sc, char *ln)
 {
