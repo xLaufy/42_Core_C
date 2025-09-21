@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:09:35 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/14 20:09:38 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 21:03:39 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**load_lines(const char *path)
 	return (ls);
 }
 
-static int	parse_rgb_num(char *s, int *out_rgb)
+int	parse_rgb_num(char *s, int *out_rgb)
 {
 	char	**v;
 	int		r;
@@ -77,45 +77,28 @@ static int	parse_rgb_num(char *s, int *out_rgb)
 
 int	set_id(t_scene *sc, char *line)
 {
-	char	*s;
-	int		i;
-	char	*key;
-	char	*val;
-	int		ok;
+	t_parse_id	parse;
+	int			i;
 
-	s = ft_strtrim(line, " \t\r\n");
-	if (!s)
+	parse.s = ft_strtrim(line, " \t\r\n");
+	if (!parse.s)
 		return (0);
 	i = 0;
-	while (s[i] && s[i] != ' ' && s[i] != '\t')
+	while (parse.s[i] && parse.s[i] != ' ' && parse.s[i] != '\t')
 		i++;
-	key = ft_substr(s, 0, i);
-	while (s[i] == ' ' || s[i] == '\t')
+	parse.key = ft_substr(parse.s, 0, i);
+	while (parse.s[i] == ' ' || parse.s[i] == '\t')
 		i++;
-	val = ft_strdup(s + i);
-	free(s);
-	if (!key || !val)
+	parse.val = ft_strdup(parse.s + i);
+	free(parse.s);
+	if (!parse.key || !parse.val)
 	{
-		free(key);
-		free(val);
+		free(parse.key);
+		free(parse.val);
 		return (0);
 	}
-	ok = 1;
-	if (!ft_strncmp(key, "NO", 3))
-		sc->no = ft_strdup(val);
-	else if (!ft_strncmp(key, "SO", 3))
-		sc->so = ft_strdup(val);
-	else if (!ft_strncmp(key, "WE", 3))
-		sc->we = ft_strdup(val);
-	else if (!ft_strncmp(key, "EA", 3))
-		sc->ea = ft_strdup(val);
-	else if (!ft_strncmp(key, "F", 2))
-		ok = parse_rgb_num(val, &sc->f_rgb);
-	else if (!ft_strncmp(key, "C", 2))
-		ok = parse_rgb_num(val, &sc->c_rgb);
-	else
-		ok = 0;
-	free(key);
-	free(val);
-	return (ok);
+	parse.ok = set_id_keyval(sc, parse.key, parse.val);
+	free(parse.key);
+	free(parse.val);
+	return (parse.ok);
 }

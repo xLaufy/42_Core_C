@@ -6,13 +6,13 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 19:13:03 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 19:16:53 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 20:33:33 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-char	*skip_ws(const char *s)
+const char	*skip_ws(char const *s)
 {
 	while (*s == ' ' || *s == '\t')
 		s++;
@@ -54,4 +54,43 @@ char	*dup_no_cr(const char *ln)
 		ft_memcpy(out, ln, len);
 	out[len] = '\0';
 	return (out);
+}
+
+static int	handle_id_line(char **ls, t_scene *sc, char *trim, int i)
+{
+	if (!set_id(sc, trim))
+	{
+		free(trim);
+		exit(1);
+	}
+	free(trim);
+	return (i + 1);
+}
+
+int	skip_ids_and_empty(char **ls, t_scene *sc)
+{
+	int		i;
+	char	*trim;
+
+	i = 0;
+	while (ls[i])
+	{
+		trim = ft_strtrim(ls[i], " \t\r\n");
+		if (!trim)
+			exit(1);
+		if (trim[0] == '\0')
+		{
+			free(trim);
+			i++;
+			continue ;
+		}
+		if (is_id_line(ls[i]))
+		{
+			i = handle_id_line(ls, sc, trim, i);
+			continue ;
+		}
+		free(trim);
+		break ;
+	}
+	return (i);
 }

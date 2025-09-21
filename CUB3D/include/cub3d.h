@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 19:20:18 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 21:41:19 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,24 @@ typedef struct s_colon
 	float			frac_y;
 
 }					t_colon;
+
+typedef struct s_parse_id
+{
+	char			*s;
+	char			*key;
+	char			*val;
+	int				ok;
+
+}					t_parse_id;
+
+typedef struct s_spfs
+{
+	int				y;
+	int				x;
+	char			c;
+	float			min_distance;
+
+}					t_spfs;
 
 typedef struct s_player
 {
@@ -167,8 +185,16 @@ float				calc_prep_dist(t_cast *cast);
 void				calc_tex_step_and_pos(t_cast *cast);
 void				select_texture(t_cast *cast, t_game *g);
 void				calc_wallx(t_cast *cast);
+void				delta_dist(t_cast *cast, t_game *g);
+void				side_dist_acount(t_cast *cast);
+void				init_steps(t_cast *cast);
+void				check_spawn_and_closed_row(t_scene *sc, int y, int *cnt);
+int					skip_ids_and_empty(char **ls, t_scene *sc);
+int					set_id_keyval(t_scene *sc, const char *key,
+						const char *val);
+int					parse_rgb_num(char *s, int *out_rgb);
 
-char			*skip_ws(const char *s);
+const char			*skip_ws(const char *s);
 int					is_id_line(const char *raw);
 char				*dup_no_cr(const char *ln);
 

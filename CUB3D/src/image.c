@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:49 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/17 18:43:07 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 21:46:44 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,30 @@ void	put_pixel(int x, int y, int color, t_game *g)
 	g->data[i + 0] = color & 0xFF;
 	g->data[i + 1] = (color >> 8) & 0xFF;
 	g->data[i + 2] = (color >> 16) & 0xFF;
+}
+
+static void	set_player_dir_and_pos(t_game *g, char c, float min_distance)
+{
+	if (c == 'N')
+	{
+		g->pl.dir = -PI_VAL / 2.0f;
+		g->pl.y += min_distance;
+	}
+	else if (c == 'S')
+	{
+		g->pl.dir = PI_VAL / 2.0f;
+		g->pl.y -= min_distance;
+	}
+	else if (c == 'E')
+	{
+		g->pl.dir = 0.0f;
+		g->pl.x -= min_distance;
+	}
+	else if (c == 'W')
+	{
+		g->pl.dir = PI_VAL;
+		g->pl.x += min_distance;
+	}
 }
 
 static void	set_player_from_spawn(t_game *g)
@@ -46,26 +70,7 @@ static void	set_player_from_spawn(t_game *g)
 			{
 				g->pl.x = x * TILE + TILE / 2.0f;
 				g->pl.y = y * TILE + TILE / 2.0f;
-				if (c == 'N')
-				{
-					g->pl.dir = -PI_VAL / 2.0f;
-					g->pl.y += min_distance;
-				}
-				else if (c == 'S')
-				{
-					g->pl.dir = PI_VAL / 2.0f;
-					g->pl.y -= min_distance;
-				}
-				else if (c == 'E')
-				{
-					g->pl.dir = 0.0f;
-					g->pl.x -= min_distance;
-				}
-				else if (c == 'W')
-				{
-					g->pl.dir = PI_VAL;
-					g->pl.x += min_distance;
-				}
+				set_player_dir_and_pos(g, c, min_distance);
 				g->sc.map[y][x] = '0';
 			}
 			x++;
