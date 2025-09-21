@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 21:41:19 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/21 22:03:28 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,6 @@ typedef struct s_parse_id
 	int				ok;
 
 }					t_parse_id;
-
-typedef struct s_spfs
-{
-	int				y;
-	int				x;
-	char			c;
-	float			min_distance;
-
-}					t_spfs;
 
 typedef struct s_player
 {
