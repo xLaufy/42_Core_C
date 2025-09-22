@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 22:03:28 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:38:05 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,22 @@ typedef struct s_cast
 	float			fov;
 	float			dir0;
 	float			step_ang;
-	float			posX;
-	float			posY;
+	float			pos_x;
+	float			pos_y;
 	int				x;
 	float			ray_ang;
 	float			ray_dx;
 	float			ray_dy;
-	int				mapX;
-	int				mapY;
-	float			sideDistX;
-	float			sideDistY;
-	float			deltaDistX;
-	float			deltaDistY;
-	int				stepX;
-	int				stepY;
-	float			posXfrac;
-	float			posYfrac;
+	int				map_x;
+	int				map_y;
+	float			side_distx;
+	float			side_disty;
+	float			delta_distx;
+	float			delta_disty;
+	int				step_x;
+	int				step_y;
+	float			pos_xfrac;
+	float			pos_yfrac;
 	int				side;
 	float			perp;
 	int				line_h;
@@ -132,9 +132,9 @@ typedef struct s_cast
 	t_texture		*tex;
 	int				tex_x;
 	float			step;
-	float			texPos;
+	float			tex_pos;
 	int				y;
-	int				texY;
+	int				tex_y;
 	unsigned int	c;
 }					t_cast;
 

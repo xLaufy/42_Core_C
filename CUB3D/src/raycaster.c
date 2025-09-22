@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 22:12:46 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 22:02:54 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:40:43 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	init_other_values(t_cast *cast, t_game *g)
 	cast->ray_ang = cast->dir0 + cast->step_ang * (float)cast->x;
 	cast->ray_dx = cosf(cast->ray_ang);
 	cast->ray_dy = sinf(cast->ray_ang);
-	cast->mapX = (int)cast->posX;
-	cast->mapY = (int)cast->posY;
+	cast->map_x = (int)cast->pos_x;
+	cast->map_y = (int)cast->pos_y;
 	delta_dist(cast, g);
 	init_steps(cast);
-	cast->posXfrac = cast->posX - floorf(cast->posX);
-	cast->posYfrac = cast->posY - floorf(cast->posY);
+	cast->pos_xfrac = cast->pos_x - floorf(cast->pos_x);
+	cast->pos_yfrac = cast->pos_y - floorf(cast->pos_y);
 	side_dist_acount(cast);
 }
 
@@ -30,19 +30,19 @@ void	dda_algorithm(t_cast *cast, t_game *g)
 {
 	while (1)
 	{
-		if (cast->sideDistX < cast->sideDistY)
+		if (cast->side_distx < cast->side_disty)
 		{
-			cast->sideDistX += cast->deltaDistX;
-			cast->mapX += cast->stepX;
+			cast->side_distx += cast->delta_distx;
+			cast->map_x += cast->step_x;
 			cast->side = 0;
 		}
 		else
 		{
-			cast->sideDistY += cast->deltaDistY;
-			cast->mapY += cast->stepY;
+			cast->side_disty += cast->delta_disty;
+			cast->map_y += cast->step_y;
 			cast->side = 1;
 		}
-		if (is_wall(&g->sc, cast->mapX, cast->mapY))
+		if (is_wall(&g->sc, cast->map_x, cast->map_y))
 			break ;
 	}
 }

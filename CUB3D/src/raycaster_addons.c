@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 15:23:54 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 22:03:01 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:42:22 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	draw_vertical_line(t_cast *cast, t_game *g)
 	cast->y = cast->draw_start;
 	while (cast->y <= cast->draw_end)
 	{
-		cast->texY = (int)cast->texPos & (cast->tex->h - 1);
-		cast->texPos += cast->step;
-		cast->c = texel_at(cast->tex, cast->tex_x, cast->texY);
+		cast->tex_y = (int)cast->tex_pos & (cast->tex->h - 1);
+		cast->tex_pos += cast->step;
+		cast->c = texel_at(cast->tex, cast->tex_x, cast->tex_y);
 		if (cast->side == 1)
 			cast->c = ((cast->c & 0xFEFEFE) >> 1);
 		put_pixel(cast->x, cast->y, cast->c, g);
@@ -30,10 +30,10 @@ void	draw_vertical_line(t_cast *cast, t_game *g)
 float	calc_prep_dist(t_cast *cast)
 {
 	if (cast->side == 0)
-		return ((cast->mapX - cast->posX + (1 - cast->stepX) / 2)
+		return ((cast->map_x - cast->pos_x + (1 - cast->step_x) / 2)
 			/ cast->ray_dx);
 	else
-		return ((cast->mapY - cast->posY + (1 - cast->stepY) / 2)
+		return ((cast->map_y - cast->pos_y + (1 - cast->step_y) / 2)
 			/ cast->ray_dy);
 }
 
