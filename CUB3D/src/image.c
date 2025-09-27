@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:33:49 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/21 21:46:44 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/27 16:13:52 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,12 @@ int	close_game(t_game *g)
 	if (g->win)
 		mlx_destroy_window(g->mlx, g->win);
 	free_scene(&g->sc);
+	if (g->mlx)
+	{
+		mlx_destroy_display(g->mlx);
+		free(g->mlx);
+	}
+	ft_bzero(g, sizeof(t_game));
 	exit(0);
 	return (0);
 }
