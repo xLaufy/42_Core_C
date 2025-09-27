@@ -6,13 +6,11 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:09:35 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 21:03:39 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/27 20:39:02 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void		ft_free_split(char **arr);
 
 static char	*read_all(const char *p)
 {
@@ -25,7 +23,10 @@ static char	*read_all(const char *p)
 	all = ft_strdup("");
 	fd = open(p, O_RDONLY);
 	if (fd < 0)
+	{
+		free(all);
 		return (NULL);
+	}
 	rb = read(fd, buf, 1023);
 	while (rb > 0)
 	{
@@ -46,7 +47,8 @@ char	**load_lines(const char *path)
 
 	all = read_all(path);
 	if (!all)
-		return (NULL);
+		free(all);
+	return (NULL);
 	ls = ft_split(all, '\n');
 	free(all);
 	return (ls);
