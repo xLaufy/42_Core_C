@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:34:04 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/27 18:09:20 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:44:03 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	check_spawn_and_closed(t_scene *sc)
 		y++;
 	}
 	if (cnt != 1)
-		exit(1);
+		free_scene_exit(sc);
 }
 
 void	parse_cub(const char *path, t_scene *sc)

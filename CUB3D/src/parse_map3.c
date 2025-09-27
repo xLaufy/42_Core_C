@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 20:32:51 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/27 19:10:12 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:59:10 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	free_scene_exit(t_scene *sc)
 		y++;
 	}
 	free(sc->map);
+	printf("Error:: Check your .cub file\n");
 	exit(1);
 }
