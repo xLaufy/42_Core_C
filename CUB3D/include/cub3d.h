@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/25 20:37:14 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:09:16 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ void				a_key(t_game *g, t_input *input);
 void				d_key(t_game *g, t_input *input);
 void				key_press_collision(t_game *g, t_input *input);
 t_colon				init_colon(float new_x, float new_y);
+void				free_scene_exit(t_scene *sc);
 
 void				dda_algorithm(t_cast *cast, t_game *g);
 void				draw_vertical_line(t_cast *cast, t_game *g);

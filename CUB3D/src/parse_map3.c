@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 20:32:51 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/21 20:54:43 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:10:12 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	check_spawn_and_closed_row(t_scene *sc, int y, int *cnt)
 			|| sc->map[y][x] == 'E' || sc->map[y][x] == 'W')
 		{
 			if (y == 0 || x == 0 || y == sc->h - 1 || x == sc->w - 1)
-				exit(1);
+				free_scene_exit(sc);
 			if (sc->map[y - 1][x] == ' ' || sc->map[y + 1][x] == ' '
 				|| sc->map[y][x - 1] == ' ' || sc->map[y][x + 1] == ' ')
-				exit(1);
+				free_scene_exit(sc);
 		}
 		x++;
 	}
@@ -55,4 +55,22 @@ int	set_id_keyval(t_scene *sc, const char *key, const char *val)
 	else
 		return (0);
 	return (1);
+}
+
+void	free_scene_exit(t_scene *sc)
+{
+	int	y;
+
+	free(sc->no);
+	free(sc->so);
+	free(sc->we);
+	free(sc->ea);
+	y = 0;
+	while (y < sc->h)
+	{
+		free(sc->map[y]);
+		y++;
+	}
+	free(sc->map);
+	exit(1);
 }
