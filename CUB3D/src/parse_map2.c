@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 19:13:03 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/27 18:59:12 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:05:30 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static int	handle_id_line(char **ls, t_scene *sc, char *trim, int i)
 	if (!set_id(sc, trim))
 	{
 		free(trim);
-		exit(1);
+		free_str_array(ls);
+		free_scene_exit(sc);
 	}
 	free(trim);
 	return (i + 1);

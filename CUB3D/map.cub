@@ -2,16 +2,16 @@ NO ./textures/north.xpm
 SO ./textures/south.xpm
 WE ./textures/west.xpm
 EA ./textures/east.xpm
-EA ./textures/east.xpm
-F  200,200,255
-C  100,140,220
+F  200,250,155
+C  100,140,200
+
 
 11111111111
-10000000001
+1N000000001
 10001100101
 10000000001
-100000N0001
+10000000001
 11111111111
 
 
-fix quota of colors, doubles of wall declaration, Check the order of the parsing. If it's a card first, then stop.
+
