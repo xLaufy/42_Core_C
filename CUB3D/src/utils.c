@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:34:23 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/28 18:05:19 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:28:14 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	error_exit(char *s)
 
 void	free_str_array_exit(char **arr)
 {
-	int i;
+	int	i;
 
 	if (arr)
 	{
@@ -54,7 +54,7 @@ void	free_str_array_exit(char **arr)
 
 void	free_str_array(char **arr)
 {
-	int i;
+	int	i;
 
 	if (arr)
 	{

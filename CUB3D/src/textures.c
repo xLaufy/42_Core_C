@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkrawczy <mkrawczy@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:34:18 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/08/25 17:34:18 by mkrawczy         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:59:39 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ static void	load_one(t_game *g, t_texture *t, const char *p)
 {
 	t->img = mlx_xpm_file_to_image(g->mlx, (char *)p, &t->w, &t->h);
 	if (!t->img)
-		exit(1);
+	{
+		printf("Error:: Cannot load texture %s\n", p);
+		close_game(g);
+	}
 	t->data = mlx_get_data_addr(t->img, &t->bpp, &t->line_len, &t->endian);
 }
 

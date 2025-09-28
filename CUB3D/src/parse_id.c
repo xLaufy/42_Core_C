@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:09:35 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/28 17:41:03 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/28 18:24:15 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*read_all(const char *p)
 	if (fd < 0)
 	{
 		free(all);
-		return(NULL);
+		return (NULL);
 	}
 	rb = read(fd, buf, 1023);
 	while (rb > 0)
@@ -49,7 +49,7 @@ char	**load_lines(const char *path)
 	if (!all)
 		return (NULL);
 	ls = ft_split(all, '\n');
-	if(!ls)
+	if (!ls)
 	{
 		free(ls);
 		return (NULL);
