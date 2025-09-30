@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:37:01 by mkrawczy          #+#    #+#             */
-/*   Updated: 2025/09/28 18:29:11 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/30 20:19:26 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ typedef struct s_game
 	t_texture		tex_we;
 	t_texture		tex_ea;
 }					t_game;
+
+
 
 void				free_str_array(char **arr);
 void				free_str_array_exit(char **arr);
