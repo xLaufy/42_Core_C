@@ -3,7 +3,7 @@ BIN 	= bin
 SRC		= src/main.c src/image.c src/textures.c src/raycaster.c src/parse_id.c \
 		 src/parse_map.c src/utils.c src/colission.c src/raycaster_helpers.c \
 		 src/raycaster_addons.c src/raycaster_addons2.c src/key_press.c src/key_press2.c\
-		 src/parse_map2.c src/raycaster_values.c src/parse_map3.c
+		 src/parse_map2.c src/raycaster_values.c src/parse_map3.c src/parse_map4.c
 INCS	= include/
 INCS	= include/
 LIBMLX_INCS	= minilibx-linux/

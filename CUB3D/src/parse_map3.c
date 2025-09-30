@@ -6,7 +6,7 @@
 /*   By: rkobelie <rkobelie@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:34:51 by rkobelie          #+#    #+#             */
-/*   Updated: 2025/09/30 20:34:54 by rkobelie         ###   ########.fr       */
+/*   Updated: 2025/09/30 21:14:33 by rkobelie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	check_spawn_and_closed_row(t_scene *sc, int y, int *cnt)
 				|| sc->map[y][x - 1] == ' ' || sc->map[y][x + 1] == ' ')
 				free_scene_exit(sc);
 		}
+		foreign_symbol(sc, x, y);
 		x++;
 	}
 }
